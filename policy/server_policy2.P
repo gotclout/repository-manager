@@ -1,0 +1,20 @@
+:- multifile says/2.
+
+/* Speaksfor rule */
+
+says(P, Statement) :-
+  speaks_for(P1, P),
+  says(P1, Statement).
+
+speaks_for(PK, P) :-
+  pk_bind(P, PK).
+
+pk_bind(simon, rsa_b2fcee5a72a0f5674d6537e870d71543).
+speaks_for(simon, group0).
+
+owns(group0, files_group0).
+owns(group1, files_group1).
+
+allow(PK, Access, Dir) :-
+   owns(Group, Dir),
+  says(Group, allow(PK, Access)).
