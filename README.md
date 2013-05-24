@@ -16,9 +16,8 @@ repository manager directory and follow the instructions. Select 'r' from the
 menu to compile. When prompted enter the port number and policy file that the
 server should accept as input.
 
-Extra Credit:
-I have implemented extra credit that verifies the validity of certificates
-against the current UTC prior to verifying a certificate.
+I have implemented additional functionality that verifies the validity of
+certificates against the current UTC prior to verifying a certificate.
 
 Notes:
 
