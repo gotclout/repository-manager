@@ -1,5 +1,5 @@
-#ifndef _Queue_
-#define _Queue_
+#ifndef _FifoQueue_
+#define _FifoQueue_
 
 #include <pthread.h>
 
@@ -140,4 +140,4 @@ class queue{
   }
 };
 
-#endif //_Queue_
+#endif //_FifoQueue_
