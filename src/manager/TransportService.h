@@ -13,7 +13,7 @@
 #include <string>
 
 #include "AstWalker.h"
-#include "../utils/fifoqueue.h"
+#include "../utils/FifoQueue.h"
 #include "../utils/RepositoryManagerUtils.h"
 #include "../parser/RepositoryManagerLexer.h"
 #include "../parser/RepositoryManagerParser.h"
