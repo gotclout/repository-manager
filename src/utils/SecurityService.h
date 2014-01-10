@@ -20,354 +20,17 @@
 #include <openssl/evp.h>
 #include <openssl/err.h>
 
+#include "Mutex.h"
+#include "Policy.h"
+#include "Credential.h"
 #include "RepositoryManagerUtils.h"
 
 using namespace std;
 
-/**
- * A structure for representing prolog rule expressions
- */
-struct Rule
-{
-  /** A rule atom consists of a body and head **/
-  string head, body, atom;
-
-  /** The body consists of predicates/clauses **/
-  vector<string> clauses;
-
-  /**
-   * Retrieves the clauses from a predicate
-   */
-  vector<string> getClauses()
-  {
-    if(clauses.size() < 1)
-    {
-      string tmp = body;
-      bool end = false;
-      size_t pos = tmp.find("),");
-      while(!end)
-      {
-        if(pos != string::npos)
-        {
-          clauses.push_back(tmp.substr(0, pos + 1));
-          tmp = tmp.substr(pos + 2, tmp.length() - pos - 2);
-        }
-        else
-        {
-          clauses.push_back(tmp.substr(0, tmp.length() - 1));
-          end = true;
-        }
-        pos = tmp.find("),");
-      }
-    }
-
-    return clauses;
-  };
-
-  /**
-   * A rule constructor
-   */
-  Rule(const string & r)
-  {
-    size_t imp = r.find(":-");
-    atom = r;
-    head = r.substr(0, imp);
-    body = r.substr(imp + 2, r.length() - 1);
-    getClauses();
-  };
-
-  /**
-   * Retrieves the string representation of a rule
-   */
-  string toString()
-  {
-    string retVal = "Rendering Rule For Atom:\n" + atom
-      + "\nHead: " + head + "\n" + "Body: " + body + "\n";
-    for(size_t i = 0; i < clauses.size(); i++)
-      retVal += clauses[i] + "\n";
-
-    return retVal;
-  };
-
-};
-
-/**
- * A structur for representing Binder Policies
- */
-struct Policy
-{
-  string
-    /** Policy Key **/
-    pubKey,
-
-    /** Poicy File String **/
-    policyStr,
-
-    /** MD5 Key digest **/
-    keyDigest;
-
-  /** Policy facts as binder/prolog statemnts **/
-  vector<string> facts;
-
-  /** A list of rules **/
-  vector<Rule> rules;
-
-  /**
-   * Default policy constructor
-   */
-  Policy(const string & pPolicyStr)
-  {
-    if(pPolicyStr != "")
-    {
-      policyStr = pPolicyStr;
-      getAtoms();
-    }
-  };
-
-  /**
-   * Retrieves the string value of the policy
-   */
-  string toString()
-  {
-    string retVal = "Rendering Policy\n";
-    size_t i = 0;
-
-    retVal += "Rules\n";
-    for(; i < rules.size(); i++)
-      retVal += rules[i].atom + "\n";
-    retVal+= "\nFacts\n";
-    for(i = 0; i < facts.size(); i++)
-      retVal += facts[i] + "\n";
-
-    return retVal;
-  };
-
-  /**
-   * Output stream operator overload
-   */
-  friend ostream& operator << (ostream & o, Policy & p)
-  {
-    o << p.toString();
-    return o;
-  }
-
-  /**
-   * Retrieves the substring from the end of the delimiter in the source string
-   */
-  string getsub(const string & source, string delim)
-  {
-    string retVal = "";
-
-    if(source != "" && delim != "")
-    {
-      size_t pos = source.find(delim),
-             dif = source.length() - delim.length();
-      if(pos != string::npos)
-        retVal = source.substr(pos + delim.length(), dif);
-    }
-    return retVal;
-  };
-
-  /**
-   * Retreives all atoms of the policy
-   */
-  void getAtoms()
-  {
-    size_t pos = 0, idx = 0, imp = 0;
-    string tmp = policyStr;
-
-    pos = policyStr.find_first_of("(");
-
-    while(!isspace(policyStr[pos])) pos--;
-
-    tmp = policyStr.substr(pos, policyStr.length() - pos - 1);
-
-    while((idx = tmp.find_first_of(".")) != string::npos)
-    {
-      string atom = trim(tmp.substr(0, idx + 1));
-
-      if((imp = atom.find(":-")) != string::npos)
-      {
-        Rule r(atom);
-        rules.push_back(r);
-      }
-      else
-      {
-        facts.push_back(atom);
-      }
-
-      tmp = getsub(tmp, ".");
-    }
-  };
-};
-
-/**
- * A structure used for representing certificates
- *
- */
-struct Certificate
-{
-  vector<string>
-
-    /** A certificate is a string of clauses stored here **/
-    clauses,
-
-    /** Clauses are transformed into prolog/binder statements stored here **/
-    transformedCls;
-
-
-  /** The time fram for which a Certificate is valid **/
-  long startTimeSec, stopTimeSec;
-
-  string
-    /** Certifactes are valid in a period indicating start and end times **/
-    startTime, stopTime,
-
-    /** Certificates are associated with a signature stored here **/
-    signature,
-
-    /** The public key of the signing entity is stored here **/
-    pubKey,
-
-    /** The binder/prolog representation of the punlic key is stored here **/
-    keyDigest,
-
-    /** Certifcate clauses as a single string is stored here **/
-    certStr;
-
-  /** The default constructor for a certificate **/
-  Certificate() { certStr = ""; };
-
-  /**
-   * Retrieves the string representation of a certificate
-   *
-   */
-  string toString()
-  {
-    stringstream sstr;
-
-    if(certStr == "")
-      setCertificateStr();
-
-    sstr << "Certificate String: " << endl << certStr << endl
-      << "From: " << endl << startTime << endl << "To: " << endl
-      << stopTime << endl << "Public Key: " << endl << pubKey << endl
-      << "Signature: " << endl << signature
-      << endl;
-
-    return sstr.str();
-  };
-
-  /**
-   * Output stream operator overload
-   */
-  friend ostream& operator << (ostream & o, Certificate & c)
-  {
-    o << c.toString();
-    return o;
-  };
-
-  /**
-   * Conactenates the certificate clauses into a single string
-   *
-   */
-  void setCertificateStr()
-  {
-    if(certStr == "")
-    {
-      for(size_t i = 0; i < clauses.size(); i++)
-        certStr += clauses[i];
-      certStr += startTime + stopTime;
-    }
-
-    if(startTime != "")
-      startTimeSec = getUTCTimeSec(startTime);
-    else
-      startTimeSec = 0;
-    if(stopTime != "")
-      stopTimeSec = getUTCTimeSec(stopTime);
-    else
-      stopTimeSec = 0;
-  };
-};
-
-/**
- * A representation of a client credentail
- */
-struct Credential
-{
-  string
-    /** A credential has a public key **/
-    pubKey,
-    /** The binder/prolog representation of the key digest **/
-    keyDigest;
-
-  /** A credential has one or more certificates **/
-  vector<Certificate*> certificates;
-
-  /**
-   * The default constructor for a Credential
-   */
-  Credential()
-  {
-    pubKey = "";
-  };
-
-  /**
-   * Retrieves the string representation of a Credential
-   */
-  string toString()
-  {
-    stringstream sstr;
-
-    sstr << "Redering Credential" << endl << "Public Key" << endl << pubKey
-      << endl << "Num Certificates: " << certificates.size() << endl;
-    for(size_t i = 0; i < certificates.size(); i++)
-    {
-      sstr << "Rendering Certificate " << i + 1 << endl;
-      sstr << *certificates[i] << endl;
-    }
-
-    return sstr.str();
-  };
-
-  /**
-   * Outputstream operator overload
-   */
-  friend ostream& operator << (ostream & o, Credential & c)
-  {
-    o << c.toString();
-    return o;
-  };
-
-  /**
-   * Finalize all unset values of the Credentials Certificates
-   */
-  void finalize()
-  {
-    for(size_t i = 0; i < certificates.size(); i++)
-      certificates[i]->setCertificateStr();
-  };
-
-  /**
-   * A destructor for a Credential
-   */
-  ~Credential()
-  {
-    for(size_t i = 0; i < certificates.size(); i++)
-    {
-      Certificate* cert = certificates[i];
-      delete cert;
-      cert = 0;
-    }
-  };
-};
-
-
 static bool qStats;
 
 /**
- *
+ * Thread process for executing XSB queries
  */
 static void* executeQueryProc(void* pQuery)
 {
@@ -396,9 +59,10 @@ static void* executeQueryProc(void* pQuery)
     cls(ss);
   }
   else
-    cerr << "could not execute query" << endl;
+    cerr << "could not execute query: " << query << endl;
 
-  pthread_exit(0);
+  return 0;
+  //pthread_exit(0);
 };
 
 /**
@@ -409,7 +73,6 @@ static void* executeQueryProc(void* pQuery)
  */
 class SecurityService
 {
-
   private:
 
     /**
@@ -424,7 +87,9 @@ class SecurityService
     /** The credential pointer for a security service instance **/
     Credential* credPtr;
 
-    /** Query result status **/
+    /** Only one thread should try executing XSB queries at a time **/
+    Mutex mutex;
+  protected:
 
   public:
 
@@ -581,7 +246,7 @@ class SecurityService
               tmp += msg[pos];
           }
 
-          retVal += "allow(" + credPtr->keyDigest + ",";
+          retVal += "allow(" + credPtr->getKeyDigest() + ",";
           for(size_t i = 0; i < args.size(); i++)
           {
             retVal += args[i];
@@ -610,12 +275,12 @@ class SecurityService
       else
       {
         credPtr = pCred;
-        pCred->keyDigest = getKeyDigest(pCred->pubKey);
-        for(i = 0; i < credPtr->certificates.size(); i++)
+        pCred->setKeyDigest(getKeyDigest(pCred->getPubKey()));
+        for(i = 0; i < credPtr->numCertificates(); i++)
         {
-          certPtr = credPtr->certificates[i];
-          cout << "Verifying Certificate..." << endl << certPtr->certStr << endl
-            << endl;
+          certPtr = credPtr->getCertificates()[i];
+          cout << "Verifying Certificate..." << endl << certPtr->getCertStr() << endl
+               << endl;
 
           bool vTime = true;
 
@@ -624,7 +289,8 @@ class SecurityService
             time_t curTime = time(NULL);
             struct tm* now = gmtime(&curTime);
             time_t tmp = mktime(now);
-            vTime = tmp >= certPtr->startTimeSec && tmp <= certPtr->stopTimeSec;
+            vTime = tmp >= certPtr->getStartTimeSec() &&
+                    tmp < certPtr->getStopTimeSec();
           }
 
           if(VALIDATE_CERT_TIME && !vTime)
@@ -632,20 +298,22 @@ class SecurityService
             cerr << "Error: Certificate is not valid at this time" << endl;
             retVal = false;
           }
-          else if(verifySig(certPtr->pubKey, certPtr->signature, certPtr->certStr ))
+          else if(verifySig(certPtr->getPubKey(),
+                            certPtr->getSignature(),
+                            certPtr->getCertStr()))
           {
             cout << "Certificate Verified" << endl << endl;
-            certPtr->keyDigest = getKeyDigest(certPtr->pubKey);
-            policy->keyDigest = certPtr->keyDigest;
-            vector<string> clauses = certPtr->clauses;
+            certPtr->setKeyDigest(getKeyDigest(certPtr->getPubKey()));
+            policy->setKeyDigest(certPtr->getKeyDigest());
+            vector<string> clauses = certPtr->getClauses();
             cout << "Transforming Clauses..." << endl << endl;
             for(j = 0; j < clauses.size(); j++)
             {
               string clause = clauses[j];
               string binderClause = transformClause(clause);
-              certPtr->transformedCls.push_back(binderClause);
+              certPtr->addTransformedCls(binderClause);
               cout << "Clause:           " << clause << endl
-                << "Binder Statement: " << binderClause << endl << endl;
+                   << "Binder Statement: " << binderClause << endl << endl;
             }
           }
           else retVal = false;
@@ -658,7 +326,8 @@ class SecurityService
     /**
      * Verifies the signature of a credential or certificate
      */
-    bool verifySig(string pKey, string & pB64DgstSigned, string & pMsg)
+    bool verifySig(const string & pKey, const string & pB64DgstSigned,
+                   const string & pMsg)
     {
       int ret = 0,
           sigLen = 0;
@@ -763,7 +432,7 @@ class SecurityService
       unsigned char* md5Digest =
         getMsgDigest((const unsigned char*)decKey, (size_t)keyLen);
 
-      char* x = new char[2 * MD5_DIGEST_LENGTH + 1];
+      char x[2 * MD5_DIGEST_LENGTH + 1];
       char* tmp = x;
       for(int i = 0; i < MD5_DIGEST_LENGTH; i++)
         sprintf(tmp + (i * 2), "%02x", md5Digest[i]);
@@ -772,7 +441,6 @@ class SecurityService
       retVal = "rsa_";
       retVal += val;
       delete [] decKey;
-      delete [] x;
       delete [] md5Digest;
 
       return retVal;
@@ -787,7 +455,7 @@ class SecurityService
       string retVal = "",
              subject = "",
              verb = "",
-             prefix = "says(" + policy->keyDigest,
+             prefix = "says(" + policy->getKeyDigest(),
              predicate = "";
 
       size_t pos = pClause.find(":-");
@@ -796,12 +464,12 @@ class SecurityService
       if(isRule)
       {
         Rule r(pClause);
-        bool quoted = r.body.find(r.head) != string::npos;
+        bool quoted = r.getBody().find(r.getHead()) != string::npos;
         if(quoted)
-          retVal = prefix + "," + r.head + "):-" + r.body;
+          retVal = prefix + "," + r.getHead() + "):-" + r.getBody();
         else
         {
-          retVal += prefix + "," + r.head + "):-";
+          retVal += prefix + "," + r.getHead() + "):-";
           vector<string> clauses = r.getClauses();
 
           for(size_t i = 0; i < clauses.size(); i++)
@@ -814,12 +482,12 @@ class SecurityService
           }
         }
         Rule anotherRule(retVal);
-        policy->rules.push_back(retVal);
+        policy->addRule(retVal);
       }
       else
       {
         retVal = prefix + "," + pClause.substr(0, pClause.length() - 1) + ").";
-        policy->facts.push_back(retVal);
+        policy->addFact(retVal);
       }
 
       return retVal;
@@ -850,13 +518,19 @@ class SecurityService
 
         if(pthread_create(&queryProcThread, 0, executeQueryProc, (void*)&q) == 0)
         {
+          mutex.lock();
           Timer t;
+          double elapsed = 0;
           t.start();
-          while(t.elapsed() < 500000){;}
+          while(!qStats && (elapsed += t.getElapsedSecs()) < 1) //{;}
+          {
+            ;//cout << "Elapsed: " << elapsed << '\n';
+          }
           t.stop();
           //if for some reason this hasn't returned yet kill it
           pthread_detach(queryProcThread);
           pthread_kill(queryProcThread, SIGKILL);
+          mutex.unlock();
         }
 
         retVal = qStats;
@@ -878,14 +552,14 @@ class SecurityService
 
       if(out.is_open() && credPtr)
       {
-        out << policy->policyStr << endl << "/* Begin Transformed Rules */"
+        out << policy->getPolicyStr() << endl << "/* Begin Transformed Rules */"
           << endl;
 
-        for(size_t i = 0; i < credPtr->certificates.size(); i++)
+        for(size_t i = 0; i < credPtr->numCertificates(); i++)
         {
-          certPtr = credPtr->certificates[i];
-          for(size_t j = 0; j < certPtr->transformedCls.size(); j++)
-            out << certPtr->transformedCls[j] << endl;
+          certPtr = credPtr->getCertificate(i);
+          for(size_t j = 0; j < certPtr->numTransformedCls(); j++)
+            out << certPtr->getTransformedCls(j) << endl;
         }
 
         out.close();
@@ -901,3 +575,4 @@ class SecurityService
     };
 };
 #endif //__SecurityService__
+
