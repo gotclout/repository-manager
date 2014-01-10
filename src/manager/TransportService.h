@@ -323,7 +323,6 @@ class TransportService
     {
       int numRead = 0,
           bytesRead = 0;
-      char* msgBuf = 0;
       struct sockaddr clientIp;
       socklen_t clientIpLen = sizeof(clientIp);
 
