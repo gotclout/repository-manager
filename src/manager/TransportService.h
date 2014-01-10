@@ -13,10 +13,12 @@
 #include <string>
 
 #include "AstWalker.h"
-#include "../utils/FifoQueue.h"
+#include "../utils/Timer.h"
 #include "../utils/RepositoryManagerUtils.h"
 #include "../parser/RepositoryManagerLexer.h"
 #include "../parser/RepositoryManagerParser.h"
+
+#define TIME_OUT 10
 
 static SecurityService ss;
 
@@ -34,60 +36,58 @@ class TransportService
     vector<Credential*> clients;
 
     /** Map of challenge strings to clients **/
-    map<string, int> challengeClientMap;
+    map<int, Credential*> clientMap;
 
     int
-      ///
+      /** listening port **/
       port,
-      //
+      /** current socket id **/
       socketId,
-      //
+      /** client socket id **/
       clientSocketId,
-      //
+      /** socket error return **/
       socketErr;
 
     stringstream
-      //
-      socketMsg,
-      //
-      printStr;
+      /** socket message stream **/
+      socketMsg;
 
-    //
+    /** sock add struct **/
     struct sockaddr_in socketAddr;
 
     bool
-      //
+      /** authenticated client indicator **/
       clientAuthenticated,
-      //
+      /** processing request indicator **/
       processingRequests,
-      //
+      /** socket initialized indicator **/
       socketInit,
-      //
+      /** socket listening indicator **/
       socketListening;
 
-    //
+    /** credential and certificate parser **/
     pRepositoryManagerParser parser;
 
-    //
+    /** credential and certificate lexer **/
     pRepositoryManagerLexer lex;
 
-    //
+    /** an antlr input stream **/
     pANTLR3_INPUT_STREAM input;
 
-    //
+    /** an antlr token stream **/
     pANTLR3_COMMON_TOKEN_STREAM tokens;
 
-    //
+    /** an antlr token **/
     pANTLR3_COMMON_TOKEN ts;
 
-    //The antlr parse tree
+    /** the antlr parse tree **/
     pANTLR3_BASE_TREE tt;
 
-    //
-    pANTLR3_STRING tts;
-
-    //
+    /** antlr ast walker **/
     AstWalker* tWalker;
+
+    /** **/
+    static int children;
 
   public:
 
@@ -141,6 +141,7 @@ class TransportService
       socketListening = false;
       clientAuthenticated = false;
       processingRequests = false;
+      //TransportService::children = 0;
 
       if(socketId > 0)
       {
@@ -216,7 +217,7 @@ class TransportService
         while(bytesRead + MAX_READ < MAX_BUFF && numRead > 0);
 
         string response = (string) msgBuff;
-        retVal = ss.verifySig(pCred->pubKey, response, anotherChallenge);
+        retVal = ss.verifySig(pCred->getPubKey(), response, anotherChallenge);
 
         //clean up
         if(msgBuff)
@@ -238,8 +239,9 @@ class TransportService
      * Process a client request generating a binder statement and executing
      * the query in xsb
      */
-    void processRequest()
+    bool processRequest()
     {
+      bool retVal = true;
       int numRead = 0, bytesRead = 0, outLen = 0;
       size_t  mLen = 0;
       stringstream tss;
@@ -302,12 +304,16 @@ class TransportService
       {
         socketListening = false;
         close(clientSocketId);
+        retVal = false;
+        cout << "Closing connection for client: " << clientSocketId << endl;
         cout << "Connection closed, server shut down" << endl;
       }
 
       if(msgBuff)
         delete [] msgBuff;
       msgBuff = 0;
+
+      return retVal;
     };
 
     /**
@@ -324,18 +330,32 @@ class TransportService
       if(socketInit)
       {
         socketListening = true;
-
+        Timer t(1);
         while(socketListening)
         {
           if(processingRequests)
-            processRequest();
-          else
+          {
+            pid_t cid = fork();
+            if(cid == 0)
+            {
+              children++;
+              processRequest();
+              children--;
+              exit(0);
+            }
+            else if(cid < 0)
+              cerr << "Error: Could Not Spawn Subprocess" << endl;
+            else
+              usleep(5000);
+          }
+          if(1)
           {
             clientSocketId = accept(socketId, &clientIp, &clientIpLen);
 
+            cout << "Accepted connection from client: " << clientSocketId << endl;
             if(clientSocketId)
             {
-              msgBuf = new char[MAX_BUFF + 1];
+              char msgBuf[MAX_BUFF + 1];
               memset((void*)msgBuf, 0, MAX_BUFF + 1);
               numRead = read(clientSocketId, msgBuf, MAX_BUFF);
 
@@ -347,53 +367,32 @@ class TransportService
               else
               {
                 socketMsg << msgBuf;
-                processMsg();
+                pid_t cid = fork();
+                if(cid == 0)
+                {
+                  children++;
+                  processMsg();
+                  while(processRequest()) {;}
+                  children--;
+                  exit(0);
+                }
+                else if(cid < 0)
+                  cerr << "Error: Could Not Spawn Subprocess" << endl;
               }
 
               cls(socketMsg);
-              delete [] msgBuf;
-              msgBuf = 0;
               bytesRead = numRead = 0;
             }
-            else
+
+            if(children == 0 && t.getElapsedSecs() > TIME_OUT)
+            {
+              cout << "Server has 0 connections and idle time: "
+                   << t.getElapsedSecs() << "\nTime out occurs after "
+                   << TIME_OUT << "s\n";
               socketListening = false;
+            }
           }
         }
-      }
-    };
-
-    /**
-     * Renders the tree generated by the antlr parser
-     */
-    void printTree(pANTLR3_BASE_TREE & pTree)
-    {
-      queue<pANTLR3_BASE_TREE> q;
-      ANTLR3_UINT32 childCount = (ANTLR3_UINT32) pTree->getChildCount(pTree);
-      int count = (int) childCount;
-      cout << "Num Children: " << count << endl;
-      for(int i = 0; i < count; i++)
-      {
-        pANTLR3_BASE_TREE child = (pANTLR3_BASE_TREE) pTree->getChild(
-            pTree, (ANTLR3_UINT32) i);
-        tts = (pANTLR3_STRING) child->toString(child);
-        printStr << tts->chars;
-        cout << "Child " << i << ":" << endl << printStr.str() << endl;
-        cls(printStr);
-        ANTLR3_UINT32 numChildren = (ANTLR3_UINT32) child->getChildCount(child);
-        int children = (int) numChildren;
-        for(int j = 0; j < children; j++)
-        {
-          pANTLR3_BASE_TREE child2 = (pANTLR3_BASE_TREE)child->getChild(
-              child, (ANTLR3_UINT32) j);
-          q.enqueue(child2);
-        }
-      }
-
-      pANTLR3_BASE_TREE c;
-      while((c = (pANTLR3_BASE_TREE)q.dequeue()) && c != 0)
-      {
-        printTree(c);
-        c = q.dequeue();
       }
     };
 
@@ -451,6 +450,7 @@ class TransportService
                 processingRequests = true;
                 cout << "Loaded Policy & Certificates" << endl
                      << "Waiting for request..." << endl << endl;
+                clientMap[clientSocketId] = c;
               }
               else
                 cerr << "Error: Failed to load binder policy and certificates"
@@ -478,4 +478,6 @@ class TransportService
       return retVal;
     }
 };
+int TransportService::children = 0;
 #endif//__TransportService__
+
