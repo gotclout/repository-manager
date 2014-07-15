@@ -55,30 +55,30 @@ class Credential
   void appendToPubKey(string s) { pubKey += s; };
 
   /**
-   *
+   * Sets the credentials pub key
    */
   inline void setPubKey(const string & pk) { pubKey = pk; };
 
   /**
-   *
+   * Retrieves the credentials certificates
    */
   vector<Certificate*>& getCertificates() { return certificates; };
 
   /**
-   *
+   * Adds a certificate to the credential
    */
   void addCertificate(Certificate* & c) { if(c) { certificates.push_back(c);} };
 
   /**
-   *
+   * Retrieves the specified certificate
    */
   Certificate* getCertificate(size_t i)
   {
-    return i >= numCertificates() ? 0 : certificates[i];
+    return i >= certificates.size() ? 0 : certificates[i];
   };
 
   /**
-   *
+   * Retrieves the number of certificates
    */
   size_t numCertificates() { return certificates.size(); };
 
