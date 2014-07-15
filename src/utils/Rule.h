@@ -34,32 +34,32 @@ class Rule
   };
 
   /**
-   *
+   * Retrieves the rule atom
    */
   const string& getAtom() const { return atom; };
 
   /**
-   *
+   * Retrieves the rule head
    */
   const string& getHead() const { return head; };
 
   /**
-   *
+   * Retrieves the rule body
    */
   const string& getBody() const { return body; };
 
   /**
-   *
+   * Sets the rule atom
    */
   void setAtom(const string & a) { atom = a; };
 
   /**
-   *
+   * Sets the rule head
    */
   void setHead(const string & h) { head = h; };
 
   /**
-   *
+   * Sets the rule body
    */
   void setBody(const string & b) { body = b; };
 
