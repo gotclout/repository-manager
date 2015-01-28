@@ -86,11 +86,11 @@ else
       echo "Compiling first"
       echo
       $BUILD
-    if [ -e $BIN ]; then
-      BIN_EXISTS=1;
-    else
-      echo "Build failed, exiting..."
-    fi
+      if [ -e $BIN ]; then
+        BIN_EXISTS=1;
+      else
+        echo "Build failed, exiting..."
+      fi
     fi
     if [ "$BIN_EXISTS" == "1" ]; then
       if [ "$selection" == "r" ]; then
@@ -114,7 +114,7 @@ else
             $BIN $port $policy $validate
           else
             valgrind -v --log-file=valgrind.log --leak-check=full --track-origins=yes $BIN $port $policy
-            #$BIN $port $policy #./policy/$POLICY
+            #TODO: $BIN $port $policy #./policy/$POLICY ?
           fi
         else
           echo "Server policy $policy does not exist, exiting..."
