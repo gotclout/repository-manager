@@ -11,11 +11,53 @@ using namespace std;
 
 typedef unsigned long long tulong;
 
-#ifdef _POSIX_VERSION
+#ifdef __MACH__
+#include <sys/time.h>
+#warning "clock_gettime is not implemented on OSX"
+
+#define CLOCK_REALTIME 0
+#define CLOCK_MONOTONIC 0
+
+int clock_gettime(int /* clk_id */, struct timespec* t)
+{
+  struct timeval now;
+  int rv = gettimeofday(&now, NULL);
+  if (rv) return rv;
+  t->tv_sec  = now.tv_sec;
+  t->tv_nsec = now.tv_usec * 1000;
+  return 0;
+};
+
+#endif//__MACH__
+
+//Posix or Mac OS
+#if defined(_POSIX_VERSION) || defined(__MACH__)
+
+/** suffix string constants **/
+const static char* suffix[] =
+{
+  "s",
+  "ds",
+  "cs",
+  "ms",
+  "us",
+  "ns"
+};
+
+/** suffix string enum **/
+enum eSuffix
+{
+  eSec = 0,
+  eDsec,
+  eCsec,
+  eMsec,
+  eUsec,
+  eNsec
+};
 
 /**
- * A realtime pecision timer for POSIX complient systems
- * Use -lrt for gcc compiling
+ * A realtime precision timer for POSIX complient systems
+ * Uses -lrt for gcc compiling
  */
 class Timer
 {
@@ -28,12 +70,23 @@ class Timer
   /** Indicates whether or not the timer is stopped or running **/
   bool stopped, started;
 
+  /** This timers suffix enum **/
+  eSuffix sfx;
+
   /**
    * Set the time for a timespec in ns
    */
   inline tulong getTime(timespec & ts)
   {
     return !clock_gettime(CLOCK_REALTIME, &ts) ? getTimeNSecs(ts) : 0;
+  };
+
+  /**
+   * Retrieves the time unit suffix
+   */
+  inline const char* getSuffix(eSuffix s = eNsec)
+  {
+    return suffix[(int)s];
   };
 
   /**
@@ -111,24 +164,53 @@ class Timer
   };
 
   /**
-   * Ouput operator overload
+   * Default construct and start if user specified
+   */
+  Timer(bool startTimer)
+  {
+    offset = 0; stopped = true; started = false;
+    getTime(curTime);
+    if(startTimer) start();
+  };
+
+  /**
+   * Output operator overload
    */
   friend ostream& operator << (ostream & o, Timer & t)
   {
-    o << "Rendering Timer - "
-      << "Start Time: " << t.getTimeNSecs(t.startTime) << " ns "
-      << "End Time: "   << t.getTimeNSecs(t.endTime)   << " ns "
-      << "Cur Time: "   << t.getTimeNSecs(t.curTime)   << " ns "
-      << "Offset: "     << t.getOffsetNSecs()          << " ns "
-      << "Elapsed: "    << t.getElapsedNSecs()         << " ns "
+    o << "Rendering Timer...\n"
+      << "Start Time: " << t.getTimeNSecs(t.startTime) << "ns\n"
+      << "End Time: "   << t.getTimeNSecs(t.endTime)   << "ns\n"
+      << "Cur Time: "   << t.getTimeNSecs(t.curTime)   << "ns\n"
+      << "Offset: "     << t.getOffsetNSecs()          << "ns\n"
+      << "Elapsed: "    << t.getElapsedNSecs()         << "ns\n"
       << "Duration: "   << t.getTimeNSecs(t.endTime) -
                            t.getTimeNSecs(t.startTime) -
-                           t.getOffsetNSecs()          << " ns : "
+                           t.getOffsetNSecs()          << "ns : "
                         << t.getTimeSecs(t.endTime) -
                            t.getTimeSecs(t.startTime) -
-                           t.getOffsetSecs()           << " s\n";
+                           t.getOffsetSecs()           << "s\n";
 
     return o;
+  };
+
+  /**
+   * Subtraction operater overload computes time difference
+   */
+  tulong operator - (Timer & t)
+  {
+    tulong e1 =   getElapsedNSecs(),
+           e2 = t.getElapsedNSecs();
+
+    return e1 > e2 ? e1 - e2 : e2 - e1;
+  }
+
+  /**
+   * Get curr time NS public asccessor
+   */
+  inline tulong getTimeNSecs()
+  {
+    return getTimeNSecs(curTime);
   };
 
   /**
@@ -246,7 +328,7 @@ class Timer
   /**
    *  Converts the current time to HH:MM:SS formatted string
    */
-  inline string getTimeStr()
+  inline string getTimeStr() const
   {
     stringstream ss;
     time_t cur = time(0);
@@ -265,7 +347,7 @@ class Timer
   /**
    * Converts current time to Www Mmm dd hh:mm:ss yyyy cstring
    */
-  inline char* getCTime()
+  inline char* getCTime() const
   {
     time_t cur;
     time(&cur);
@@ -277,9 +359,12 @@ class Timer
    */
   inline tulong getDurationNSecs()
   {
-    if(!stopped) stop();
+    if(!stopped)
+      stop();
+    tulong ret = getTimeNSecs(endTime) - getTimeNSecs(startTime) - getOffsetNSecs();
+    resume();
 
-    return getTimeNSecs(endTime) - getTimeNSecs(startTime) - getOffsetNSecs();
+    return ret;
   };
 
   /**
@@ -310,7 +395,12 @@ class Timer
   /**
    * Reset the timer
    */
-  inline void reset() { offset = 0; stopped = true; };
+  inline void reset() { offset = 0; stopped = 1; started = 0; getTime(startTime); };
+
+  /**
+   * Indicates the timer is running
+   */
+  inline const bool running() const { return started; };
 
   /**
    * Destructor ;)
@@ -320,17 +410,17 @@ class Timer
     if(!stopped)
     {
       stop();
-      cerr << *this;
+      cout << *this;
     }
   }
 };
 
-#else
+#else//defined(_POSIX_VERSION) || defined(__MACH__)
 
 #warning "POSIX CLOCK_REALTIME Unavailable, using system clock()"
 
 /**
- * The less percise time operates on system time
+ * The less percise time operates using system time
  */
 class Timer
 {
@@ -338,18 +428,19 @@ class Timer
 
   tulong offset;
 
-  bool stopped;
+  bool stopped, started;
 
   public:
 
-  Timer()          { offset = 0; stopped = true; };
-  void   start()   { startTime = clock(); curTime = startTime; stopped = true; };
-  void   stop()    { endTime = clock(); curTime = endTime; stopped = true; };
-  void   reset()   { offset = 0; stopped = true; };
-  tulong resume()  { offset = endTime - clock(); stopped = 0; return offset; };
-  double elapsed() { return (clock() - startTime) / (double) CLOCKS_PER_SEC; };
-  tulong ticks ()  { return (endTime - startTime - offset); };
-  double duration(){ return ticks() / (double) CLOCKS_PER_SEC; };
+  Timer()                 { offset = 0; stopped = 1; started = 0; startTime = clock(); };
+  inline void   start()   { curTime = startTime = clock(); stopped = 0; started = 1; };
+  inline void   stop()    { curTime = endTime = clock(); stopped = 1; };
+  inline void   reset()   { offset = 0; stopped = 1; started = 0; };
+  inline tulong resume()  { offset = endTime - clock(); stopped = 0; return offset; };
+  inline double elapsed() { return (clock() - startTime) / (double) CLOCKS_PER_SEC; };
+  inline tulong ticks ()  { return (endTime - startTime - offset); };
+  inline double duration(){ return ticks() / CLOCKS_PER_SEC; };
+  ~Timer()                { if(!stopped) { stop(); } };
 };
 
 #endif//_POSIX_VERSION
