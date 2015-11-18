@@ -60,14 +60,14 @@ echo "Enter 'r' to run, 'd' to debug, 'c' to compile, or 'q' to exit"
 
 read selection;
 
-if [ "$selection" == "q" ]; then
+if [ "$selection" = "q" ]; then
   echo "Exiting"
   echo
 else
-  if [ "$selection" == "1" ]; then
+  if [ "$selection" = "1" ]; then
     valgrind -v --log-file=valgrind.log --leak-check=full --track-origins=yes --show-reachable=yes $BIN 1983 policy/server_policy2.P
-  elif [ "$selection" == "c" ]; then
-    if [ "$BIN_EXISTS" == "1" ]; then
+  elif [ "$selection" = "c" ]; then
+    if [ "$BIN_EXISTS" = "1" ]; then
       rm $BIN
     fi
     echo
@@ -81,8 +81,8 @@ else
     else
       echo "Build failed, exiting..."
     fi
-  elif [ "$selection" == "r" -o "$selection" == d ]; then
-    if [ "$BIN_EXISTS" == "0" ]; then
+  elif [ "$selection" = "r" -o "$selection" = d ]; then
+    if [ "$BIN_EXISTS" = "0" ]; then
       echo "Compiling first"
       echo
       $BUILD
@@ -92,8 +92,8 @@ else
         echo "Build failed, exiting..."
       fi
     fi
-    if [ "$BIN_EXISTS" == "1" ]; then
-      if [ "$selection" == "r" ]; then
+    if [ "$BIN_EXISTS" = "1" ]; then
+      if [ "$selection" = "r" ]; then
         echo "Enter the server policy file (absolute or relative path)"
         echo
         read policy
@@ -110,7 +110,7 @@ else
           echo "Executing With Server Policy $policy"
           echo "Listening On Port $port"
           echo
-          if [ "$validate" == "1" ]; then
+          if [ "$validate" = "1" ]; then
             $BIN $port $policy $validate
           else
             valgrind -v --log-file=valgrind.log --leak-check=full --track-origins=yes $BIN $port $policy
@@ -120,7 +120,7 @@ else
           echo "Server policy $policy does not exist, exiting..."
           echo
         fi
-      elif [ "$selection" == "d" ]; then
+      elif [ "$selection" = "d" ]; then
         echo "Debugging"
         echo
         gdb ./$BIN
