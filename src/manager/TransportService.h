@@ -84,7 +84,7 @@ class TransportService
     pANTLR3_BASE_TREE tt;
 
     /** antlr ast walker **/
-    AstWalker* tWalker;
+    AstWalker* tWalker; //TODO: Allocate this once
 
     /** **/
     static int children;
@@ -200,6 +200,8 @@ class TransportService
         size_t mLen = tss.str().size();
         outLen = write(clientSocketId, tss.str().c_str(), mLen);
 
+        if(outLen < 1) cerr << "Error: outLen value " << outLen << endl;
+
         unsigned char* msgDigest = ss.getMsgDigest(anotherChallenge);
         char* msgBuff = new char [MAX_BUFF + 1], *pos = 0;
         pos = msgBuff;
@@ -299,6 +301,8 @@ class TransportService
         tss << endl << END_SERVER_RESPONSE_S << endl;
         mLen = tss.str().length();
         outLen = write(clientSocketId, tss.str().c_str(), mLen);
+
+        if(outLen < 1) cerr << "Error: outLen value " << outLen << endl;
       }
       else
       {

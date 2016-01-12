@@ -168,12 +168,12 @@ class Certificate
   /**
    *
    */
-  const long long getStartTimeSec() const { return startTimeSec; };
+  const long long& getStartTimeSec() const { return startTimeSec; };
 
   /**
    *
    */
-  const long long getStopTimeSec() const { return stopTimeSec; };
+  const long long& getStopTimeSec() const { return stopTimeSec; };
 
   /**
    *

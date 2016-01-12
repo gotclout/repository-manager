@@ -5,9 +5,11 @@ A simple repository manager experiment
 
 Compilation Instructions:
 
-To compile my application, execute that runTest.sh bash script located in the
+To compile the application, execute that runTest.sh bash script located in the
 repository-manager directory and follow the instructions. Select 'c' from the
 menu to compile. The executable bin/ReposioryManager will be created.
+
+Requires antlr3c 3.4 (if building antlr3c produces incompatible libantlr3c.so, remove or replace the CFLAGS option -m32 / -m64)
 
 Execution Execution Instructions:
 

@@ -105,29 +105,29 @@ class AstWalker
           if(label == CLAUSE_S)
           {
             while(getChildStr(pIdx) != START_TIME_S)
-              retVal->clauses.push_back(getClauseStr(pIdx));
+              retVal->getClauses().push_back(getClauseStr(pIdx));
           }
           else if(label == START_TIME_S)
           {
-            retVal->startTime += getClauseStr(pIdx);
+            retVal->appendToStartTime(getClauseStr(pIdx));
           }
           else if(label == STOP_TIME_S)
           {
-            retVal->stopTime += getClauseStr(pIdx);
+            retVal->appendToStopTime(getClauseStr(pIdx));
           }
           else if(label == PK_HEADER_S)
           {
-            retVal->pubKey += label;
+            retVal->appendToPubKey(label);
             while(getChildStr(pIdx++) != SIG_S)
-              retVal->pubKey += "\n" + sstr.str();
+              retVal->appendToPubKey("\n" + sstr.str());
             pIdx--;
           }
           else if(label == SIG_S)
           {
-            retVal->signature += label;
+            retVal->appendToSignature(label);
             while(getChildStr(pIdx++) != END_SIG_S)
-              retVal->signature += "\n" + sstr.str();
-            retVal->signature += "\n" + END_SIG_S;
+              retVal->appendToSignature("\n" + sstr.str());
+            retVal->appendToSignature("\n" + END_SIG_S);
           }
           else
             pIdx++;
@@ -151,15 +151,15 @@ class AstWalker
 
         if(label == PK_HEADER_S)
         {
-          pCredential->pubKey += label;
+          pCredential->appendToPubKey(label);
           while(getChildStr(pIdx) != CERT_S)
-            pCredential->pubKey += "\n" + getChildStr(pIdx++);
+            pCredential->appendToPubKey("\n" + getChildStr(pIdx++));
         }
         else if(label == CERT_S)
         {
           Certificate* cert = makeCertificate(pCredential, pIdx);
           if(cert)
-            pCredential->certificates.push_back(cert);
+            pCredential->addCertificate(cert);
           getChildStr(--pIdx);
           label = sstr.str();
         }

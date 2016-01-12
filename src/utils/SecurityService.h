@@ -150,6 +150,9 @@ class SecurityService
       bmem = BIO_new(BIO_s_mem());
       b64 = BIO_push(b64, bmem);
       ret = BIO_write(b64, input, length);
+
+      if(ret < 1) cerr << "Error: BIO_write returned " << ret << endl;
+
       if(BIO_flush(b64))
       {
         BIO_get_mem_ptr(b64, &bptr);
@@ -176,6 +179,9 @@ class SecurityService
       b64 = BIO_new(BIO_f_base64());
       bmem = BIO_new(BIO_s_mem());
       ret = BIO_write(bmem, input, length);
+
+      if(ret < 1) cerr << "Error: BIO_write returned " << ret << endl;
+
       bmem = BIO_push(b64, bmem);
       buff = new unsigned char[3*length];
       memset(buff, 0, 3*length);
@@ -237,7 +243,8 @@ class SecurityService
 
           while(pos++ != msg.length() && pos != string::npos)
           {
-            if(msg[pos] == ',' && tmp != "" || msg[pos] == ')')
+            //if(msg[pos] == ',' && tmp != "" || msg[pos] == ')')
+            if((msg[pos] == ',' && tmp != "") || msg[pos] == ')')
             {
               args.push_back(tmp);
               tmp = "";

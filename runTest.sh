@@ -11,12 +11,12 @@
 ##
 # XSB
 ##
-export XSB_HOME=/home/rfoster/tmp/XSB
+export XSB_HOME=/home/stbadmin/tmp/XSB
 
 ##
 # ANTLR
 ##
-export ANTLR_HOME=/home/rfoster/repository-manager/antlr/libantlr3c-3.4
+export ANTLR_HOME=/home/stbadmin/repository-manager/antlr/libantlr3c-3.4
 export ANTLR_LIB=$ANTLR_HOME/lib
 export ANTLR_INC=$ANTLR_HOME/include
 
@@ -36,7 +36,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ANTLR_LIB
 ##
 export MLIBS="-lcrypto -lantlr3c -lrepoparserlexer"
 export MCFLAGS="-g -Wall -Wextra -Wno-write-strings -lpthread"
-export INCLUDE="-I$ANTLR_INC"
+export INCLUDE="-I$ANTLR_HOME -I$ANTLR_INC"
 
 echo "Includes:"
 echo $INCLUDE
@@ -113,8 +113,9 @@ else
           if [ "$validate" = "1" ]; then
             $BIN $port $policy $validate
           else
-            valgrind -v --log-file=valgrind.log --leak-check=full --track-origins=yes $BIN $port $policy
+            #valgrind -v --log-file=valgrind.log --leak-check=full --track-origins=yes $BIN $port $policy
             #TODO: $BIN $port $policy #./policy/$POLICY ?
+            $BIN $port $policy #./policy/$POLICY ?
           fi
         else
           echo "Server policy $policy does not exist, exiting..."

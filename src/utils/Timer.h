@@ -400,7 +400,7 @@ class Timer
   /**
    * Indicates the timer is running
    */
-  inline const bool running() const { return started; };
+  inline const bool& running() const { return started; };
 
   /**
    * Destructor ;)
