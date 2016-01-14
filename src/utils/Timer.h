@@ -73,6 +73,9 @@ class Timer
   /** This timers suffix enum **/
   eSuffix sfx;
 
+  /** The string value suffix **/
+  string ssfx;
+
   /**
    * Set the time for a timespec in ns
    */
@@ -159,15 +162,21 @@ class Timer
    */
   Timer()
   {
+    sfx = eNsec;
+    ssfx = getSuffix();
     offset = 0; stopped = true; started = false;
     getTime(curTime);
   };
 
   /**
    * Default construct and start if user specified
+   * @param: bool, startTimer
+   * @param: eSuffix, pSuffix
    */
-  Timer(bool startTimer)
+  Timer(bool startTimer, eSuffix pSuffix = eNsec)
   {
+    sfx = pSuffix;
+    ssfx = getSuffix();
     offset = 0; stopped = true; started = false;
     getTime(curTime);
     if(startTimer) start();
@@ -179,14 +188,14 @@ class Timer
   friend ostream& operator << (ostream & o, Timer & t)
   {
     o << "Rendering Timer...\n"
-      << "Start Time: " << t.getTimeNSecs(t.startTime) << "ns\n"
-      << "End Time: "   << t.getTimeNSecs(t.endTime)   << "ns\n"
-      << "Cur Time: "   << t.getTimeNSecs(t.curTime)   << "ns\n"
-      << "Offset: "     << t.getOffsetNSecs()          << "ns\n"
-      << "Elapsed: "    << t.getElapsedNSecs()         << "ns\n"
+      << "Start Time: " << t.getTimeNSecs(t.startTime) << t.ssfx << "\n"
+      << "End Time: "   << t.getTimeNSecs(t.endTime)   << t.ssfx << "\n"
+      << "Cur Time: "   << t.getTimeNSecs(t.curTime)   << t.ssfx << "\n"
+      << "Offset: "     << t.getOffsetNSecs()          << t.ssfx << "\n"
+      << "Elapsed: "    << t.getElapsedNSecs()         << t.ssfx << "\n"
       << "Duration: "   << t.getTimeNSecs(t.endTime) -
                            t.getTimeNSecs(t.startTime) -
-                           t.getOffsetNSecs()          << "ns : "
+                           t.getOffsetNSecs()          << t.ssfx << " : "
                         << t.getTimeSecs(t.endTime) -
                            t.getTimeSecs(t.startTime) -
                            t.getOffsetSecs()           << "s\n";
