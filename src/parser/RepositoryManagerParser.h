@@ -142,13 +142,13 @@ typedef struct RepositoryManagerParser_Ctx_struct RepositoryManagerParser, * pRe
 
 
 
-#ifdef  ANTLR3_WINDOWS
-// Disable: Unreferenced parameter,              - Rules with parameters that are not used
-//          constant conditional,              - ANTLR realizes that a prediction is always true (synpred usually)
-//          initialized but unused variable          - tree rewrite variables declared but not needed
-//          Unreferenced local variable            - lexer rule declares but does not always use _type
-//          potentially unitialized variable used      - retval always returned from a rule
-//      unreferenced local function has been removed  - susually getTokenNames or freeScope, they can go without warnigns
+#ifdef	ANTLR3_WINDOWS
+// Disable: Unreferenced parameter,							- Rules with parameters that are not used
+//          constant conditional,							- ANTLR realizes that a prediction is always true (synpred usually)
+//          initialized but unused variable					- tree rewrite variables declared but not needed
+//          Unreferenced local variable						- lexer rule declares but does not always use _type
+//          potentially unitialized variable used			- retval always returned from a rule
+//			unreferenced local function has been removed	- susually getTokenNames or freeScope, they can go without warnigns
 //
 // These are only really displayed at warning level /W4 but that is the code ideal I am aiming at
 // and the codegen must generate some of these warnings by necessity, apart from 4100, which is
@@ -168,7 +168,7 @@ typedef struct RepositoryManagerParser_credential_return_struct
      */
     pANTLR3_COMMON_TOKEN    start;
     pANTLR3_COMMON_TOKEN    stop;
-    pANTLR3_BASE_TREE  tree;
+    pANTLR3_BASE_TREE	tree;
 
 }
     RepositoryManagerParser_credential_return;
@@ -181,7 +181,7 @@ typedef struct RepositoryManagerParser_public_key_return_struct
      */
     pANTLR3_COMMON_TOKEN    start;
     pANTLR3_COMMON_TOKEN    stop;
-    pANTLR3_BASE_TREE  tree;
+    pANTLR3_BASE_TREE	tree;
 
 }
     RepositoryManagerParser_public_key_return;
@@ -194,7 +194,7 @@ typedef struct RepositoryManagerParser_signature_return_struct
      */
     pANTLR3_COMMON_TOKEN    start;
     pANTLR3_COMMON_TOKEN    stop;
-    pANTLR3_BASE_TREE  tree;
+    pANTLR3_BASE_TREE	tree;
 
 }
     RepositoryManagerParser_signature_return;
@@ -207,7 +207,7 @@ typedef struct RepositoryManagerParser_validity_return_struct
      */
     pANTLR3_COMMON_TOKEN    start;
     pANTLR3_COMMON_TOKEN    stop;
-    pANTLR3_BASE_TREE  tree;
+    pANTLR3_BASE_TREE	tree;
 
 }
     RepositoryManagerParser_validity_return;
@@ -220,7 +220,7 @@ typedef struct RepositoryManagerParser_time_tuple_return_struct
      */
     pANTLR3_COMMON_TOKEN    start;
     pANTLR3_COMMON_TOKEN    stop;
-    pANTLR3_BASE_TREE  tree;
+    pANTLR3_BASE_TREE	tree;
 
 }
     RepositoryManagerParser_time_tuple_return;
@@ -233,7 +233,7 @@ typedef struct RepositoryManagerParser_certificate_return_struct
      */
     pANTLR3_COMMON_TOKEN    start;
     pANTLR3_COMMON_TOKEN    stop;
-    pANTLR3_BASE_TREE  tree;
+    pANTLR3_BASE_TREE	tree;
 
 }
     RepositoryManagerParser_certificate_return;
@@ -246,7 +246,7 @@ typedef struct RepositoryManagerParser_clause_return_struct
      */
     pANTLR3_COMMON_TOKEN    start;
     pANTLR3_COMMON_TOKEN    stop;
-    pANTLR3_BASE_TREE  tree;
+    pANTLR3_BASE_TREE	tree;
 
 }
     RepositoryManagerParser_clause_return;
@@ -259,7 +259,7 @@ typedef struct RepositoryManagerParser_literal_return_struct
      */
     pANTLR3_COMMON_TOKEN    start;
     pANTLR3_COMMON_TOKEN    stop;
-    pANTLR3_BASE_TREE  tree;
+    pANTLR3_BASE_TREE	tree;
 
 }
     RepositoryManagerParser_literal_return;
@@ -272,7 +272,7 @@ typedef struct RepositoryManagerParser_predicate_return_struct
      */
     pANTLR3_COMMON_TOKEN    start;
     pANTLR3_COMMON_TOKEN    stop;
-    pANTLR3_BASE_TREE  tree;
+    pANTLR3_BASE_TREE	tree;
 
 }
     RepositoryManagerParser_predicate_return;
@@ -285,7 +285,7 @@ typedef struct RepositoryManagerParser_challenge_return_struct
      */
     pANTLR3_COMMON_TOKEN    start;
     pANTLR3_COMMON_TOKEN    stop;
-    pANTLR3_BASE_TREE  tree;
+    pANTLR3_BASE_TREE	tree;
 
 }
     RepositoryManagerParser_challenge_return;
@@ -298,7 +298,7 @@ typedef struct RepositoryManagerParser_response_return_struct
      */
     pANTLR3_COMMON_TOKEN    start;
     pANTLR3_COMMON_TOKEN    stop;
-    pANTLR3_BASE_TREE  tree;
+    pANTLR3_BASE_TREE	tree;
 
 }
     RepositoryManagerParser_response_return;
@@ -311,7 +311,7 @@ typedef struct RepositoryManagerParser_request_return_struct
      */
     pANTLR3_COMMON_TOKEN    start;
     pANTLR3_COMMON_TOKEN    stop;
-    pANTLR3_BASE_TREE  tree;
+    pANTLR3_BASE_TREE	tree;
 
 }
     RepositoryManagerParser_request_return;
@@ -324,7 +324,7 @@ typedef struct RepositoryManagerParser_op_return_struct
      */
     pANTLR3_COMMON_TOKEN    start;
     pANTLR3_COMMON_TOKEN    stop;
-    pANTLR3_BASE_TREE  tree;
+    pANTLR3_BASE_TREE	tree;
 
 }
     RepositoryManagerParser_op_return;
@@ -337,7 +337,7 @@ typedef struct RepositoryManagerParser_reply_return_struct
      */
     pANTLR3_COMMON_TOKEN    start;
     pANTLR3_COMMON_TOKEN    stop;
-    pANTLR3_BASE_TREE  tree;
+    pANTLR3_BASE_TREE	tree;
 
 }
     RepositoryManagerParser_reply_return;
@@ -350,7 +350,7 @@ typedef struct RepositoryManagerParser_result_return_struct
      */
     pANTLR3_COMMON_TOKEN    start;
     pANTLR3_COMMON_TOKEN    stop;
-    pANTLR3_BASE_TREE  tree;
+    pANTLR3_BASE_TREE	tree;
 
 }
     RepositoryManagerParser_result_return;
@@ -363,7 +363,7 @@ typedef struct RepositoryManagerParser_text_return_struct
      */
     pANTLR3_COMMON_TOKEN    start;
     pANTLR3_COMMON_TOKEN    stop;
-    pANTLR3_BASE_TREE  tree;
+    pANTLR3_BASE_TREE	tree;
 
 }
     RepositoryManagerParser_text_return;
@@ -376,7 +376,7 @@ typedef struct RepositoryManagerParser_base64_return_struct
      */
     pANTLR3_COMMON_TOKEN    start;
     pANTLR3_COMMON_TOKEN    stop;
-    pANTLR3_BASE_TREE  tree;
+    pANTLR3_BASE_TREE	tree;
 
 }
     RepositoryManagerParser_base64_return;
@@ -389,7 +389,7 @@ typedef struct RepositoryManagerParser_num_return_struct
      */
     pANTLR3_COMMON_TOKEN    start;
     pANTLR3_COMMON_TOKEN    stop;
-    pANTLR3_BASE_TREE  tree;
+    pANTLR3_BASE_TREE	tree;
 
 }
     RepositoryManagerParser_num_return;
@@ -409,66 +409,66 @@ struct RepositoryManagerParser_Ctx_struct
     pANTLR3_PARSER   pParser;
 
      RepositoryManagerParser_credential_return
-     (*credential)  (struct RepositoryManagerParser_Ctx_struct * ctx);
+     (*credential)	(struct RepositoryManagerParser_Ctx_struct * ctx);
 
      RepositoryManagerParser_public_key_return
-     (*public_key)  (struct RepositoryManagerParser_Ctx_struct * ctx);
+     (*public_key)	(struct RepositoryManagerParser_Ctx_struct * ctx);
 
      RepositoryManagerParser_signature_return
-     (*signature)  (struct RepositoryManagerParser_Ctx_struct * ctx);
+     (*signature)	(struct RepositoryManagerParser_Ctx_struct * ctx);
 
      RepositoryManagerParser_validity_return
-     (*validity)  (struct RepositoryManagerParser_Ctx_struct * ctx);
+     (*validity)	(struct RepositoryManagerParser_Ctx_struct * ctx);
 
      RepositoryManagerParser_time_tuple_return
-     (*time_tuple)  (struct RepositoryManagerParser_Ctx_struct * ctx);
+     (*time_tuple)	(struct RepositoryManagerParser_Ctx_struct * ctx);
 
      RepositoryManagerParser_certificate_return
-     (*certificate)  (struct RepositoryManagerParser_Ctx_struct * ctx);
+     (*certificate)	(struct RepositoryManagerParser_Ctx_struct * ctx);
 
      RepositoryManagerParser_clause_return
-     (*clause)  (struct RepositoryManagerParser_Ctx_struct * ctx);
+     (*clause)	(struct RepositoryManagerParser_Ctx_struct * ctx);
 
      RepositoryManagerParser_literal_return
-     (*literal)  (struct RepositoryManagerParser_Ctx_struct * ctx);
+     (*literal)	(struct RepositoryManagerParser_Ctx_struct * ctx);
 
      RepositoryManagerParser_predicate_return
-     (*predicate)  (struct RepositoryManagerParser_Ctx_struct * ctx);
+     (*predicate)	(struct RepositoryManagerParser_Ctx_struct * ctx);
 
      RepositoryManagerParser_challenge_return
-     (*challenge)  (struct RepositoryManagerParser_Ctx_struct * ctx);
+     (*challenge)	(struct RepositoryManagerParser_Ctx_struct * ctx);
 
      RepositoryManagerParser_response_return
-     (*response)  (struct RepositoryManagerParser_Ctx_struct * ctx);
+     (*response)	(struct RepositoryManagerParser_Ctx_struct * ctx);
 
      RepositoryManagerParser_request_return
-     (*request)  (struct RepositoryManagerParser_Ctx_struct * ctx);
+     (*request)	(struct RepositoryManagerParser_Ctx_struct * ctx);
 
      RepositoryManagerParser_op_return
-     (*op)  (struct RepositoryManagerParser_Ctx_struct * ctx);
+     (*op)	(struct RepositoryManagerParser_Ctx_struct * ctx);
 
      RepositoryManagerParser_reply_return
-     (*reply)  (struct RepositoryManagerParser_Ctx_struct * ctx);
+     (*reply)	(struct RepositoryManagerParser_Ctx_struct * ctx);
 
      RepositoryManagerParser_result_return
-     (*result)  (struct RepositoryManagerParser_Ctx_struct * ctx);
+     (*result)	(struct RepositoryManagerParser_Ctx_struct * ctx);
 
      RepositoryManagerParser_text_return
-     (*text)  (struct RepositoryManagerParser_Ctx_struct * ctx);
+     (*text)	(struct RepositoryManagerParser_Ctx_struct * ctx);
 
      RepositoryManagerParser_base64_return
-     (*base64)  (struct RepositoryManagerParser_Ctx_struct * ctx);
+     (*base64)	(struct RepositoryManagerParser_Ctx_struct * ctx);
 
      RepositoryManagerParser_num_return
-     (*num)  (struct RepositoryManagerParser_Ctx_struct * ctx);
+     (*num)	(struct RepositoryManagerParser_Ctx_struct * ctx);
     // Delegated rules
 
     const char * (*getGrammarFileName)();
     void            (*reset)  (struct RepositoryManagerParser_Ctx_struct * ctx);
-    void      (*free)   (struct RepositoryManagerParser_Ctx_struct * ctx);
+    void	    (*free)   (struct RepositoryManagerParser_Ctx_struct * ctx);
 /* @headerFile.members() */
-pANTLR3_BASE_TREE_ADAPTOR  adaptor;
-pANTLR3_VECTOR_FACTORY    vectors;
+pANTLR3_BASE_TREE_ADAPTOR	adaptor;
+pANTLR3_VECTOR_FACTORY		vectors;
 /* End @headerFile.members() */
 };
 
@@ -492,11 +492,11 @@ parser
  * so we just undef it here for now. That isn't the value we get back from C recognizers
  * anyway. We are looking for ANTLR3_TOKEN_EOF.
  */
-#ifdef  EOF
-#undef  EOF
+#ifdef	EOF
+#undef	EOF
 #endif
-#ifdef  Tokens
-#undef  Tokens
+#ifdef	Tokens
+#undef	Tokens
 #endif
 #define EOF      -1
 #define T__39      39
@@ -542,9 +542,9 @@ parser
 #define VALIDITY_HEADER      36
 #define VALUE      37
 #define WS      38
-#ifdef  EOF
-#undef  EOF
-#define  EOF  ANTLR3_TOKEN_EOF
+#ifdef	EOF
+#undef	EOF
+#define	EOF	ANTLR3_TOKEN_EOF
 #endif
 
 #ifndef TOKENSOURCE

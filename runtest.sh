@@ -11,7 +11,13 @@
 ##
 # XSB
 ##
-export XSB_HOME=/home/stbadmin/tmp/XSB
+export XSB_HOME=/home/stbadmin/repository-manager/XSB/bin
+export PATH=$XSB_HOME:$PATH
+
+HAVE_XSB=`which xsb`
+
+echo "HAVE_XSB: $HAVE_XSB"
+echo
 
 ##
 # ANTLR

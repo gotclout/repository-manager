@@ -187,13 +187,13 @@ typedef struct RepositoryManagerLexer_Ctx_struct RepositoryManagerLexer, * pRepo
 
 
 
-#ifdef  ANTLR3_WINDOWS
-// Disable: Unreferenced parameter,              - Rules with parameters that are not used
-//          constant conditional,              - ANTLR realizes that a prediction is always true (synpred usually)
-//          initialized but unused variable          - tree rewrite variables declared but not needed
-//          Unreferenced local variable            - lexer rule declares but does not always use _type
-//          potentially unitialized variable used      - retval always returned from a rule
-//      unreferenced local function has been removed  - susually getTokenNames or freeScope, they can go without warnigns
+#ifdef	ANTLR3_WINDOWS
+// Disable: Unreferenced parameter,							- Rules with parameters that are not used
+//          constant conditional,							- ANTLR realizes that a prediction is always true (synpred usually)
+//          initialized but unused variable					- tree rewrite variables declared but not needed
+//          Unreferenced local variable						- lexer rule declares but does not always use _type
+//          potentially unitialized variable used			- retval always returned from a rule
+//			unreferenced local function has been removed	- susually getTokenNames or freeScope, they can go without warnigns
 //
 // These are only really displayed at warning level /W4 but that is the code ideal I am aiming at
 // and the codegen must generate some of these warnings by necessity, apart from 4100, which is
@@ -220,103 +220,103 @@ struct RepositoryManagerLexer_Ctx_struct
     pANTLR3_LEXER    pLexer;
 
      void
-     (*mT__39)  (struct RepositoryManagerLexer_Ctx_struct * ctx);
+     (*mT__39)	(struct RepositoryManagerLexer_Ctx_struct * ctx);
 
      void
-     (*mT__40)  (struct RepositoryManagerLexer_Ctx_struct * ctx);
+     (*mT__40)	(struct RepositoryManagerLexer_Ctx_struct * ctx);
 
      void
-     (*mT__41)  (struct RepositoryManagerLexer_Ctx_struct * ctx);
+     (*mT__41)	(struct RepositoryManagerLexer_Ctx_struct * ctx);
 
      void
-     (*mT__42)  (struct RepositoryManagerLexer_Ctx_struct * ctx);
+     (*mT__42)	(struct RepositoryManagerLexer_Ctx_struct * ctx);
 
      void
-     (*mT__43)  (struct RepositoryManagerLexer_Ctx_struct * ctx);
+     (*mT__43)	(struct RepositoryManagerLexer_Ctx_struct * ctx);
 
      void
-     (*mT__44)  (struct RepositoryManagerLexer_Ctx_struct * ctx);
+     (*mT__44)	(struct RepositoryManagerLexer_Ctx_struct * ctx);
 
      void
-     (*mT__45)  (struct RepositoryManagerLexer_Ctx_struct * ctx);
+     (*mT__45)	(struct RepositoryManagerLexer_Ctx_struct * ctx);
 
      void
-     (*mT__46)  (struct RepositoryManagerLexer_Ctx_struct * ctx);
+     (*mT__46)	(struct RepositoryManagerLexer_Ctx_struct * ctx);
 
      void
-     (*mWS)  (struct RepositoryManagerLexer_Ctx_struct * ctx);
+     (*mWS)	(struct RepositoryManagerLexer_Ctx_struct * ctx);
 
      void
-     (*mNUM)  (struct RepositoryManagerLexer_Ctx_struct * ctx);
+     (*mNUM)	(struct RepositoryManagerLexer_Ctx_struct * ctx);
 
      void
-     (*mTEXT)  (struct RepositoryManagerLexer_Ctx_struct * ctx);
+     (*mTEXT)	(struct RepositoryManagerLexer_Ctx_struct * ctx);
 
      void
-     (*mCREDENTIAL_HEADER)  (struct RepositoryManagerLexer_Ctx_struct * ctx);
+     (*mCREDENTIAL_HEADER)	(struct RepositoryManagerLexer_Ctx_struct * ctx);
 
      void
-     (*mCREDENTIAL_END)  (struct RepositoryManagerLexer_Ctx_struct * ctx);
+     (*mCREDENTIAL_END)	(struct RepositoryManagerLexer_Ctx_struct * ctx);
 
      void
-     (*mPUBLIC_KEY_HEADER)  (struct RepositoryManagerLexer_Ctx_struct * ctx);
+     (*mPUBLIC_KEY_HEADER)	(struct RepositoryManagerLexer_Ctx_struct * ctx);
 
      void
-     (*mPUBLIC_KEY_END)  (struct RepositoryManagerLexer_Ctx_struct * ctx);
+     (*mPUBLIC_KEY_END)	(struct RepositoryManagerLexer_Ctx_struct * ctx);
 
      void
-     (*mSIGNATURE_HEADER)  (struct RepositoryManagerLexer_Ctx_struct * ctx);
+     (*mSIGNATURE_HEADER)	(struct RepositoryManagerLexer_Ctx_struct * ctx);
 
      void
-     (*mSIGNATURE_END)  (struct RepositoryManagerLexer_Ctx_struct * ctx);
+     (*mSIGNATURE_END)	(struct RepositoryManagerLexer_Ctx_struct * ctx);
 
      void
-     (*mVALIDITY_HEADER)  (struct RepositoryManagerLexer_Ctx_struct * ctx);
+     (*mVALIDITY_HEADER)	(struct RepositoryManagerLexer_Ctx_struct * ctx);
 
      void
-     (*mVALIDITY_END)  (struct RepositoryManagerLexer_Ctx_struct * ctx);
+     (*mVALIDITY_END)	(struct RepositoryManagerLexer_Ctx_struct * ctx);
 
      void
-     (*mCERT_HEADER)  (struct RepositoryManagerLexer_Ctx_struct * ctx);
+     (*mCERT_HEADER)	(struct RepositoryManagerLexer_Ctx_struct * ctx);
 
      void
-     (*mCERT_END)  (struct RepositoryManagerLexer_Ctx_struct * ctx);
+     (*mCERT_END)	(struct RepositoryManagerLexer_Ctx_struct * ctx);
 
      void
-     (*mCHALLENGE_HEADER)  (struct RepositoryManagerLexer_Ctx_struct * ctx);
+     (*mCHALLENGE_HEADER)	(struct RepositoryManagerLexer_Ctx_struct * ctx);
 
      void
-     (*mCHALLENGE_END)  (struct RepositoryManagerLexer_Ctx_struct * ctx);
+     (*mCHALLENGE_END)	(struct RepositoryManagerLexer_Ctx_struct * ctx);
 
      void
-     (*mRESPONSE_HEADER)  (struct RepositoryManagerLexer_Ctx_struct * ctx);
+     (*mRESPONSE_HEADER)	(struct RepositoryManagerLexer_Ctx_struct * ctx);
 
      void
-     (*mRESPONSE_END)  (struct RepositoryManagerLexer_Ctx_struct * ctx);
+     (*mRESPONSE_END)	(struct RepositoryManagerLexer_Ctx_struct * ctx);
 
      void
-     (*mREQUEST_HEADER)  (struct RepositoryManagerLexer_Ctx_struct * ctx);
+     (*mREQUEST_HEADER)	(struct RepositoryManagerLexer_Ctx_struct * ctx);
 
      void
-     (*mREQUEST_END)  (struct RepositoryManagerLexer_Ctx_struct * ctx);
+     (*mREQUEST_END)	(struct RepositoryManagerLexer_Ctx_struct * ctx);
 
      void
-     (*mREPLY_HEADER)  (struct RepositoryManagerLexer_Ctx_struct * ctx);
+     (*mREPLY_HEADER)	(struct RepositoryManagerLexer_Ctx_struct * ctx);
 
      void
-     (*mREPLY_END)  (struct RepositoryManagerLexer_Ctx_struct * ctx);
+     (*mREPLY_END)	(struct RepositoryManagerLexer_Ctx_struct * ctx);
 
      void
-     (*mNOT_BEFORE)  (struct RepositoryManagerLexer_Ctx_struct * ctx);
+     (*mNOT_BEFORE)	(struct RepositoryManagerLexer_Ctx_struct * ctx);
 
      void
-     (*mNOT_AFTER)  (struct RepositoryManagerLexer_Ctx_struct * ctx);
+     (*mNOT_AFTER)	(struct RepositoryManagerLexer_Ctx_struct * ctx);
 
      void
-     (*mTokens)  (struct RepositoryManagerLexer_Ctx_struct * ctx);
+     (*mTokens)	(struct RepositoryManagerLexer_Ctx_struct * ctx);
     const char * (*getGrammarFileName)();
     void            (*reset)  (struct RepositoryManagerLexer_Ctx_struct * ctx);
-    void      (*free)   (struct RepositoryManagerLexer_Ctx_struct * ctx);
+    void	    (*free)   (struct RepositoryManagerLexer_Ctx_struct * ctx);
 };
 
 // Function protoypes for the constructor functions that external translation units
@@ -339,11 +339,11 @@ lexer
  * so we just undef it here for now. That isn't the value we get back from C recognizers
  * anyway. We are looking for ANTLR3_TOKEN_EOF.
  */
-#ifdef  EOF
-#undef  EOF
+#ifdef	EOF
+#undef	EOF
 #endif
-#ifdef  Tokens
-#undef  Tokens
+#ifdef	Tokens
+#undef	Tokens
 #endif
 #define EOF      -1
 #define T__39      39
@@ -389,9 +389,9 @@ lexer
 #define VALIDITY_HEADER      36
 #define VALUE      37
 #define WS      38
-#ifdef  EOF
-#undef  EOF
-#define  EOF  ANTLR3_TOKEN_EOF
+#ifdef	EOF
+#undef	EOF
+#define	EOF	ANTLR3_TOKEN_EOF
 #endif
 
 #ifndef TOKENSOURCE

@@ -74,98 +74,98 @@
  * details of the interface inheritance.
  */
 
-#define    CTX  ctx
+#define  	CTX	ctx
 
 /* Aids in accessing scopes for grammar programmers
  */
-#undef  SCOPE_TYPE
-#undef  SCOPE_STACK
-#undef  SCOPE_TOP
-#define  SCOPE_TYPE(scope)   pRepositoryManagerParser_##scope##_SCOPE
+#undef	SCOPE_TYPE
+#undef	SCOPE_STACK
+#undef	SCOPE_TOP
+#define	SCOPE_TYPE(scope)   pRepositoryManagerParser_##scope##_SCOPE
 #define SCOPE_STACK(scope)  pRepositoryManagerParser_##scope##Stack
-#define  SCOPE_TOP(scope)    ctx->pRepositoryManagerParser_##scope##Top
-#define  SCOPE_SIZE(scope)    ctx->pRepositoryManagerParser_##scope##Stack_limit
-#define SCOPE_INSTANCE(scope, i)  (ctx->SCOPE_STACK(scope)->get(ctx->SCOPE_STACK(scope),i))
+#define	SCOPE_TOP(scope)    ctx->pRepositoryManagerParser_##scope##Top
+#define	SCOPE_SIZE(scope)		ctx->pRepositoryManagerParser_##scope##Stack_limit
+#define SCOPE_INSTANCE(scope, i)	(ctx->SCOPE_STACK(scope)->get(ctx->SCOPE_STACK(scope),i))
 
 /* Macros for accessing things in the parser
  */
 
-#undef      PARSER
-#undef      RECOGNIZER
-#undef      HAVEPARSEDRULE
-#undef    MEMOIZE
-#undef      INPUT
-#undef      STRSTREAM
-#undef      HASEXCEPTION
-#undef      EXCEPTION
-#undef      MATCHT
-#undef      MATCHANYT
-#undef      FOLLOWSTACK
-#undef      FOLLOWPUSH
-#undef      FOLLOWPOP
-#undef      PRECOVER
-#undef      PREPORTERROR
-#undef      LA
-#undef      LT
-#undef      CONSTRUCTEX
-#undef      CONSUME
-#undef      MARK
-#undef      REWIND
-#undef      REWINDLAST
-#undef      PERRORRECOVERY
-#undef      HASFAILED
-#undef      FAILEDFLAG
-#undef      RECOVERFROMMISMATCHEDSET
-#undef      RECOVERFROMMISMATCHEDELEMENT
-#undef    INDEX
+#undef	    PARSER
+#undef	    RECOGNIZER
+#undef	    HAVEPARSEDRULE
+#undef		MEMOIZE
+#undef	    INPUT
+#undef	    STRSTREAM
+#undef	    HASEXCEPTION
+#undef	    EXCEPTION
+#undef	    MATCHT
+#undef	    MATCHANYT
+#undef	    FOLLOWSTACK
+#undef	    FOLLOWPUSH
+#undef	    FOLLOWPOP
+#undef	    PRECOVER
+#undef	    PREPORTERROR
+#undef	    LA
+#undef	    LT
+#undef	    CONSTRUCTEX
+#undef	    CONSUME
+#undef	    MARK
+#undef	    REWIND
+#undef	    REWINDLAST
+#undef	    PERRORRECOVERY
+#undef	    HASFAILED
+#undef	    FAILEDFLAG
+#undef	    RECOVERFROMMISMATCHEDSET
+#undef	    RECOVERFROMMISMATCHEDELEMENT
+#undef		INDEX
 #undef      ADAPTOR
-#undef    SEEK
-#undef      RULEMEMO
-#undef    DBG
+#undef		SEEK
+#undef	    RULEMEMO
+#undef		DBG
 
-#define      PARSER        ctx->pParser
-#define      RECOGNIZER        PARSER->rec
-#define      PSRSTATE        RECOGNIZER->state
-#define      HAVEPARSEDRULE(r)      RECOGNIZER->alreadyParsedRule(RECOGNIZER, r)
-#define      MEMOIZE(ri,si)      RECOGNIZER->memoize(RECOGNIZER, ri, si)
-#define      INPUT        PARSER->tstream
-#define      STRSTREAM        INPUT
-#define      ISTREAM        INPUT->istream
-#define      INDEX()        ISTREAM->index(INPUT->istream)
-#define      HASEXCEPTION()      (PSRSTATE->error == ANTLR3_TRUE)
-#define      EXCEPTION        PSRSTATE->exception
-#define      MATCHT(t, fs)      RECOGNIZER->match(RECOGNIZER, t, fs)
-#define      MATCHANYT()        RECOGNIZER->matchAny(RECOGNIZER)
-#define      FOLLOWSTACK        PSRSTATE->following
+#define	    PARSER				ctx->pParser
+#define	    RECOGNIZER				PARSER->rec
+#define	    PSRSTATE				RECOGNIZER->state
+#define	    HAVEPARSEDRULE(r)			RECOGNIZER->alreadyParsedRule(RECOGNIZER, r)
+#define	    MEMOIZE(ri,si)			RECOGNIZER->memoize(RECOGNIZER, ri, si)
+#define	    INPUT				PARSER->tstream
+#define	    STRSTREAM				INPUT
+#define	    ISTREAM				INPUT->istream
+#define	    INDEX()				ISTREAM->index(INPUT->istream)
+#define	    HASEXCEPTION()			(PSRSTATE->error == ANTLR3_TRUE)
+#define	    EXCEPTION				PSRSTATE->exception
+#define	    MATCHT(t, fs)			RECOGNIZER->match(RECOGNIZER, t, fs)
+#define	    MATCHANYT()				RECOGNIZER->matchAny(RECOGNIZER)
+#define	    FOLLOWSTACK				PSRSTATE->following
 #ifdef  SKIP_FOLLOW_SETS
-#define      FOLLOWPUSH(x)
-#define      FOLLOWPOP()
+#define	    FOLLOWPUSH(x)
+#define	    FOLLOWPOP()
 #else
-#define      FOLLOWPUSH(x)      FOLLOWSTACK->push(FOLLOWSTACK, ((void *)(&(x))), NULL)
-#define      FOLLOWPOP()        FOLLOWSTACK->pop(FOLLOWSTACK)
+#define	    FOLLOWPUSH(x)			FOLLOWSTACK->push(FOLLOWSTACK, ((void *)(&(x))), NULL)
+#define	    FOLLOWPOP()				FOLLOWSTACK->pop(FOLLOWSTACK)
 #endif
-#define      PRECOVER()        RECOGNIZER->recover(RECOGNIZER)
-#define      PREPORTERROR()      RECOGNIZER->reportError(RECOGNIZER)
-#define      LA(n)        INPUT->istream->_LA(ISTREAM, n)
-#define      LT(n)        INPUT->_LT(INPUT, n)
-#define      CONSTRUCTEX()      RECOGNIZER->exConstruct(RECOGNIZER)
-#define      CONSUME()        ISTREAM->consume(ISTREAM)
-#define      MARK()        ISTREAM->mark(ISTREAM)
-#define      REWIND(m)        ISTREAM->rewind(ISTREAM, m)
-#define      REWINDLAST()      ISTREAM->rewindLast(ISTREAM)
-#define      SEEK(n)        ISTREAM->seek(ISTREAM, n)
-#define      PERRORRECOVERY      PSRSTATE->errorRecovery
-#define      FAILEDFLAG        PSRSTATE->failed
-#define      HASFAILED()        (FAILEDFLAG == ANTLR3_TRUE)
-#define      BACKTRACKING      PSRSTATE->backtracking
-#define      RECOVERFROMMISMATCHEDSET(s)    RECOGNIZER->recoverFromMismatchedSet(RECOGNIZER, s)
-#define      RECOVERFROMMISMATCHEDELEMENT(e)  RECOGNIZER->recoverFromMismatchedElement(RECOGNIZER, s)
+#define	    PRECOVER()				RECOGNIZER->recover(RECOGNIZER)
+#define	    PREPORTERROR()			RECOGNIZER->reportError(RECOGNIZER)
+#define	    LA(n)				INPUT->istream->_LA(ISTREAM, n)
+#define	    LT(n)				INPUT->_LT(INPUT, n)
+#define	    CONSTRUCTEX()			RECOGNIZER->exConstruct(RECOGNIZER)
+#define	    CONSUME()				ISTREAM->consume(ISTREAM)
+#define	    MARK()				ISTREAM->mark(ISTREAM)
+#define	    REWIND(m)				ISTREAM->rewind(ISTREAM, m)
+#define	    REWINDLAST()			ISTREAM->rewindLast(ISTREAM)
+#define	    SEEK(n)				ISTREAM->seek(ISTREAM, n)
+#define	    PERRORRECOVERY			PSRSTATE->errorRecovery
+#define	    FAILEDFLAG				PSRSTATE->failed
+#define	    HASFAILED()				(FAILEDFLAG == ANTLR3_TRUE)
+#define	    BACKTRACKING			PSRSTATE->backtracking
+#define	    RECOVERFROMMISMATCHEDSET(s)		RECOGNIZER->recoverFromMismatchedSet(RECOGNIZER, s)
+#define	    RECOVERFROMMISMATCHEDELEMENT(e)	RECOGNIZER->recoverFromMismatchedElement(RECOGNIZER, s)
 #define     ADAPTOR                         ctx->adaptor
-#define    RULEMEMO            PSRSTATE->ruleMemo
-#define    DBG                RECOGNIZER->debugger
+#define		RULEMEMO						PSRSTATE->ruleMemo
+#define		DBG								RECOGNIZER->debugger
 
 
-#define    TOKTEXT(tok, txt)        tok, (pANTLR3_UINT8)txt
+#define		TOKTEXT(tok, txt)				tok, (pANTLR3_UINT8)txt
 
 /* The 4 tokens defined below may well clash with your own #defines or token types. If so
  * then for the present you must use different names for your defines as these are hard coded
@@ -173,10 +173,10 @@
  * we can change this in a forthcoming release. I deliberately do not #undef these
  * here as this will at least give you a redefined error somewhere if they clash.
  */
-#define      UP      ANTLR3_TOKEN_UP
-#define      DOWN    ANTLR3_TOKEN_DOWN
-#define      EOR      ANTLR3_TOKEN_EOR
-#define      INVALID ANTLR3_TOKEN_INVALID
+#define	    UP	    ANTLR3_TOKEN_UP
+#define	    DOWN    ANTLR3_TOKEN_DOWN
+#define	    EOR	    ANTLR3_TOKEN_EOR
+#define	    INVALID ANTLR3_TOKEN_INVALID
 
 
 /* =============================================================================
@@ -253,66 +253,66 @@ pANTLR3_UINT8   RepositoryManagerParserTokenNames[43+4]
 //
 static 
  RepositoryManagerParser_credential_return
-  credential    (pRepositoryManagerParser ctx);
+	credential    (pRepositoryManagerParser ctx);
 static 
  RepositoryManagerParser_public_key_return
-  public_key    (pRepositoryManagerParser ctx);
+	public_key    (pRepositoryManagerParser ctx);
 static 
  RepositoryManagerParser_signature_return
-  signature    (pRepositoryManagerParser ctx);
+	signature    (pRepositoryManagerParser ctx);
 static 
  RepositoryManagerParser_validity_return
-  validity    (pRepositoryManagerParser ctx);
+	validity    (pRepositoryManagerParser ctx);
 static 
  RepositoryManagerParser_time_tuple_return
-  time_tuple    (pRepositoryManagerParser ctx);
+	time_tuple    (pRepositoryManagerParser ctx);
 static 
  RepositoryManagerParser_certificate_return
-  certificate    (pRepositoryManagerParser ctx);
+	certificate    (pRepositoryManagerParser ctx);
 static 
  RepositoryManagerParser_clause_return
-  clause    (pRepositoryManagerParser ctx);
+	clause    (pRepositoryManagerParser ctx);
 static 
  RepositoryManagerParser_literal_return
-  literal    (pRepositoryManagerParser ctx);
+	literal    (pRepositoryManagerParser ctx);
 static 
  RepositoryManagerParser_predicate_return
-  predicate    (pRepositoryManagerParser ctx);
+	predicate    (pRepositoryManagerParser ctx);
 static 
  RepositoryManagerParser_challenge_return
-  challenge    (pRepositoryManagerParser ctx);
+	challenge    (pRepositoryManagerParser ctx);
 static 
  RepositoryManagerParser_response_return
-  response    (pRepositoryManagerParser ctx);
+	response    (pRepositoryManagerParser ctx);
 static 
  RepositoryManagerParser_request_return
-  request    (pRepositoryManagerParser ctx);
+	request    (pRepositoryManagerParser ctx);
 static 
  RepositoryManagerParser_op_return
-  op    (pRepositoryManagerParser ctx);
+	op    (pRepositoryManagerParser ctx);
 static 
  RepositoryManagerParser_reply_return
-  reply    (pRepositoryManagerParser ctx);
+	reply    (pRepositoryManagerParser ctx);
 static 
  RepositoryManagerParser_result_return
-  result    (pRepositoryManagerParser ctx);
+	result    (pRepositoryManagerParser ctx);
 static 
  RepositoryManagerParser_text_return
-  text    (pRepositoryManagerParser ctx);
+	text    (pRepositoryManagerParser ctx);
 static 
  RepositoryManagerParser_base64_return
-  base64    (pRepositoryManagerParser ctx);
+	base64    (pRepositoryManagerParser ctx);
 static 
  RepositoryManagerParser_num_return
-  num    (pRepositoryManagerParser ctx);
-static void  RepositoryManagerParserFree(pRepositoryManagerParser ctx);
+	num    (pRepositoryManagerParser ctx);
+static void	RepositoryManagerParserFree(pRepositoryManagerParser ctx);
 static void     RepositoryManagerParserReset (pRepositoryManagerParser ctx);
 
 /* For use in tree output where we are accumulating rule labels via label += ruleRef
  * we need a function that knows how to free a return scope when the list is destroyed.
  * We cannot just use ANTLR3_FREE because in debug tracking mode, this is a macro.
  */
-static  void ANTLR3_CDECL freeScope(void * scope)
+static	void ANTLR3_CDECL freeScope(void * scope)
 {
     ANTLR3_FREE(scope);
 }
@@ -325,7 +325,7 @@ static const char fileName[] = "/home/stbadmin/repository-manager/src/parser/Rep
  */
 static const char * getGrammarFileName()
 {
-  return fileName;
+	return fileName;
 }
 /** \brief Create a new RepositoryManagerParser parser and return a context for it.
  *
@@ -336,9 +336,9 @@ static const char * getGrammarFileName()
 ANTLR3_API pRepositoryManagerParser
 RepositoryManagerParserNew   (pANTLR3_COMMON_TOKEN_STREAM instream)
 {
-  // See if we can create a new parser with the standard constructor
-  //
-  return RepositoryManagerParserNewSSD(instream, NULL);
+	// See if we can create a new parser with the standard constructor
+	//
+	return RepositoryManagerParserNewSSD(instream, NULL);
 }
 
 /** \brief Create a new RepositoryManagerParser parser and return a context for it.
@@ -350,14 +350,14 @@ RepositoryManagerParserNew   (pANTLR3_COMMON_TOKEN_STREAM instream)
 ANTLR3_API pRepositoryManagerParser
 RepositoryManagerParserNewSSD   (pANTLR3_COMMON_TOKEN_STREAM instream, pANTLR3_RECOGNIZER_SHARED_STATE state)
 {
-    pRepositoryManagerParser ctx;      /* Context structure we will build and return   */
+    pRepositoryManagerParser ctx;	    /* Context structure we will build and return   */
 
-    ctx  = (pRepositoryManagerParser) ANTLR3_CALLOC(1, sizeof(RepositoryManagerParser));
+    ctx	= (pRepositoryManagerParser) ANTLR3_CALLOC(1, sizeof(RepositoryManagerParser));
 
-    if  (ctx == NULL)
+    if	(ctx == NULL)
     {
-    // Failed to allocate memory for parser context
-    //
+		// Failed to allocate memory for parser context
+		//
         return  NULL;
     }
 
@@ -374,36 +374,36 @@ RepositoryManagerParserNewSSD   (pANTLR3_COMMON_TOKEN_STREAM instream, pANTLR3_R
 
     /* Create a base parser/recognizer, using the supplied token stream
      */
-    ctx->pParser      = antlr3ParserNewStream(ANTLR3_SIZE_HINT, instream->tstream, state);
+    ctx->pParser	    = antlr3ParserNewStream(ANTLR3_SIZE_HINT, instream->tstream, state);
     /* Install the implementation of our RepositoryManagerParser interface
      */
-    ctx->credential  = credential;
-    ctx->public_key  = public_key;
-    ctx->signature  = signature;
-    ctx->validity  = validity;
-    ctx->time_tuple  = time_tuple;
-    ctx->certificate  = certificate;
-    ctx->clause  = clause;
-    ctx->literal  = literal;
-    ctx->predicate  = predicate;
-    ctx->challenge  = challenge;
-    ctx->response  = response;
-    ctx->request  = request;
-    ctx->op  = op;
-    ctx->reply  = reply;
-    ctx->result  = result;
-    ctx->text  = text;
-    ctx->base64  = base64;
-    ctx->num  = num;
-    ctx->free      = RepositoryManagerParserFree;
-    ctx->reset      = RepositoryManagerParserReset;
-    ctx->getGrammarFileName  = getGrammarFileName;
+    ctx->credential	= credential;
+    ctx->public_key	= public_key;
+    ctx->signature	= signature;
+    ctx->validity	= validity;
+    ctx->time_tuple	= time_tuple;
+    ctx->certificate	= certificate;
+    ctx->clause	= clause;
+    ctx->literal	= literal;
+    ctx->predicate	= predicate;
+    ctx->challenge	= challenge;
+    ctx->response	= response;
+    ctx->request	= request;
+    ctx->op	= op;
+    ctx->reply	= reply;
+    ctx->result	= result;
+    ctx->text	= text;
+    ctx->base64	= base64;
+    ctx->num	= num;
+    ctx->free			= RepositoryManagerParserFree;
+    ctx->reset			= RepositoryManagerParserReset;
+    ctx->getGrammarFileName	= getGrammarFileName;
 
     /* Install the scope pushing methods.
      */
-ADAPTOR  = ANTLR3_TREE_ADAPTORNew(instream->tstream->tokenSource->strFactory);
+ADAPTOR	= ANTLR3_TREE_ADAPTORNew(instream->tstream->tokenSource->strFactory);
 
-ctx->vectors  = antlr3VectorFactoryNew(0);
+ctx->vectors	= antlr3VectorFactoryNew(0);
     /* Install the token table
      */
     PSRSTATE->tokenNames   = RepositoryManagerParserTokenNames;
@@ -432,8 +432,8 @@ ctx->vectors->close(ctx->vectors);
 /* We created the adaptor so we must free it
  */
 ADAPTOR->free(ADAPTOR);
-  // Free this parser
-  //
+	// Free this parser
+	//
     ctx->pParser->free(ctx->pParser);
 
 
@@ -462,245 +462,245 @@ static pANTLR3_UINT8    *getTokenNames()
 /* Declare the bitsets
  */
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_CREDENTIAL_HEADER_in_credential115  */
-static  ANTLR3_BITWORD FOLLOW_CREDENTIAL_HEADER_in_credential115_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000200000) };
-static  ANTLR3_BITSET_LIST FOLLOW_CREDENTIAL_HEADER_in_credential115  = { FOLLOW_CREDENTIAL_HEADER_in_credential115_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_CREDENTIAL_HEADER_in_credential115_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000200000) };
+static  ANTLR3_BITSET_LIST FOLLOW_CREDENTIAL_HEADER_in_credential115	= { FOLLOW_CREDENTIAL_HEADER_in_credential115_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_public_key_in_credential117  */
-static  ANTLR3_BITWORD FOLLOW_public_key_in_credential117_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000000840) };
-static  ANTLR3_BITSET_LIST FOLLOW_public_key_in_credential117  = { FOLLOW_public_key_in_credential117_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_public_key_in_credential117_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000000840) };
+static  ANTLR3_BITSET_LIST FOLLOW_public_key_in_credential117	= { FOLLOW_public_key_in_credential117_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_certificate_in_credential119  */
-static  ANTLR3_BITWORD FOLLOW_certificate_in_credential119_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000000840) };
-static  ANTLR3_BITSET_LIST FOLLOW_certificate_in_credential119  = { FOLLOW_certificate_in_credential119_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_certificate_in_credential119_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000000840) };
+static  ANTLR3_BITSET_LIST FOLLOW_certificate_in_credential119	= { FOLLOW_certificate_in_credential119_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_CREDENTIAL_END_in_credential122  */
-static  ANTLR3_BITWORD FOLLOW_CREDENTIAL_END_in_credential122_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000000002) };
-static  ANTLR3_BITSET_LIST FOLLOW_CREDENTIAL_END_in_credential122  = { FOLLOW_CREDENTIAL_END_in_credential122_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_CREDENTIAL_END_in_credential122_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000000002) };
+static  ANTLR3_BITSET_LIST FOLLOW_CREDENTIAL_END_in_credential122	= { FOLLOW_CREDENTIAL_END_in_credential122_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_PUBLIC_KEY_HEADER_in_public_key144  */
-static  ANTLR3_BITWORD FOLLOW_PUBLIC_KEY_HEADER_in_public_key144_bits[]  = { ANTLR3_UINT64_LIT(0x0000000200000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_PUBLIC_KEY_HEADER_in_public_key144  = { FOLLOW_PUBLIC_KEY_HEADER_in_public_key144_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_PUBLIC_KEY_HEADER_in_public_key144_bits[]	= { ANTLR3_UINT64_LIT(0x0000000200000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_PUBLIC_KEY_HEADER_in_public_key144	= { FOLLOW_PUBLIC_KEY_HEADER_in_public_key144_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_base64_in_public_key146  */
-static  ANTLR3_BITWORD FOLLOW_base64_in_public_key146_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000100000) };
-static  ANTLR3_BITSET_LIST FOLLOW_base64_in_public_key146  = { FOLLOW_base64_in_public_key146_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_base64_in_public_key146_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000100000) };
+static  ANTLR3_BITSET_LIST FOLLOW_base64_in_public_key146	= { FOLLOW_base64_in_public_key146_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_PUBLIC_KEY_END_in_public_key148  */
-static  ANTLR3_BITWORD FOLLOW_PUBLIC_KEY_END_in_public_key148_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000000002) };
-static  ANTLR3_BITSET_LIST FOLLOW_PUBLIC_KEY_END_in_public_key148  = { FOLLOW_PUBLIC_KEY_END_in_public_key148_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_PUBLIC_KEY_END_in_public_key148_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000000002) };
+static  ANTLR3_BITSET_LIST FOLLOW_PUBLIC_KEY_END_in_public_key148	= { FOLLOW_PUBLIC_KEY_END_in_public_key148_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_SIGNATURE_HEADER_in_signature159  */
-static  ANTLR3_BITWORD FOLLOW_SIGNATURE_HEADER_in_signature159_bits[]  = { ANTLR3_UINT64_LIT(0x0000000200000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_SIGNATURE_HEADER_in_signature159  = { FOLLOW_SIGNATURE_HEADER_in_signature159_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_SIGNATURE_HEADER_in_signature159_bits[]	= { ANTLR3_UINT64_LIT(0x0000000200000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_SIGNATURE_HEADER_in_signature159	= { FOLLOW_SIGNATURE_HEADER_in_signature159_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_base64_in_signature161  */
-static  ANTLR3_BITWORD FOLLOW_base64_in_signature161_bits[]  = { ANTLR3_UINT64_LIT(0x0000000020000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_base64_in_signature161  = { FOLLOW_base64_in_signature161_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_base64_in_signature161_bits[]	= { ANTLR3_UINT64_LIT(0x0000000020000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_base64_in_signature161	= { FOLLOW_base64_in_signature161_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_SIGNATURE_END_in_signature163  */
-static  ANTLR3_BITWORD FOLLOW_SIGNATURE_END_in_signature163_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000000002) };
-static  ANTLR3_BITSET_LIST FOLLOW_SIGNATURE_END_in_signature163  = { FOLLOW_SIGNATURE_END_in_signature163_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_SIGNATURE_END_in_signature163_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000000002) };
+static  ANTLR3_BITSET_LIST FOLLOW_SIGNATURE_END_in_signature163	= { FOLLOW_SIGNATURE_END_in_signature163_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_VALIDITY_HEADER_in_validity174  */
-static  ANTLR3_BITWORD FOLLOW_VALIDITY_HEADER_in_validity174_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000020000) };
-static  ANTLR3_BITSET_LIST FOLLOW_VALIDITY_HEADER_in_validity174  = { FOLLOW_VALIDITY_HEADER_in_validity174_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_VALIDITY_HEADER_in_validity174_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000020000) };
+static  ANTLR3_BITSET_LIST FOLLOW_VALIDITY_HEADER_in_validity174	= { FOLLOW_VALIDITY_HEADER_in_validity174_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_NOT_BEFORE_in_validity176  */
-static  ANTLR3_BITWORD FOLLOW_NOT_BEFORE_in_validity176_bits[]  = { ANTLR3_UINT64_LIT(0x0000100000000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_NOT_BEFORE_in_validity176  = { FOLLOW_NOT_BEFORE_in_validity176_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_NOT_BEFORE_in_validity176_bits[]	= { ANTLR3_UINT64_LIT(0x0000100000000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_NOT_BEFORE_in_validity176	= { FOLLOW_NOT_BEFORE_in_validity176_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_time_tuple_in_validity178  */
-static  ANTLR3_BITWORD FOLLOW_time_tuple_in_validity178_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000010000) };
-static  ANTLR3_BITSET_LIST FOLLOW_time_tuple_in_validity178  = { FOLLOW_time_tuple_in_validity178_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_time_tuple_in_validity178_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000010000) };
+static  ANTLR3_BITSET_LIST FOLLOW_time_tuple_in_validity178	= { FOLLOW_time_tuple_in_validity178_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_NOT_AFTER_in_validity180  */
-static  ANTLR3_BITWORD FOLLOW_NOT_AFTER_in_validity180_bits[]  = { ANTLR3_UINT64_LIT(0x0000100000000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_NOT_AFTER_in_validity180  = { FOLLOW_NOT_AFTER_in_validity180_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_NOT_AFTER_in_validity180_bits[]	= { ANTLR3_UINT64_LIT(0x0000100000000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_NOT_AFTER_in_validity180	= { FOLLOW_NOT_AFTER_in_validity180_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_time_tuple_in_validity182  */
-static  ANTLR3_BITWORD FOLLOW_time_tuple_in_validity182_bits[]  = { ANTLR3_UINT64_LIT(0x0000000800000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_time_tuple_in_validity182  = { FOLLOW_time_tuple_in_validity182_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_time_tuple_in_validity182_bits[]	= { ANTLR3_UINT64_LIT(0x0000000800000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_time_tuple_in_validity182	= { FOLLOW_time_tuple_in_validity182_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_VALIDITY_END_in_validity184  */
-static  ANTLR3_BITWORD FOLLOW_VALIDITY_END_in_validity184_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000000002) };
-static  ANTLR3_BITSET_LIST FOLLOW_VALIDITY_END_in_validity184  = { FOLLOW_VALIDITY_END_in_validity184_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_VALIDITY_END_in_validity184_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000000002) };
+static  ANTLR3_BITSET_LIST FOLLOW_VALIDITY_END_in_validity184	= { FOLLOW_VALIDITY_END_in_validity184_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_44_in_time_tuple207  */
-static  ANTLR3_BITWORD FOLLOW_44_in_time_tuple207_bits[]  = { ANTLR3_UINT64_LIT(0x0000008000000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_44_in_time_tuple207  = { FOLLOW_44_in_time_tuple207_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_44_in_time_tuple207_bits[]	= { ANTLR3_UINT64_LIT(0x0000008000000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_44_in_time_tuple207	= { FOLLOW_44_in_time_tuple207_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_39_in_time_tuple209  */
-static  ANTLR3_BITWORD FOLLOW_39_in_time_tuple209_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000040000) };
-static  ANTLR3_BITSET_LIST FOLLOW_39_in_time_tuple209  = { FOLLOW_39_in_time_tuple209_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_39_in_time_tuple209_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000040000) };
+static  ANTLR3_BITSET_LIST FOLLOW_39_in_time_tuple209	= { FOLLOW_39_in_time_tuple209_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_num_in_time_tuple211  */
-static  ANTLR3_BITWORD FOLLOW_num_in_time_tuple211_bits[]  = { ANTLR3_UINT64_LIT(0x0000020000000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_num_in_time_tuple211  = { FOLLOW_num_in_time_tuple211_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_num_in_time_tuple211_bits[]	= { ANTLR3_UINT64_LIT(0x0000020000000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_num_in_time_tuple211	= { FOLLOW_num_in_time_tuple211_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_41_in_time_tuple213  */
-static  ANTLR3_BITWORD FOLLOW_41_in_time_tuple213_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000040000) };
-static  ANTLR3_BITSET_LIST FOLLOW_41_in_time_tuple213  = { FOLLOW_41_in_time_tuple213_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_41_in_time_tuple213_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000040000) };
+static  ANTLR3_BITSET_LIST FOLLOW_41_in_time_tuple213	= { FOLLOW_41_in_time_tuple213_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_num_in_time_tuple215  */
-static  ANTLR3_BITWORD FOLLOW_num_in_time_tuple215_bits[]  = { ANTLR3_UINT64_LIT(0x0000020000000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_num_in_time_tuple215  = { FOLLOW_num_in_time_tuple215_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_num_in_time_tuple215_bits[]	= { ANTLR3_UINT64_LIT(0x0000020000000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_num_in_time_tuple215	= { FOLLOW_num_in_time_tuple215_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_41_in_time_tuple217  */
-static  ANTLR3_BITWORD FOLLOW_41_in_time_tuple217_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000040000) };
-static  ANTLR3_BITSET_LIST FOLLOW_41_in_time_tuple217  = { FOLLOW_41_in_time_tuple217_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_41_in_time_tuple217_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000040000) };
+static  ANTLR3_BITSET_LIST FOLLOW_41_in_time_tuple217	= { FOLLOW_41_in_time_tuple217_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_num_in_time_tuple219  */
-static  ANTLR3_BITWORD FOLLOW_num_in_time_tuple219_bits[]  = { ANTLR3_UINT64_LIT(0x0000020000000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_num_in_time_tuple219  = { FOLLOW_num_in_time_tuple219_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_num_in_time_tuple219_bits[]	= { ANTLR3_UINT64_LIT(0x0000020000000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_num_in_time_tuple219	= { FOLLOW_num_in_time_tuple219_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_41_in_time_tuple221  */
-static  ANTLR3_BITWORD FOLLOW_41_in_time_tuple221_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000040000) };
-static  ANTLR3_BITSET_LIST FOLLOW_41_in_time_tuple221  = { FOLLOW_41_in_time_tuple221_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_41_in_time_tuple221_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000040000) };
+static  ANTLR3_BITSET_LIST FOLLOW_41_in_time_tuple221	= { FOLLOW_41_in_time_tuple221_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_num_in_time_tuple223  */
-static  ANTLR3_BITWORD FOLLOW_num_in_time_tuple223_bits[]  = { ANTLR3_UINT64_LIT(0x0000020000000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_num_in_time_tuple223  = { FOLLOW_num_in_time_tuple223_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_num_in_time_tuple223_bits[]	= { ANTLR3_UINT64_LIT(0x0000020000000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_num_in_time_tuple223	= { FOLLOW_num_in_time_tuple223_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_41_in_time_tuple225  */
-static  ANTLR3_BITWORD FOLLOW_41_in_time_tuple225_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000040000) };
-static  ANTLR3_BITSET_LIST FOLLOW_41_in_time_tuple225  = { FOLLOW_41_in_time_tuple225_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_41_in_time_tuple225_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000040000) };
+static  ANTLR3_BITSET_LIST FOLLOW_41_in_time_tuple225	= { FOLLOW_41_in_time_tuple225_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_num_in_time_tuple227  */
-static  ANTLR3_BITWORD FOLLOW_num_in_time_tuple227_bits[]  = { ANTLR3_UINT64_LIT(0x0000020000000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_num_in_time_tuple227  = { FOLLOW_num_in_time_tuple227_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_num_in_time_tuple227_bits[]	= { ANTLR3_UINT64_LIT(0x0000020000000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_num_in_time_tuple227	= { FOLLOW_num_in_time_tuple227_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_41_in_time_tuple229  */
-static  ANTLR3_BITWORD FOLLOW_41_in_time_tuple229_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000040000) };
-static  ANTLR3_BITSET_LIST FOLLOW_41_in_time_tuple229  = { FOLLOW_41_in_time_tuple229_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_41_in_time_tuple229_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000040000) };
+static  ANTLR3_BITSET_LIST FOLLOW_41_in_time_tuple229	= { FOLLOW_41_in_time_tuple229_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_num_in_time_tuple231  */
-static  ANTLR3_BITWORD FOLLOW_num_in_time_tuple231_bits[]  = { ANTLR3_UINT64_LIT(0x0000010000000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_num_in_time_tuple231  = { FOLLOW_num_in_time_tuple231_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_num_in_time_tuple231_bits[]	= { ANTLR3_UINT64_LIT(0x0000010000000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_num_in_time_tuple231	= { FOLLOW_num_in_time_tuple231_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_40_in_time_tuple233  */
-static  ANTLR3_BITWORD FOLLOW_40_in_time_tuple233_bits[]  = { ANTLR3_UINT64_LIT(0x0000040000000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_40_in_time_tuple233  = { FOLLOW_40_in_time_tuple233_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_40_in_time_tuple233_bits[]	= { ANTLR3_UINT64_LIT(0x0000040000000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_40_in_time_tuple233	= { FOLLOW_40_in_time_tuple233_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_42_in_time_tuple236  */
-static  ANTLR3_BITWORD FOLLOW_42_in_time_tuple236_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000000002) };
-static  ANTLR3_BITSET_LIST FOLLOW_42_in_time_tuple236  = { FOLLOW_42_in_time_tuple236_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_42_in_time_tuple236_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000000002) };
+static  ANTLR3_BITSET_LIST FOLLOW_42_in_time_tuple236	= { FOLLOW_42_in_time_tuple236_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_CERT_HEADER_in_certificate246  */
-static  ANTLR3_BITWORD FOLLOW_CERT_HEADER_in_certificate246_bits[]  = { ANTLR3_UINT64_LIT(0x0000400200000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_CERT_HEADER_in_certificate246  = { FOLLOW_CERT_HEADER_in_certificate246_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_CERT_HEADER_in_certificate246_bits[]	= { ANTLR3_UINT64_LIT(0x0000400200000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_CERT_HEADER_in_certificate246	= { FOLLOW_CERT_HEADER_in_certificate246_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_clause_in_certificate248  */
-static  ANTLR3_BITWORD FOLLOW_clause_in_certificate248_bits[]  = { ANTLR3_UINT64_LIT(0x0000401200000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_clause_in_certificate248  = { FOLLOW_clause_in_certificate248_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_clause_in_certificate248_bits[]	= { ANTLR3_UINT64_LIT(0x0000401200000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_clause_in_certificate248	= { FOLLOW_clause_in_certificate248_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_validity_in_certificate251  */
-static  ANTLR3_BITWORD FOLLOW_validity_in_certificate251_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000200000) };
-static  ANTLR3_BITSET_LIST FOLLOW_validity_in_certificate251  = { FOLLOW_validity_in_certificate251_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_validity_in_certificate251_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000200000) };
+static  ANTLR3_BITSET_LIST FOLLOW_validity_in_certificate251	= { FOLLOW_validity_in_certificate251_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_public_key_in_certificate253  */
-static  ANTLR3_BITWORD FOLLOW_public_key_in_certificate253_bits[]  = { ANTLR3_UINT64_LIT(0x0000000040000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_public_key_in_certificate253  = { FOLLOW_public_key_in_certificate253_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_public_key_in_certificate253_bits[]	= { ANTLR3_UINT64_LIT(0x0000000040000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_public_key_in_certificate253	= { FOLLOW_public_key_in_certificate253_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_signature_in_certificate255  */
-static  ANTLR3_BITWORD FOLLOW_signature_in_certificate255_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000000020) };
-static  ANTLR3_BITSET_LIST FOLLOW_signature_in_certificate255  = { FOLLOW_signature_in_certificate255_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_signature_in_certificate255_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000000020) };
+static  ANTLR3_BITSET_LIST FOLLOW_signature_in_certificate255	= { FOLLOW_signature_in_certificate255_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_CERT_END_in_certificate257  */
-static  ANTLR3_BITWORD FOLLOW_CERT_END_in_certificate257_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000000002) };
-static  ANTLR3_BITSET_LIST FOLLOW_CERT_END_in_certificate257  = { FOLLOW_CERT_END_in_certificate257_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_CERT_END_in_certificate257_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000000002) };
+static  ANTLR3_BITSET_LIST FOLLOW_CERT_END_in_certificate257	= { FOLLOW_CERT_END_in_certificate257_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_literal_in_clause287  */
-static  ANTLR3_BITWORD FOLLOW_literal_in_clause287_bits[]  = { ANTLR3_UINT64_LIT(0x0000040000000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_literal_in_clause287  = { FOLLOW_literal_in_clause287_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_literal_in_clause287_bits[]	= { ANTLR3_UINT64_LIT(0x0000040000000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_literal_in_clause287	= { FOLLOW_literal_in_clause287_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_42_in_clause289  */
-static  ANTLR3_BITWORD FOLLOW_42_in_clause289_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000000002) };
-static  ANTLR3_BITSET_LIST FOLLOW_42_in_clause289  = { FOLLOW_42_in_clause289_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_42_in_clause289_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000000002) };
+static  ANTLR3_BITSET_LIST FOLLOW_42_in_clause289	= { FOLLOW_42_in_clause289_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_literal_in_clause294  */
-static  ANTLR3_BITWORD FOLLOW_literal_in_clause294_bits[]  = { ANTLR3_UINT64_LIT(0x0000080000000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_literal_in_clause294  = { FOLLOW_literal_in_clause294_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_literal_in_clause294_bits[]	= { ANTLR3_UINT64_LIT(0x0000080000000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_literal_in_clause294	= { FOLLOW_literal_in_clause294_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_43_in_clause296  */
-static  ANTLR3_BITWORD FOLLOW_43_in_clause296_bits[]  = { ANTLR3_UINT64_LIT(0x0000400200000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_43_in_clause296  = { FOLLOW_43_in_clause296_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_43_in_clause296_bits[]	= { ANTLR3_UINT64_LIT(0x0000400200000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_43_in_clause296	= { FOLLOW_43_in_clause296_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_literal_in_clause298  */
-static  ANTLR3_BITWORD FOLLOW_literal_in_clause298_bits[]  = { ANTLR3_UINT64_LIT(0x0000060000000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_literal_in_clause298  = { FOLLOW_literal_in_clause298_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_literal_in_clause298_bits[]	= { ANTLR3_UINT64_LIT(0x0000060000000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_literal_in_clause298	= { FOLLOW_literal_in_clause298_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_41_in_clause305  */
-static  ANTLR3_BITWORD FOLLOW_41_in_clause305_bits[]  = { ANTLR3_UINT64_LIT(0x0000400200000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_41_in_clause305  = { FOLLOW_41_in_clause305_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_41_in_clause305_bits[]	= { ANTLR3_UINT64_LIT(0x0000400200000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_41_in_clause305	= { FOLLOW_41_in_clause305_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_literal_in_clause307  */
-static  ANTLR3_BITWORD FOLLOW_literal_in_clause307_bits[]  = { ANTLR3_UINT64_LIT(0x0000060000000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_literal_in_clause307  = { FOLLOW_literal_in_clause307_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_literal_in_clause307_bits[]	= { ANTLR3_UINT64_LIT(0x0000060000000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_literal_in_clause307	= { FOLLOW_literal_in_clause307_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_42_in_clause311  */
-static  ANTLR3_BITWORD FOLLOW_42_in_clause311_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000000002) };
-static  ANTLR3_BITSET_LIST FOLLOW_42_in_clause311  = { FOLLOW_42_in_clause311_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_42_in_clause311_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000000002) };
+static  ANTLR3_BITSET_LIST FOLLOW_42_in_clause311	= { FOLLOW_42_in_clause311_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_predicate_in_literal321  */
-static  ANTLR3_BITWORD FOLLOW_predicate_in_literal321_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000000002) };
-static  ANTLR3_BITSET_LIST FOLLOW_predicate_in_literal321  = { FOLLOW_predicate_in_literal321_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_predicate_in_literal321_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000000002) };
+static  ANTLR3_BITSET_LIST FOLLOW_predicate_in_literal321	= { FOLLOW_predicate_in_literal321_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_46_in_literal326  */
-static  ANTLR3_BITWORD FOLLOW_46_in_literal326_bits[]  = { ANTLR3_UINT64_LIT(0x0000008000000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_46_in_literal326  = { FOLLOW_46_in_literal326_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_46_in_literal326_bits[]	= { ANTLR3_UINT64_LIT(0x0000008000000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_46_in_literal326	= { FOLLOW_46_in_literal326_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_39_in_literal328  */
-static  ANTLR3_BITWORD FOLLOW_39_in_literal328_bits[]  = { ANTLR3_UINT64_LIT(0x0000000200000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_39_in_literal328  = { FOLLOW_39_in_literal328_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_39_in_literal328_bits[]	= { ANTLR3_UINT64_LIT(0x0000000200000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_39_in_literal328	= { FOLLOW_39_in_literal328_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_text_in_literal330  */
-static  ANTLR3_BITWORD FOLLOW_text_in_literal330_bits[]  = { ANTLR3_UINT64_LIT(0x0000020000000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_text_in_literal330  = { FOLLOW_text_in_literal330_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_text_in_literal330_bits[]	= { ANTLR3_UINT64_LIT(0x0000020000000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_text_in_literal330	= { FOLLOW_text_in_literal330_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_41_in_literal332  */
-static  ANTLR3_BITWORD FOLLOW_41_in_literal332_bits[]  = { ANTLR3_UINT64_LIT(0x0000000200000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_41_in_literal332  = { FOLLOW_41_in_literal332_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_41_in_literal332_bits[]	= { ANTLR3_UINT64_LIT(0x0000000200000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_41_in_literal332	= { FOLLOW_41_in_literal332_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_predicate_in_literal334  */
-static  ANTLR3_BITWORD FOLLOW_predicate_in_literal334_bits[]  = { ANTLR3_UINT64_LIT(0x0000010000000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_predicate_in_literal334  = { FOLLOW_predicate_in_literal334_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_predicate_in_literal334_bits[]	= { ANTLR3_UINT64_LIT(0x0000010000000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_predicate_in_literal334	= { FOLLOW_predicate_in_literal334_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_40_in_literal336  */
-static  ANTLR3_BITWORD FOLLOW_40_in_literal336_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000000002) };
-static  ANTLR3_BITSET_LIST FOLLOW_40_in_literal336  = { FOLLOW_40_in_literal336_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_40_in_literal336_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000000002) };
+static  ANTLR3_BITSET_LIST FOLLOW_40_in_literal336	= { FOLLOW_40_in_literal336_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_text_in_predicate346  */
-static  ANTLR3_BITWORD FOLLOW_text_in_predicate346_bits[]  = { ANTLR3_UINT64_LIT(0x0000008000000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_text_in_predicate346  = { FOLLOW_text_in_predicate346_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_text_in_predicate346_bits[]	= { ANTLR3_UINT64_LIT(0x0000008000000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_text_in_predicate346	= { FOLLOW_text_in_predicate346_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_39_in_predicate349  */
-static  ANTLR3_BITWORD FOLLOW_39_in_predicate349_bits[]  = { ANTLR3_UINT64_LIT(0x0000000200000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_39_in_predicate349  = { FOLLOW_39_in_predicate349_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_39_in_predicate349_bits[]	= { ANTLR3_UINT64_LIT(0x0000000200000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_39_in_predicate349	= { FOLLOW_39_in_predicate349_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_text_in_predicate351  */
-static  ANTLR3_BITWORD FOLLOW_text_in_predicate351_bits[]  = { ANTLR3_UINT64_LIT(0x0000030000000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_text_in_predicate351  = { FOLLOW_text_in_predicate351_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_text_in_predicate351_bits[]	= { ANTLR3_UINT64_LIT(0x0000030000000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_text_in_predicate351	= { FOLLOW_text_in_predicate351_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_41_in_predicate357  */
-static  ANTLR3_BITWORD FOLLOW_41_in_predicate357_bits[]  = { ANTLR3_UINT64_LIT(0x0000000200000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_41_in_predicate357  = { FOLLOW_41_in_predicate357_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_41_in_predicate357_bits[]	= { ANTLR3_UINT64_LIT(0x0000000200000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_41_in_predicate357	= { FOLLOW_41_in_predicate357_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_text_in_predicate358  */
-static  ANTLR3_BITWORD FOLLOW_text_in_predicate358_bits[]  = { ANTLR3_UINT64_LIT(0x0000030000000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_text_in_predicate358  = { FOLLOW_text_in_predicate358_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_text_in_predicate358_bits[]	= { ANTLR3_UINT64_LIT(0x0000030000000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_text_in_predicate358	= { FOLLOW_text_in_predicate358_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_40_in_predicate362  */
-static  ANTLR3_BITWORD FOLLOW_40_in_predicate362_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000000002) };
-static  ANTLR3_BITSET_LIST FOLLOW_40_in_predicate362  = { FOLLOW_40_in_predicate362_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_40_in_predicate362_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000000002) };
+static  ANTLR3_BITSET_LIST FOLLOW_40_in_predicate362	= { FOLLOW_40_in_predicate362_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_CHALLENGE_HEADER_in_challenge372  */
-static  ANTLR3_BITWORD FOLLOW_CHALLENGE_HEADER_in_challenge372_bits[]  = { ANTLR3_UINT64_LIT(0x0000000200000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_CHALLENGE_HEADER_in_challenge372  = { FOLLOW_CHALLENGE_HEADER_in_challenge372_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_CHALLENGE_HEADER_in_challenge372_bits[]	= { ANTLR3_UINT64_LIT(0x0000000200000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_CHALLENGE_HEADER_in_challenge372	= { FOLLOW_CHALLENGE_HEADER_in_challenge372_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_text_in_challenge374  */
-static  ANTLR3_BITWORD FOLLOW_text_in_challenge374_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000000080) };
-static  ANTLR3_BITSET_LIST FOLLOW_text_in_challenge374  = { FOLLOW_text_in_challenge374_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_text_in_challenge374_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000000080) };
+static  ANTLR3_BITSET_LIST FOLLOW_text_in_challenge374	= { FOLLOW_text_in_challenge374_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_CHALLENGE_END_in_challenge376  */
-static  ANTLR3_BITWORD FOLLOW_CHALLENGE_END_in_challenge376_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000000002) };
-static  ANTLR3_BITSET_LIST FOLLOW_CHALLENGE_END_in_challenge376  = { FOLLOW_CHALLENGE_END_in_challenge376_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_CHALLENGE_END_in_challenge376_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000000002) };
+static  ANTLR3_BITSET_LIST FOLLOW_CHALLENGE_END_in_challenge376	= { FOLLOW_CHALLENGE_END_in_challenge376_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_RESPONSE_HEADER_in_response391  */
-static  ANTLR3_BITWORD FOLLOW_RESPONSE_HEADER_in_response391_bits[]  = { ANTLR3_UINT64_LIT(0x0000000200000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_RESPONSE_HEADER_in_response391  = { FOLLOW_RESPONSE_HEADER_in_response391_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_RESPONSE_HEADER_in_response391_bits[]	= { ANTLR3_UINT64_LIT(0x0000000200000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_RESPONSE_HEADER_in_response391	= { FOLLOW_RESPONSE_HEADER_in_response391_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_base64_in_response393  */
-static  ANTLR3_BITWORD FOLLOW_base64_in_response393_bits[]  = { ANTLR3_UINT64_LIT(0x0000000004000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_base64_in_response393  = { FOLLOW_base64_in_response393_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_base64_in_response393_bits[]	= { ANTLR3_UINT64_LIT(0x0000000004000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_base64_in_response393	= { FOLLOW_base64_in_response393_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_RESPONSE_END_in_response395  */
-static  ANTLR3_BITWORD FOLLOW_RESPONSE_END_in_response395_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000000002) };
-static  ANTLR3_BITSET_LIST FOLLOW_RESPONSE_END_in_response395  = { FOLLOW_RESPONSE_END_in_response395_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_RESPONSE_END_in_response395_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000000002) };
+static  ANTLR3_BITSET_LIST FOLLOW_RESPONSE_END_in_response395	= { FOLLOW_RESPONSE_END_in_response395_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_REQUEST_HEADER_in_request408  */
-static  ANTLR3_BITWORD FOLLOW_REQUEST_HEADER_in_request408_bits[]  = { ANTLR3_UINT64_LIT(0x0000200000000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_REQUEST_HEADER_in_request408  = { FOLLOW_REQUEST_HEADER_in_request408_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_REQUEST_HEADER_in_request408_bits[]	= { ANTLR3_UINT64_LIT(0x0000200000000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_REQUEST_HEADER_in_request408	= { FOLLOW_REQUEST_HEADER_in_request408_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_45_in_request410  */
-static  ANTLR3_BITWORD FOLLOW_45_in_request410_bits[]  = { ANTLR3_UINT64_LIT(0x0000008000000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_45_in_request410  = { FOLLOW_45_in_request410_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_45_in_request410_bits[]	= { ANTLR3_UINT64_LIT(0x0000008000000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_45_in_request410	= { FOLLOW_45_in_request410_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_39_in_request412  */
-static  ANTLR3_BITWORD FOLLOW_39_in_request412_bits[]  = { ANTLR3_UINT64_LIT(0x0000000200000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_39_in_request412  = { FOLLOW_39_in_request412_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_39_in_request412_bits[]	= { ANTLR3_UINT64_LIT(0x0000000200000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_39_in_request412	= { FOLLOW_39_in_request412_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_op_in_request414  */
-static  ANTLR3_BITWORD FOLLOW_op_in_request414_bits[]  = { ANTLR3_UINT64_LIT(0x0000020000000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_op_in_request414  = { FOLLOW_op_in_request414_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_op_in_request414_bits[]	= { ANTLR3_UINT64_LIT(0x0000020000000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_op_in_request414	= { FOLLOW_op_in_request414_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_41_in_request416  */
-static  ANTLR3_BITWORD FOLLOW_41_in_request416_bits[]  = { ANTLR3_UINT64_LIT(0x0000000200000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_41_in_request416  = { FOLLOW_41_in_request416_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_41_in_request416_bits[]	= { ANTLR3_UINT64_LIT(0x0000000200000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_41_in_request416	= { FOLLOW_41_in_request416_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_text_in_request418  */
-static  ANTLR3_BITWORD FOLLOW_text_in_request418_bits[]  = { ANTLR3_UINT64_LIT(0x0000010000000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_text_in_request418  = { FOLLOW_text_in_request418_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_text_in_request418_bits[]	= { ANTLR3_UINT64_LIT(0x0000010000000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_text_in_request418	= { FOLLOW_text_in_request418_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_40_in_request420  */
-static  ANTLR3_BITWORD FOLLOW_40_in_request420_bits[]  = { ANTLR3_UINT64_LIT(0x0000000001000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_40_in_request420  = { FOLLOW_40_in_request420_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_40_in_request420_bits[]	= { ANTLR3_UINT64_LIT(0x0000000001000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_40_in_request420	= { FOLLOW_40_in_request420_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_REQUEST_END_in_request422  */
-static  ANTLR3_BITWORD FOLLOW_REQUEST_END_in_request422_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000000002) };
-static  ANTLR3_BITSET_LIST FOLLOW_REQUEST_END_in_request422  = { FOLLOW_REQUEST_END_in_request422_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_REQUEST_END_in_request422_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000000002) };
+static  ANTLR3_BITSET_LIST FOLLOW_REQUEST_END_in_request422	= { FOLLOW_REQUEST_END_in_request422_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_text_in_op437  */
-static  ANTLR3_BITWORD FOLLOW_text_in_op437_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000000002) };
-static  ANTLR3_BITSET_LIST FOLLOW_text_in_op437  = { FOLLOW_text_in_op437_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_text_in_op437_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000000002) };
+static  ANTLR3_BITSET_LIST FOLLOW_text_in_op437	= { FOLLOW_text_in_op437_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_REPLY_HEADER_in_reply453  */
-static  ANTLR3_BITWORD FOLLOW_REPLY_HEADER_in_reply453_bits[]  = { ANTLR3_UINT64_LIT(0x0000000200000000) };
-static  ANTLR3_BITSET_LIST FOLLOW_REPLY_HEADER_in_reply453  = { FOLLOW_REPLY_HEADER_in_reply453_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_REPLY_HEADER_in_reply453_bits[]	= { ANTLR3_UINT64_LIT(0x0000000200000000) };
+static  ANTLR3_BITSET_LIST FOLLOW_REPLY_HEADER_in_reply453	= { FOLLOW_REPLY_HEADER_in_reply453_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_result_in_reply455  */
-static  ANTLR3_BITWORD FOLLOW_result_in_reply455_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000400000) };
-static  ANTLR3_BITSET_LIST FOLLOW_result_in_reply455  = { FOLLOW_result_in_reply455_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_result_in_reply455_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000400000) };
+static  ANTLR3_BITSET_LIST FOLLOW_result_in_reply455	= { FOLLOW_result_in_reply455_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_REPLY_END_in_reply457  */
-static  ANTLR3_BITWORD FOLLOW_REPLY_END_in_reply457_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000000002) };
-static  ANTLR3_BITSET_LIST FOLLOW_REPLY_END_in_reply457  = { FOLLOW_REPLY_END_in_reply457_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_REPLY_END_in_reply457_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000000002) };
+static  ANTLR3_BITSET_LIST FOLLOW_REPLY_END_in_reply457	= { FOLLOW_REPLY_END_in_reply457_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_text_in_result475  */
-static  ANTLR3_BITWORD FOLLOW_text_in_result475_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000000002) };
-static  ANTLR3_BITSET_LIST FOLLOW_text_in_result475  = { FOLLOW_text_in_result475_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_text_in_result475_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000000002) };
+static  ANTLR3_BITSET_LIST FOLLOW_text_in_result475	= { FOLLOW_text_in_result475_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_TEXT_in_text490  */
-static  ANTLR3_BITWORD FOLLOW_TEXT_in_text490_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000000002) };
-static  ANTLR3_BITSET_LIST FOLLOW_TEXT_in_text490  = { FOLLOW_TEXT_in_text490_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_TEXT_in_text490_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000000002) };
+static  ANTLR3_BITSET_LIST FOLLOW_TEXT_in_text490	= { FOLLOW_TEXT_in_text490_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_text_in_base64500  */
-static  ANTLR3_BITWORD FOLLOW_text_in_base64500_bits[]  = { ANTLR3_UINT64_LIT(0x0000000200000002) };
-static  ANTLR3_BITSET_LIST FOLLOW_text_in_base64500  = { FOLLOW_text_in_base64500_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_text_in_base64500_bits[]	= { ANTLR3_UINT64_LIT(0x0000000200000002) };
+static  ANTLR3_BITSET_LIST FOLLOW_text_in_base64500	= { FOLLOW_text_in_base64500_bits, 1	};
 /** Bitset defining follow set for error recovery in rule state: FOLLOW_NUM_in_num511  */
-static  ANTLR3_BITWORD FOLLOW_NUM_in_num511_bits[]  = { ANTLR3_UINT64_LIT(0x0000000000000002) };
-static  ANTLR3_BITSET_LIST FOLLOW_NUM_in_num511  = { FOLLOW_NUM_in_num511_bits, 1  };
+static	ANTLR3_BITWORD FOLLOW_NUM_in_num511_bits[]	= { ANTLR3_UINT64_LIT(0x0000000000000002) };
+static  ANTLR3_BITSET_LIST FOLLOW_NUM_in_num511	= { FOLLOW_NUM_in_num511_bits, 1	};
 
 
 
@@ -712,111 +712,111 @@ static  ANTLR3_BITSET_LIST FOLLOW_NUM_in_num511  = { FOLLOW_NUM_in_num511_bits, 
  */
 static const ANTLR3_INT32 dfa4_eot[20] =
     {
-  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
-  -1, -1
+	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
+	-1, -1
     };
 static const ANTLR3_INT32 dfa4_eof[20] =
     {
-  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
-  -1, -1
+	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
+	-1, -1
     };
 static const ANTLR3_INT32 dfa4_min[20] =
     {
-  33, 39, 39, 33, 33, 40, 41, 33, 42, 33, 40, -1, -1, 39, 33, 40, 33, 40, 
-  40, 42
+	33, 39, 39, 33, 33, 40, 41, 33, 42, 33, 40, -1, -1, 39, 33, 40, 33, 40, 
+	40, 42
     };
 static const ANTLR3_INT32 dfa4_max[20] =
     {
-  46, 39, 39, 33, 33, 41, 41, 33, 43, 33, 41, -1, -1, 39, 33, 41, 33, 40, 
-  41, 43
+	46, 39, 39, 33, 33, 41, 41, 33, 43, 33, 41, -1, -1, 39, 33, 41, 33, 40, 
+	41, 43
     };
 static const ANTLR3_INT32 dfa4_accept[20] =
     {
-  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1, 2, -1, -1, -1, -1, -1, -1, 
-  -1
+	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1, 2, -1, -1, -1, -1, -1, -1, 
+	-1
     };
 static const ANTLR3_INT32 dfa4_special[20] =
     {
-  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
-  -1, -1
+	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
+	-1, -1
     };
 
 /** Used when there is no transition table entry for a particular state */
-#define dfa4_T_empty      NULL
+#define dfa4_T_empty	    NULL
 
 static const ANTLR3_INT32 dfa4_T0[] =
     {
-  17, 16
+	17, 16
     };
 
 static const ANTLR3_INT32 dfa4_T1[] =
     {
-  8, 7
+	8, 7
     };
 
 static const ANTLR3_INT32 dfa4_T2[] =
     {
-  13
+	13
     };
 
 static const ANTLR3_INT32 dfa4_T3[] =
     {
-  9
+	9
     };
 
 static const ANTLR3_INT32 dfa4_T4[] =
     {
-  1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 2
+	1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 2
     };
 
 static const ANTLR3_INT32 dfa4_T5[] =
     {
-  11, 12
+	11, 12
     };
 
 static const ANTLR3_INT32 dfa4_T6[] =
     {
-  14
+	14
     };
 
 static const ANTLR3_INT32 dfa4_T7[] =
     {
-  3
+	3
     };
 
 static const ANTLR3_INT32 dfa4_T8[] =
     {
-  15
+	15
     };
 
 static const ANTLR3_INT32 dfa4_T9[] =
     {
-  5
+	5
     };
 
 static const ANTLR3_INT32 dfa4_T10[] =
     {
-  4
+	4
     };
 
 static const ANTLR3_INT32 dfa4_T11[] =
     {
-  19
+	19
     };
 
 static const ANTLR3_INT32 dfa4_T12[] =
     {
-  6
+	6
     };
 
 static const ANTLR3_INT32 dfa4_T13[] =
     {
-  18
+	18
     };
 
 static const ANTLR3_INT32 dfa4_T14[] =
     {
-  10
+	10
     };
 
 
@@ -835,23 +835,23 @@ static const ANTLR3_INT32 * const dfa4_transitions[] =
  */
 static
 ANTLR3_CYCLIC_DFA cdfa4
-    =  {
-      4,        /* Decision number of this dfa      */
-      /* Which decision this represents:   */
-      (const pANTLR3_UCHAR)"52:1: clause : ( literal '.' | literal ':-' literal ( ',' literal )* '.' );",
-      (CDFA_SPECIAL_FUNC) antlr3dfaspecialStateTransition,  /* Default special state transition function  */
+    =	{
+	    4,		    /* Decision number of this dfa	    */
+	    /* Which decision this represents:   */
+	    (const pANTLR3_UCHAR)"52:1: clause : ( literal '.' | literal ':-' literal ( ',' literal )* '.' );",
+	    (CDFA_SPECIAL_FUNC) antlr3dfaspecialStateTransition,	/* Default special state transition function	*/
 
-      antlr3dfaspecialTransition,    /* DFA specialTransition is currently just a default function in the runtime */
-      antlr3dfapredict,      /* DFA simulator function is in the runtime */
-      dfa4_eot,      /* EOT table          */
-      dfa4_eof,      /* EOF table          */
-      dfa4_min,      /* Minimum tokens for each state    */
-      dfa4_max,      /* Maximum tokens for each state    */
-      dfa4_accept,  /* Accept table          */
-      dfa4_special,  /* Special transition states      */
-      dfa4_transitions  /* Table of transition tables      */
+	    antlr3dfaspecialTransition,		/* DFA specialTransition is currently just a default function in the runtime */
+	    antlr3dfapredict,			/* DFA simulator function is in the runtime */
+	    dfa4_eot,	    /* EOT table			    */
+	    dfa4_eof,	    /* EOF table			    */
+	    dfa4_min,	    /* Minimum tokens for each state    */
+	    dfa4_max,	    /* Maximum tokens for each state    */
+	    dfa4_accept,	/* Accept table			    */
+	    dfa4_special,	/* Special transition states	    */
+	    dfa4_transitions	/* Table of transition tables	    */
 
-  };
+	};
 /* End of Cyclic DFA 4
  * ---------------------
  */ 
@@ -877,12 +877,12 @@ credential(pRepositoryManagerParser ctx)
     pANTLR3_COMMON_TOKEN    CREDENTIAL_HEADER1;
     pANTLR3_COMMON_TOKEN    CREDENTIAL_END4;
     RepositoryManagerParser_public_key_return public_key2;
-    #undef  RETURN_TYPE_public_key2
-    #define  RETURN_TYPE_public_key2 RepositoryManagerParser_public_key_return
+    #undef	RETURN_TYPE_public_key2
+    #define	RETURN_TYPE_public_key2 RepositoryManagerParser_public_key_return
 
     RepositoryManagerParser_certificate_return certificate3;
-    #undef  RETURN_TYPE_certificate3
-    #define  RETURN_TYPE_certificate3 RepositoryManagerParser_certificate_return
+    #undef	RETURN_TYPE_certificate3
+    #define	RETURN_TYPE_certificate3 RepositoryManagerParser_certificate_return
 
     pANTLR3_BASE_TREE CREDENTIAL_HEADER1_tree;
     pANTLR3_BASE_TREE CREDENTIAL_END4_tree;
@@ -949,35 +949,35 @@ credential(pRepositoryManagerParser ctx)
                 switch ( LA(1) )
                 {
                 case CERT_HEADER:
-                  {
-                    alt1=1;
-                  }
+                	{
+                		alt1=1;
+                	}
                     break;
 
                 }
 
                 switch (alt1)
                 {
-              case 1:
-                  // /home/stbadmin/repository-manager/src/parser/RepositoryManager.g:34:33: certificate
-                  {
-                      FOLLOWPUSH(FOLLOW_certificate_in_credential119);
-                      certificate3=certificate(ctx);
+            	case 1:
+            	    // /home/stbadmin/repository-manager/src/parser/RepositoryManager.g:34:33: certificate
+            	    {
+            	        FOLLOWPUSH(FOLLOW_certificate_in_credential119);
+            	        certificate3=certificate(ctx);
 
-                      FOLLOWPOP();
-                      if  (HASEXCEPTION())
-                      {
-                          goto rulecredentialEx;
-                      }
+            	        FOLLOWPOP();
+            	        if  (HASEXCEPTION())
+            	        {
+            	            goto rulecredentialEx;
+            	        }
 
-                      CREATE_stream_certificate; stream_certificate->add(stream_certificate, certificate3.tree, NULL);
+            	        CREATE_stream_certificate; stream_certificate->add(stream_certificate, certificate3.tree, NULL);
 
-                  }
-                  break;
+            	    }
+            	    break;
 
-              default:
-                  goto loop1;  /* break out of the loop */
-                  break;
+            	default:
+            	    goto loop1;	/* break out of the loop */
+            	    break;
                 }
             }
             loop1: ; /* Jump out to here if this rule does not match */
@@ -1000,46 +1000,46 @@ credential(pRepositoryManagerParser ctx)
              * rule list labels  : 
              */
             {
-              pANTLR3_REWRITE_RULE_SUBTREE_STREAM stream_retval;
+            	pANTLR3_REWRITE_RULE_SUBTREE_STREAM stream_retval;
 
-              stream_retval=antlr3RewriteRuleSubtreeStreamNewAEE(ADAPTOR,  RECOGNIZER, (pANTLR3_UINT8)"token retval", retval.tree != NULL ? retval.tree : NULL);
+            	stream_retval=antlr3RewriteRuleSubtreeStreamNewAEE(ADAPTOR,  RECOGNIZER, (pANTLR3_UINT8)"token retval", retval.tree != NULL ? retval.tree : NULL);
 
-              root_0          = (pANTLR3_BASE_TREE)(ADAPTOR->nilNode(ADAPTOR));
-              retval.tree    = root_0;
-              // 34:61: -> ^( CREDENTIAL public_key ( certificate )* END )
-              {
-                  // /home/stbadmin/repository-manager/src/parser/RepositoryManager.g:34:63: ^( CREDENTIAL public_key ( certificate )* END )
-                  {
-                      pANTLR3_BASE_TREE root_1 = (pANTLR3_BASE_TREE)(ADAPTOR->nilNode(ADAPTOR));
-                      root_1 = (pANTLR3_BASE_TREE)(ADAPTOR->becomeRoot(ADAPTOR, 
-                      (pANTLR3_BASE_TREE)ADAPTOR->createTypeText(ADAPTOR, CREDENTIAL, (pANTLR3_UINT8)"CREDENTIAL")
-                      , root_1));
+            	root_0			    = (pANTLR3_BASE_TREE)(ADAPTOR->nilNode(ADAPTOR));
+            	retval.tree    = root_0;
+            	// 34:61: -> ^( CREDENTIAL public_key ( certificate )* END )
+            	{
+            	    // /home/stbadmin/repository-manager/src/parser/RepositoryManager.g:34:63: ^( CREDENTIAL public_key ( certificate )* END )
+            	    {
+            	        pANTLR3_BASE_TREE root_1 = (pANTLR3_BASE_TREE)(ADAPTOR->nilNode(ADAPTOR));
+            	        root_1 = (pANTLR3_BASE_TREE)(ADAPTOR->becomeRoot(ADAPTOR, 
+            	        (pANTLR3_BASE_TREE)ADAPTOR->createTypeText(ADAPTOR, CREDENTIAL, (pANTLR3_UINT8)"CREDENTIAL")
+            	        , root_1));
 
-                      ADAPTOR->addChild(ADAPTOR, root_1, stream_public_key == NULL ? NULL : stream_public_key->nextTree(stream_public_key));
+            	        ADAPTOR->addChild(ADAPTOR, root_1, stream_public_key == NULL ? NULL : stream_public_key->nextTree(stream_public_key));
 
-                      // /home/stbadmin/repository-manager/src/parser/RepositoryManager.g:34:87: ( certificate )*
-                      {
-                        while ( (stream_certificate != NULL && stream_certificate->hasNext(stream_certificate))  )
-                        {
-                          ADAPTOR->addChild(ADAPTOR, root_1, stream_certificate == NULL ? NULL : stream_certificate->nextTree(stream_certificate));
+            	        // /home/stbadmin/repository-manager/src/parser/RepositoryManager.g:34:87: ( certificate )*
+            	        {
+            	        	while ( (stream_certificate != NULL && stream_certificate->hasNext(stream_certificate))  )
+            	        	{
+            	        		ADAPTOR->addChild(ADAPTOR, root_1, stream_certificate == NULL ? NULL : stream_certificate->nextTree(stream_certificate));
 
-                        }
-                        if (stream_certificate != NULL) stream_certificate->reset(stream_certificate);
+            	        	}
+            	        	if (stream_certificate != NULL) stream_certificate->reset(stream_certificate);
 
-                      }
+            	        }
 
-                      ADAPTOR->addChild(ADAPTOR, root_1, 
-                      (pANTLR3_BASE_TREE)ADAPTOR->createTypeText(ADAPTOR, END, (pANTLR3_UINT8)"END")
-                      );
+            	        ADAPTOR->addChild(ADAPTOR, root_1, 
+            	        (pANTLR3_BASE_TREE)ADAPTOR->createTypeText(ADAPTOR, END, (pANTLR3_UINT8)"END")
+            	        );
 
-                      ADAPTOR->addChild(ADAPTOR, root_0, root_1);
-                  }
+            	        ADAPTOR->addChild(ADAPTOR, root_0, root_1);
+            	    }
 
-              }
+            	}
 
 
-              retval.tree = root_0; // set result root
-              if (stream_retval != NULL) stream_retval->free(stream_retval);
+            	retval.tree = root_0; // set result root
+            	if (stream_retval != NULL) stream_retval->free(stream_retval);
 
 
             }
@@ -1054,10 +1054,10 @@ credential(pRepositoryManagerParser ctx)
     retval.stop = LT(-1);
 
 
-      retval.stop = LT(-1);
+    	retval.stop = LT(-1);
 
-      retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
-      ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
+    	retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
+    	ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
         if (stream_CREDENTIAL_HEADER != NULL) stream_CREDENTIAL_HEADER->free(stream_CREDENTIAL_HEADER);
         if (stream_CREDENTIAL_END != NULL) stream_CREDENTIAL_END->free(stream_CREDENTIAL_END);
         if (stream_certificate != NULL) stream_certificate->free(stream_certificate);
@@ -1088,8 +1088,8 @@ public_key(pRepositoryManagerParser ctx)
     pANTLR3_COMMON_TOKEN    PUBLIC_KEY_HEADER5;
     pANTLR3_COMMON_TOKEN    PUBLIC_KEY_END7;
     RepositoryManagerParser_base64_return base646;
-    #undef  RETURN_TYPE_base646
-    #define  RETURN_TYPE_base646 RepositoryManagerParser_base64_return
+    #undef	RETURN_TYPE_base646
+    #define	RETURN_TYPE_base646 RepositoryManagerParser_base64_return
 
     pANTLR3_BASE_TREE PUBLIC_KEY_HEADER5_tree;
     pANTLR3_BASE_TREE PUBLIC_KEY_END7_tree;
@@ -1160,10 +1160,10 @@ public_key(pRepositoryManagerParser ctx)
     retval.stop = LT(-1);
 
 
-      retval.stop = LT(-1);
+    	retval.stop = LT(-1);
 
-      retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
-      ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
+    	retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
+    	ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
 
             if (HASEXCEPTION())
             {
@@ -1190,8 +1190,8 @@ signature(pRepositoryManagerParser ctx)
     pANTLR3_COMMON_TOKEN    SIGNATURE_HEADER8;
     pANTLR3_COMMON_TOKEN    SIGNATURE_END10;
     RepositoryManagerParser_base64_return base649;
-    #undef  RETURN_TYPE_base649
-    #define  RETURN_TYPE_base649 RepositoryManagerParser_base64_return
+    #undef	RETURN_TYPE_base649
+    #define	RETURN_TYPE_base649 RepositoryManagerParser_base64_return
 
     pANTLR3_BASE_TREE SIGNATURE_HEADER8_tree;
     pANTLR3_BASE_TREE SIGNATURE_END10_tree;
@@ -1262,10 +1262,10 @@ signature(pRepositoryManagerParser ctx)
     retval.stop = LT(-1);
 
 
-      retval.stop = LT(-1);
+    	retval.stop = LT(-1);
 
-      retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
-      ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
+    	retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
+    	ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
 
             if (HASEXCEPTION())
             {
@@ -1294,12 +1294,12 @@ validity(pRepositoryManagerParser ctx)
     pANTLR3_COMMON_TOKEN    NOT_AFTER14;
     pANTLR3_COMMON_TOKEN    VALIDITY_END16;
     RepositoryManagerParser_time_tuple_return time_tuple13;
-    #undef  RETURN_TYPE_time_tuple13
-    #define  RETURN_TYPE_time_tuple13 RepositoryManagerParser_time_tuple_return
+    #undef	RETURN_TYPE_time_tuple13
+    #define	RETURN_TYPE_time_tuple13 RepositoryManagerParser_time_tuple_return
 
     RepositoryManagerParser_time_tuple_return time_tuple15;
-    #undef  RETURN_TYPE_time_tuple15
-    #define  RETURN_TYPE_time_tuple15 RepositoryManagerParser_time_tuple_return
+    #undef	RETURN_TYPE_time_tuple15
+    #define	RETURN_TYPE_time_tuple15 RepositoryManagerParser_time_tuple_return
 
     pANTLR3_BASE_TREE VALIDITY_HEADER11_tree;
     pANTLR3_BASE_TREE NOT_BEFORE12_tree;
@@ -1413,45 +1413,45 @@ validity(pRepositoryManagerParser ctx)
              * rule list labels  : 
              */
             {
-              pANTLR3_REWRITE_RULE_SUBTREE_STREAM stream_retval;
+            	pANTLR3_REWRITE_RULE_SUBTREE_STREAM stream_retval;
 
-              stream_retval=antlr3RewriteRuleSubtreeStreamNewAEE(ADAPTOR,  RECOGNIZER, (pANTLR3_UINT8)"token retval", retval.tree != NULL ? retval.tree : NULL);
+            	stream_retval=antlr3RewriteRuleSubtreeStreamNewAEE(ADAPTOR,  RECOGNIZER, (pANTLR3_UINT8)"token retval", retval.tree != NULL ? retval.tree : NULL);
 
-              root_0          = (pANTLR3_BASE_TREE)(ADAPTOR->nilNode(ADAPTOR));
-              retval.tree    = root_0;
-              // 44:76: -> ( START_TIME time_tuple STOP_TIME time_tuple )+
-              {
-                  if ((stream_time_tuple == NULL || !stream_time_tuple->hasNext(stream_time_tuple)) || (stream_time_tuple == NULL || !stream_time_tuple->hasNext(stream_time_tuple))  )
-                  {
-                      CONSTRUCTEX();
-                      EXCEPTION->type         = ANTLR3_REWRITE_EARLY_EXCEPTION;
-                      EXCEPTION->name         = (void *)ANTLR3_REWRITE_EARLY_EXCEPTION_NAME;
-                  }
-                  else
-                  {
-                    while ( (stream_time_tuple->hasNext(stream_time_tuple)) || (stream_time_tuple->hasNext(stream_time_tuple))  ) {
-                      ADAPTOR->addChild(ADAPTOR, root_0, 
-                      (pANTLR3_BASE_TREE)ADAPTOR->createTypeText(ADAPTOR, START_TIME, (pANTLR3_UINT8)"START_TIME")
-                      );
+            	root_0			    = (pANTLR3_BASE_TREE)(ADAPTOR->nilNode(ADAPTOR));
+            	retval.tree    = root_0;
+            	// 44:76: -> ( START_TIME time_tuple STOP_TIME time_tuple )+
+            	{
+            	    if ((stream_time_tuple == NULL || !stream_time_tuple->hasNext(stream_time_tuple)) || (stream_time_tuple == NULL || !stream_time_tuple->hasNext(stream_time_tuple))  )
+            	    {
+            	        CONSTRUCTEX();
+            	        EXCEPTION->type         = ANTLR3_REWRITE_EARLY_EXCEPTION;
+            	        EXCEPTION->name         = (void *)ANTLR3_REWRITE_EARLY_EXCEPTION_NAME;
+            	    }
+            	    else
+            	    {
+            	    	while ( (stream_time_tuple->hasNext(stream_time_tuple)) || (stream_time_tuple->hasNext(stream_time_tuple))  ) {
+            	    		ADAPTOR->addChild(ADAPTOR, root_0, 
+            	    		(pANTLR3_BASE_TREE)ADAPTOR->createTypeText(ADAPTOR, START_TIME, (pANTLR3_UINT8)"START_TIME")
+            	    		);
 
-                      ADAPTOR->addChild(ADAPTOR, root_0, stream_time_tuple == NULL ? NULL : stream_time_tuple->nextTree(stream_time_tuple));
+            	    		ADAPTOR->addChild(ADAPTOR, root_0, stream_time_tuple == NULL ? NULL : stream_time_tuple->nextTree(stream_time_tuple));
 
-                      ADAPTOR->addChild(ADAPTOR, root_0, 
-                      (pANTLR3_BASE_TREE)ADAPTOR->createTypeText(ADAPTOR, STOP_TIME, (pANTLR3_UINT8)"STOP_TIME")
-                      );
+            	    		ADAPTOR->addChild(ADAPTOR, root_0, 
+            	    		(pANTLR3_BASE_TREE)ADAPTOR->createTypeText(ADAPTOR, STOP_TIME, (pANTLR3_UINT8)"STOP_TIME")
+            	    		);
 
-                      ADAPTOR->addChild(ADAPTOR, root_0, stream_time_tuple == NULL ? NULL : stream_time_tuple->nextTree(stream_time_tuple));
+            	    		ADAPTOR->addChild(ADAPTOR, root_0, stream_time_tuple == NULL ? NULL : stream_time_tuple->nextTree(stream_time_tuple));
 
-                    }
-                    stream_time_tuple->reset(stream_time_tuple);
-                    stream_time_tuple->reset(stream_time_tuple);
+            	    	}
+            	    	stream_time_tuple->reset(stream_time_tuple);
+            	    	stream_time_tuple->reset(stream_time_tuple);
 
-                  }
-              }
+            	    }
+            	}
 
 
-              retval.tree = root_0; // set result root
-              if (stream_retval != NULL) stream_retval->free(stream_retval);
+            	retval.tree = root_0; // set result root
+            	if (stream_retval != NULL) stream_retval->free(stream_retval);
 
 
             }
@@ -1466,10 +1466,10 @@ validity(pRepositoryManagerParser ctx)
     retval.stop = LT(-1);
 
 
-      retval.stop = LT(-1);
+    	retval.stop = LT(-1);
 
-      retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
-      ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
+    	retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
+    	ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
         if (stream_VALIDITY_END != NULL) stream_VALIDITY_END->free(stream_VALIDITY_END);
         if (stream_NOT_AFTER != NULL) stream_NOT_AFTER->free(stream_NOT_AFTER);
         if (stream_VALIDITY_HEADER != NULL) stream_VALIDITY_HEADER->free(stream_VALIDITY_HEADER);
@@ -1508,28 +1508,28 @@ time_tuple(pRepositoryManagerParser ctx)
     pANTLR3_COMMON_TOKEN    char_literal30;
     pANTLR3_COMMON_TOKEN    char_literal31;
     RepositoryManagerParser_num_return num19;
-    #undef  RETURN_TYPE_num19
-    #define  RETURN_TYPE_num19 RepositoryManagerParser_num_return
+    #undef	RETURN_TYPE_num19
+    #define	RETURN_TYPE_num19 RepositoryManagerParser_num_return
 
     RepositoryManagerParser_num_return num21;
-    #undef  RETURN_TYPE_num21
-    #define  RETURN_TYPE_num21 RepositoryManagerParser_num_return
+    #undef	RETURN_TYPE_num21
+    #define	RETURN_TYPE_num21 RepositoryManagerParser_num_return
 
     RepositoryManagerParser_num_return num23;
-    #undef  RETURN_TYPE_num23
-    #define  RETURN_TYPE_num23 RepositoryManagerParser_num_return
+    #undef	RETURN_TYPE_num23
+    #define	RETURN_TYPE_num23 RepositoryManagerParser_num_return
 
     RepositoryManagerParser_num_return num25;
-    #undef  RETURN_TYPE_num25
-    #define  RETURN_TYPE_num25 RepositoryManagerParser_num_return
+    #undef	RETURN_TYPE_num25
+    #define	RETURN_TYPE_num25 RepositoryManagerParser_num_return
 
     RepositoryManagerParser_num_return num27;
-    #undef  RETURN_TYPE_num27
-    #define  RETURN_TYPE_num27 RepositoryManagerParser_num_return
+    #undef	RETURN_TYPE_num27
+    #define	RETURN_TYPE_num27 RepositoryManagerParser_num_return
 
     RepositoryManagerParser_num_return num29;
-    #undef  RETURN_TYPE_num29
-    #define  RETURN_TYPE_num29 RepositoryManagerParser_num_return
+    #undef	RETURN_TYPE_num29
+    #define	RETURN_TYPE_num29 RepositoryManagerParser_num_return
 
     pANTLR3_BASE_TREE string_literal17_tree;
     pANTLR3_BASE_TREE char_literal18_tree;
@@ -1756,10 +1756,10 @@ time_tuple(pRepositoryManagerParser ctx)
     retval.stop = LT(-1);
 
 
-      retval.stop = LT(-1);
+    	retval.stop = LT(-1);
 
-      retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
-      ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
+    	retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
+    	ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
 
             if (HASEXCEPTION())
             {
@@ -1786,20 +1786,20 @@ certificate(pRepositoryManagerParser ctx)
     pANTLR3_COMMON_TOKEN    CERT_HEADER32;
     pANTLR3_COMMON_TOKEN    CERT_END37;
     RepositoryManagerParser_clause_return clause33;
-    #undef  RETURN_TYPE_clause33
-    #define  RETURN_TYPE_clause33 RepositoryManagerParser_clause_return
+    #undef	RETURN_TYPE_clause33
+    #define	RETURN_TYPE_clause33 RepositoryManagerParser_clause_return
 
     RepositoryManagerParser_validity_return validity34;
-    #undef  RETURN_TYPE_validity34
-    #define  RETURN_TYPE_validity34 RepositoryManagerParser_validity_return
+    #undef	RETURN_TYPE_validity34
+    #define	RETURN_TYPE_validity34 RepositoryManagerParser_validity_return
 
     RepositoryManagerParser_public_key_return public_key35;
-    #undef  RETURN_TYPE_public_key35
-    #define  RETURN_TYPE_public_key35 RepositoryManagerParser_public_key_return
+    #undef	RETURN_TYPE_public_key35
+    #define	RETURN_TYPE_public_key35 RepositoryManagerParser_public_key_return
 
     RepositoryManagerParser_signature_return signature36;
-    #undef  RETURN_TYPE_signature36
-    #define  RETURN_TYPE_signature36 RepositoryManagerParser_signature_return
+    #undef	RETURN_TYPE_signature36
+    #define	RETURN_TYPE_signature36 RepositoryManagerParser_signature_return
 
     pANTLR3_BASE_TREE CERT_HEADER32_tree;
     pANTLR3_BASE_TREE CERT_END37_tree;
@@ -1864,54 +1864,54 @@ certificate(pRepositoryManagerParser ctx)
                 for (;;)
                 {
                     int alt2=2;
-              switch ( LA(1) )
-              {
-              case TEXT:
-              case 46:
-                {
-                  alt2=1;
+            	switch ( LA(1) )
+            	{
+            	case TEXT:
+            	case 46:
+            		{
+            			alt2=1;
+            		}
+            	    break;
+
+            	}
+
+            	switch (alt2)
+            	{
+            	    case 1:
+            	        // /home/stbadmin/repository-manager/src/parser/RepositoryManager.g:50:16: clause
+            	        {
+            	            FOLLOWPUSH(FOLLOW_clause_in_certificate248);
+            	            clause33=clause(ctx);
+
+            	            FOLLOWPOP();
+            	            if  (HASEXCEPTION())
+            	            {
+            	                goto rulecertificateEx;
+            	            }
+
+            	            CREATE_stream_clause; stream_clause->add(stream_clause, clause33.tree, NULL);
+
+            	        }
+            	        break;
+
+            	    default:
+
+            		if ( cnt2 >= 1 )
+            		{
+            		    goto loop2;
+            		}
+            		/* mismatchedSetEx()
+            		 */
+            		CONSTRUCTEX();
+            		EXCEPTION->type = ANTLR3_EARLY_EXIT_EXCEPTION;
+            		EXCEPTION->name = (void *)ANTLR3_EARLY_EXIT_NAME;
+
+
+            		goto rulecertificateEx;
+            	}
+            	cnt2++;
                 }
-                  break;
-
-              }
-
-              switch (alt2)
-              {
-                  case 1:
-                      // /home/stbadmin/repository-manager/src/parser/RepositoryManager.g:50:16: clause
-                      {
-                          FOLLOWPUSH(FOLLOW_clause_in_certificate248);
-                          clause33=clause(ctx);
-
-                          FOLLOWPOP();
-                          if  (HASEXCEPTION())
-                          {
-                              goto rulecertificateEx;
-                          }
-
-                          CREATE_stream_clause; stream_clause->add(stream_clause, clause33.tree, NULL);
-
-                      }
-                      break;
-
-                  default:
-
-                if ( cnt2 >= 1 )
-                {
-                    goto loop2;
-                }
-                /* mismatchedSetEx()
-                 */
-                CONSTRUCTEX();
-                EXCEPTION->type = ANTLR3_EARLY_EXIT_EXCEPTION;
-                EXCEPTION->name = (void *)ANTLR3_EARLY_EXIT_NAME;
-
-
-                goto rulecertificateEx;
-              }
-              cnt2++;
-                }
-                loop2: ;  /* Jump to here if this rule does not match */
+                loop2: ;	/* Jump to here if this rule does not match */
             }
 
             FOLLOWPUSH(FOLLOW_validity_in_certificate251);
@@ -1964,67 +1964,67 @@ certificate(pRepositoryManagerParser ctx)
              * rule list labels  : 
              */
             {
-              pANTLR3_REWRITE_RULE_SUBTREE_STREAM stream_retval;
+            	pANTLR3_REWRITE_RULE_SUBTREE_STREAM stream_retval;
 
-              stream_retval=antlr3RewriteRuleSubtreeStreamNewAEE(ADAPTOR,  RECOGNIZER, (pANTLR3_UINT8)"token retval", retval.tree != NULL ? retval.tree : NULL);
+            	stream_retval=antlr3RewriteRuleSubtreeStreamNewAEE(ADAPTOR,  RECOGNIZER, (pANTLR3_UINT8)"token retval", retval.tree != NULL ? retval.tree : NULL);
 
-              root_0          = (pANTLR3_BASE_TREE)(ADAPTOR->nilNode(ADAPTOR));
-              retval.tree    = root_0;
-              // 50:63: -> ( CERT CLAUSE ( clause )+ validity public_key signature END_CERT )+
-              {
-                  if ((stream_signature == NULL || !stream_signature->hasNext(stream_signature)) || (stream_validity == NULL || !stream_validity->hasNext(stream_validity)) || (stream_public_key == NULL || !stream_public_key->hasNext(stream_public_key))  )
-                  {
-                      CONSTRUCTEX();
-                      EXCEPTION->type         = ANTLR3_REWRITE_EARLY_EXCEPTION;
-                      EXCEPTION->name         = (void *)ANTLR3_REWRITE_EARLY_EXCEPTION_NAME;
-                  }
-                  else
-                  {
-                    while ( (stream_signature->hasNext(stream_signature)) || (stream_validity->hasNext(stream_validity)) || (stream_public_key->hasNext(stream_public_key))  ) {
-                      ADAPTOR->addChild(ADAPTOR, root_0, 
-                      (pANTLR3_BASE_TREE)ADAPTOR->createTypeText(ADAPTOR, CERT, (pANTLR3_UINT8)"CERT")
-                      );
+            	root_0			    = (pANTLR3_BASE_TREE)(ADAPTOR->nilNode(ADAPTOR));
+            	retval.tree    = root_0;
+            	// 50:63: -> ( CERT CLAUSE ( clause )+ validity public_key signature END_CERT )+
+            	{
+            	    if ((stream_signature == NULL || !stream_signature->hasNext(stream_signature)) || (stream_validity == NULL || !stream_validity->hasNext(stream_validity)) || (stream_public_key == NULL || !stream_public_key->hasNext(stream_public_key))  )
+            	    {
+            	        CONSTRUCTEX();
+            	        EXCEPTION->type         = ANTLR3_REWRITE_EARLY_EXCEPTION;
+            	        EXCEPTION->name         = (void *)ANTLR3_REWRITE_EARLY_EXCEPTION_NAME;
+            	    }
+            	    else
+            	    {
+            	    	while ( (stream_signature->hasNext(stream_signature)) || (stream_validity->hasNext(stream_validity)) || (stream_public_key->hasNext(stream_public_key))  ) {
+            	    		ADAPTOR->addChild(ADAPTOR, root_0, 
+            	    		(pANTLR3_BASE_TREE)ADAPTOR->createTypeText(ADAPTOR, CERT, (pANTLR3_UINT8)"CERT")
+            	    		);
 
-                      ADAPTOR->addChild(ADAPTOR, root_0, 
-                      (pANTLR3_BASE_TREE)ADAPTOR->createTypeText(ADAPTOR, CLAUSE, (pANTLR3_UINT8)"CLAUSE")
-                      );
+            	    		ADAPTOR->addChild(ADAPTOR, root_0, 
+            	    		(pANTLR3_BASE_TREE)ADAPTOR->createTypeText(ADAPTOR, CLAUSE, (pANTLR3_UINT8)"CLAUSE")
+            	    		);
 
-                      if ((stream_clause == NULL || !stream_clause->hasNext(stream_clause))  )
-                      {
-                          CONSTRUCTEX();
-                          EXCEPTION->type         = ANTLR3_REWRITE_EARLY_EXCEPTION;
-                          EXCEPTION->name         = (void *)ANTLR3_REWRITE_EARLY_EXCEPTION_NAME;
-                      }
-                      else
-                      {
-                        while ( (stream_clause->hasNext(stream_clause))  ) {
-                          ADAPTOR->addChild(ADAPTOR, root_0, stream_clause == NULL ? NULL : stream_clause->nextTree(stream_clause));
+            	    		if ((stream_clause == NULL || !stream_clause->hasNext(stream_clause))  )
+            	    		{
+            	    		    CONSTRUCTEX();
+            	    		    EXCEPTION->type         = ANTLR3_REWRITE_EARLY_EXCEPTION;
+            	    		    EXCEPTION->name         = (void *)ANTLR3_REWRITE_EARLY_EXCEPTION_NAME;
+            	    		}
+            	    		else
+            	    		{
+            	    			while ( (stream_clause->hasNext(stream_clause))  ) {
+            	    				ADAPTOR->addChild(ADAPTOR, root_0, stream_clause == NULL ? NULL : stream_clause->nextTree(stream_clause));
 
-                        }
-                        stream_clause->reset(stream_clause);
+            	    			}
+            	    			stream_clause->reset(stream_clause);
 
-                      }
-                      ADAPTOR->addChild(ADAPTOR, root_0, stream_validity == NULL ? NULL : stream_validity->nextTree(stream_validity));
+            	    		}
+            	    		ADAPTOR->addChild(ADAPTOR, root_0, stream_validity == NULL ? NULL : stream_validity->nextTree(stream_validity));
 
-                      ADAPTOR->addChild(ADAPTOR, root_0, stream_public_key == NULL ? NULL : stream_public_key->nextTree(stream_public_key));
+            	    		ADAPTOR->addChild(ADAPTOR, root_0, stream_public_key == NULL ? NULL : stream_public_key->nextTree(stream_public_key));
 
-                      ADAPTOR->addChild(ADAPTOR, root_0, stream_signature == NULL ? NULL : stream_signature->nextTree(stream_signature));
+            	    		ADAPTOR->addChild(ADAPTOR, root_0, stream_signature == NULL ? NULL : stream_signature->nextTree(stream_signature));
 
-                      ADAPTOR->addChild(ADAPTOR, root_0, 
-                      (pANTLR3_BASE_TREE)ADAPTOR->createTypeText(ADAPTOR, END_CERT, (pANTLR3_UINT8)"END_CERT")
-                      );
+            	    		ADAPTOR->addChild(ADAPTOR, root_0, 
+            	    		(pANTLR3_BASE_TREE)ADAPTOR->createTypeText(ADAPTOR, END_CERT, (pANTLR3_UINT8)"END_CERT")
+            	    		);
 
-                    }
-                    stream_signature->reset(stream_signature);
-                    stream_validity->reset(stream_validity);
-                    stream_public_key->reset(stream_public_key);
+            	    	}
+            	    	stream_signature->reset(stream_signature);
+            	    	stream_validity->reset(stream_validity);
+            	    	stream_public_key->reset(stream_public_key);
 
-                  }
-              }
+            	    }
+            	}
 
 
-              retval.tree = root_0; // set result root
-              if (stream_retval != NULL) stream_retval->free(stream_retval);
+            	retval.tree = root_0; // set result root
+            	if (stream_retval != NULL) stream_retval->free(stream_retval);
 
 
             }
@@ -2039,10 +2039,10 @@ certificate(pRepositoryManagerParser ctx)
     retval.stop = LT(-1);
 
 
-      retval.stop = LT(-1);
+    	retval.stop = LT(-1);
 
-      retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
-      ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
+    	retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
+    	ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
         if (stream_CERT_END != NULL) stream_CERT_END->free(stream_CERT_END);
         if (stream_CERT_HEADER != NULL) stream_CERT_HEADER->free(stream_CERT_HEADER);
         if (stream_validity != NULL) stream_validity->free(stream_validity);
@@ -2077,20 +2077,20 @@ clause(pRepositoryManagerParser ctx)
     pANTLR3_COMMON_TOKEN    char_literal43;
     pANTLR3_COMMON_TOKEN    char_literal45;
     RepositoryManagerParser_literal_return literal38;
-    #undef  RETURN_TYPE_literal38
-    #define  RETURN_TYPE_literal38 RepositoryManagerParser_literal_return
+    #undef	RETURN_TYPE_literal38
+    #define	RETURN_TYPE_literal38 RepositoryManagerParser_literal_return
 
     RepositoryManagerParser_literal_return literal40;
-    #undef  RETURN_TYPE_literal40
-    #define  RETURN_TYPE_literal40 RepositoryManagerParser_literal_return
+    #undef	RETURN_TYPE_literal40
+    #define	RETURN_TYPE_literal40 RepositoryManagerParser_literal_return
 
     RepositoryManagerParser_literal_return literal42;
-    #undef  RETURN_TYPE_literal42
-    #define  RETURN_TYPE_literal42 RepositoryManagerParser_literal_return
+    #undef	RETURN_TYPE_literal42
+    #define	RETURN_TYPE_literal42 RepositoryManagerParser_literal_return
 
     RepositoryManagerParser_literal_return literal44;
-    #undef  RETURN_TYPE_literal44
-    #define  RETURN_TYPE_literal44 RepositoryManagerParser_literal_return
+    #undef	RETURN_TYPE_literal44
+    #define	RETURN_TYPE_literal44 RepositoryManagerParser_literal_return
 
     pANTLR3_BASE_TREE char_literal39_tree;
     pANTLR3_BASE_TREE string_literal41_tree;
@@ -2140,137 +2140,137 @@ clause(pRepositoryManagerParser ctx)
 
             switch (alt4)
             {
-          case 1:
-              // /home/stbadmin/repository-manager/src/parser/RepositoryManager.g:53:4: literal '.'
-              {
-                  root_0 = (pANTLR3_BASE_TREE)(ADAPTOR->nilNode(ADAPTOR));
+        	case 1:
+        	    // /home/stbadmin/repository-manager/src/parser/RepositoryManager.g:53:4: literal '.'
+        	    {
+        	        root_0 = (pANTLR3_BASE_TREE)(ADAPTOR->nilNode(ADAPTOR));
 
 
-                  FOLLOWPUSH(FOLLOW_literal_in_clause287);
-                  literal38=literal(ctx);
+        	        FOLLOWPUSH(FOLLOW_literal_in_clause287);
+        	        literal38=literal(ctx);
 
-                  FOLLOWPOP();
-                  if  (HASEXCEPTION())
-                  {
-                      goto ruleclauseEx;
-                  }
+        	        FOLLOWPOP();
+        	        if  (HASEXCEPTION())
+        	        {
+        	            goto ruleclauseEx;
+        	        }
 
-                  ADAPTOR->addChild(ADAPTOR, root_0, literal38.tree);
+        	        ADAPTOR->addChild(ADAPTOR, root_0, literal38.tree);
 
-                  char_literal39 = (pANTLR3_COMMON_TOKEN) MATCHT(42, &FOLLOW_42_in_clause289);
-                  if  (HASEXCEPTION())
-                  {
-                      goto ruleclauseEx;
-                  }
+        	        char_literal39 = (pANTLR3_COMMON_TOKEN) MATCHT(42, &FOLLOW_42_in_clause289);
+        	        if  (HASEXCEPTION())
+        	        {
+        	            goto ruleclauseEx;
+        	        }
 
-                  char_literal39_tree = (pANTLR3_BASE_TREE)(ADAPTOR->create(ADAPTOR, char_literal39));
-                  ADAPTOR->addChild(ADAPTOR, root_0, char_literal39_tree);
-
-
-              }
-              break;
-          case 2:
-              // /home/stbadmin/repository-manager/src/parser/RepositoryManager.g:54:4: literal ':-' literal ( ',' literal )* '.'
-              {
-                  root_0 = (pANTLR3_BASE_TREE)(ADAPTOR->nilNode(ADAPTOR));
+        	        char_literal39_tree = (pANTLR3_BASE_TREE)(ADAPTOR->create(ADAPTOR, char_literal39));
+        	        ADAPTOR->addChild(ADAPTOR, root_0, char_literal39_tree);
 
 
-                  FOLLOWPUSH(FOLLOW_literal_in_clause294);
-                  literal40=literal(ctx);
-
-                  FOLLOWPOP();
-                  if  (HASEXCEPTION())
-                  {
-                      goto ruleclauseEx;
-                  }
-
-                  ADAPTOR->addChild(ADAPTOR, root_0, literal40.tree);
-
-                  string_literal41 = (pANTLR3_COMMON_TOKEN) MATCHT(43, &FOLLOW_43_in_clause296);
-                  if  (HASEXCEPTION())
-                  {
-                      goto ruleclauseEx;
-                  }
-
-                  string_literal41_tree = (pANTLR3_BASE_TREE)(ADAPTOR->create(ADAPTOR, string_literal41));
-                  ADAPTOR->addChild(ADAPTOR, root_0, string_literal41_tree);
+        	    }
+        	    break;
+        	case 2:
+        	    // /home/stbadmin/repository-manager/src/parser/RepositoryManager.g:54:4: literal ':-' literal ( ',' literal )* '.'
+        	    {
+        	        root_0 = (pANTLR3_BASE_TREE)(ADAPTOR->nilNode(ADAPTOR));
 
 
-                  FOLLOWPUSH(FOLLOW_literal_in_clause298);
-                  literal42=literal(ctx);
+        	        FOLLOWPUSH(FOLLOW_literal_in_clause294);
+        	        literal40=literal(ctx);
 
-                  FOLLOWPOP();
-                  if  (HASEXCEPTION())
-                  {
-                      goto ruleclauseEx;
-                  }
+        	        FOLLOWPOP();
+        	        if  (HASEXCEPTION())
+        	        {
+        	            goto ruleclauseEx;
+        	        }
 
-                  ADAPTOR->addChild(ADAPTOR, root_0, literal42.tree);
+        	        ADAPTOR->addChild(ADAPTOR, root_0, literal40.tree);
 
-                  // /home/stbadmin/repository-manager/src/parser/RepositoryManager.g:55:4: ( ',' literal )*
+        	        string_literal41 = (pANTLR3_COMMON_TOKEN) MATCHT(43, &FOLLOW_43_in_clause296);
+        	        if  (HASEXCEPTION())
+        	        {
+        	            goto ruleclauseEx;
+        	        }
 
-                  for (;;)
-                  {
-                      int alt3=2;
-                      switch ( LA(1) )
-                      {
-                      case 41:
-                        {
-                          alt3=1;
-                        }
-                          break;
-
-                      }
-
-                      switch (alt3)
-                      {
-                    case 1:
-                        // /home/stbadmin/repository-manager/src/parser/RepositoryManager.g:55:6: ',' literal
-                        {
-                            char_literal43 = (pANTLR3_COMMON_TOKEN) MATCHT(41, &FOLLOW_41_in_clause305);
-                            if  (HASEXCEPTION())
-                            {
-                                goto ruleclauseEx;
-                            }
-
-                            char_literal43_tree = (pANTLR3_BASE_TREE)(ADAPTOR->create(ADAPTOR, char_literal43));
-                            ADAPTOR->addChild(ADAPTOR, root_0, char_literal43_tree);
+        	        string_literal41_tree = (pANTLR3_BASE_TREE)(ADAPTOR->create(ADAPTOR, string_literal41));
+        	        ADAPTOR->addChild(ADAPTOR, root_0, string_literal41_tree);
 
 
-                            FOLLOWPUSH(FOLLOW_literal_in_clause307);
-                            literal44=literal(ctx);
+        	        FOLLOWPUSH(FOLLOW_literal_in_clause298);
+        	        literal42=literal(ctx);
 
-                            FOLLOWPOP();
-                            if  (HASEXCEPTION())
-                            {
-                                goto ruleclauseEx;
-                            }
+        	        FOLLOWPOP();
+        	        if  (HASEXCEPTION())
+        	        {
+        	            goto ruleclauseEx;
+        	        }
 
-                            ADAPTOR->addChild(ADAPTOR, root_0, literal44.tree);
+        	        ADAPTOR->addChild(ADAPTOR, root_0, literal42.tree);
 
-                        }
-                        break;
+        	        // /home/stbadmin/repository-manager/src/parser/RepositoryManager.g:55:4: ( ',' literal )*
 
-                    default:
-                        goto loop3;  /* break out of the loop */
-                        break;
-                      }
-                  }
-                  loop3: ; /* Jump out to here if this rule does not match */
+        	        for (;;)
+        	        {
+        	            int alt3=2;
+        	            switch ( LA(1) )
+        	            {
+        	            case 41:
+        	            	{
+        	            		alt3=1;
+        	            	}
+        	                break;
+
+        	            }
+
+        	            switch (alt3)
+        	            {
+        	        	case 1:
+        	        	    // /home/stbadmin/repository-manager/src/parser/RepositoryManager.g:55:6: ',' literal
+        	        	    {
+        	        	        char_literal43 = (pANTLR3_COMMON_TOKEN) MATCHT(41, &FOLLOW_41_in_clause305);
+        	        	        if  (HASEXCEPTION())
+        	        	        {
+        	        	            goto ruleclauseEx;
+        	        	        }
+
+        	        	        char_literal43_tree = (pANTLR3_BASE_TREE)(ADAPTOR->create(ADAPTOR, char_literal43));
+        	        	        ADAPTOR->addChild(ADAPTOR, root_0, char_literal43_tree);
 
 
-                  char_literal45 = (pANTLR3_COMMON_TOKEN) MATCHT(42, &FOLLOW_42_in_clause311);
-                  if  (HASEXCEPTION())
-                  {
-                      goto ruleclauseEx;
-                  }
+        	        	        FOLLOWPUSH(FOLLOW_literal_in_clause307);
+        	        	        literal44=literal(ctx);
 
-                  char_literal45_tree = (pANTLR3_BASE_TREE)(ADAPTOR->create(ADAPTOR, char_literal45));
-                  ADAPTOR->addChild(ADAPTOR, root_0, char_literal45_tree);
+        	        	        FOLLOWPOP();
+        	        	        if  (HASEXCEPTION())
+        	        	        {
+        	        	            goto ruleclauseEx;
+        	        	        }
+
+        	        	        ADAPTOR->addChild(ADAPTOR, root_0, literal44.tree);
+
+        	        	    }
+        	        	    break;
+
+        	        	default:
+        	        	    goto loop3;	/* break out of the loop */
+        	        	    break;
+        	            }
+        	        }
+        	        loop3: ; /* Jump out to here if this rule does not match */
 
 
-              }
-              break;
+        	        char_literal45 = (pANTLR3_COMMON_TOKEN) MATCHT(42, &FOLLOW_42_in_clause311);
+        	        if  (HASEXCEPTION())
+        	        {
+        	            goto ruleclauseEx;
+        	        }
+
+        	        char_literal45_tree = (pANTLR3_BASE_TREE)(ADAPTOR->create(ADAPTOR, char_literal45));
+        	        ADAPTOR->addChild(ADAPTOR, root_0, char_literal45_tree);
+
+
+        	    }
+        	    break;
 
             }
         }
@@ -2283,10 +2283,10 @@ clause(pRepositoryManagerParser ctx)
     retval.stop = LT(-1);
 
 
-      retval.stop = LT(-1);
+    	retval.stop = LT(-1);
 
-      retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
-      ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
+    	retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
+    	ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
 
             if (HASEXCEPTION())
             {
@@ -2315,16 +2315,16 @@ literal(pRepositoryManagerParser ctx)
     pANTLR3_COMMON_TOKEN    char_literal50;
     pANTLR3_COMMON_TOKEN    char_literal52;
     RepositoryManagerParser_predicate_return predicate46;
-    #undef  RETURN_TYPE_predicate46
-    #define  RETURN_TYPE_predicate46 RepositoryManagerParser_predicate_return
+    #undef	RETURN_TYPE_predicate46
+    #define	RETURN_TYPE_predicate46 RepositoryManagerParser_predicate_return
 
     RepositoryManagerParser_text_return text49;
-    #undef  RETURN_TYPE_text49
-    #define  RETURN_TYPE_text49 RepositoryManagerParser_text_return
+    #undef	RETURN_TYPE_text49
+    #define	RETURN_TYPE_text49 RepositoryManagerParser_text_return
 
     RepositoryManagerParser_predicate_return predicate51;
-    #undef  RETURN_TYPE_predicate51
-    #define  RETURN_TYPE_predicate51 RepositoryManagerParser_predicate_return
+    #undef	RETURN_TYPE_predicate51
+    #define	RETURN_TYPE_predicate51 RepositoryManagerParser_predicate_return
 
     pANTLR3_BASE_TREE string_literal47_tree;
     pANTLR3_BASE_TREE char_literal48_tree;
@@ -2367,14 +2367,14 @@ literal(pRepositoryManagerParser ctx)
             switch ( LA(1) )
             {
             case TEXT:
-              {
-                alt5=1;
-              }
+            	{
+            		alt5=1;
+            	}
                 break;
             case 46:
-              {
-                alt5=2;
-              }
+            	{
+            		alt5=2;
+            	}
                 break;
 
             default:
@@ -2391,95 +2391,95 @@ literal(pRepositoryManagerParser ctx)
 
             switch (alt5)
             {
-          case 1:
-              // /home/stbadmin/repository-manager/src/parser/RepositoryManager.g:58:4: predicate
-              {
-                  root_0 = (pANTLR3_BASE_TREE)(ADAPTOR->nilNode(ADAPTOR));
+        	case 1:
+        	    // /home/stbadmin/repository-manager/src/parser/RepositoryManager.g:58:4: predicate
+        	    {
+        	        root_0 = (pANTLR3_BASE_TREE)(ADAPTOR->nilNode(ADAPTOR));
 
 
-                  FOLLOWPUSH(FOLLOW_predicate_in_literal321);
-                  predicate46=predicate(ctx);
+        	        FOLLOWPUSH(FOLLOW_predicate_in_literal321);
+        	        predicate46=predicate(ctx);
 
-                  FOLLOWPOP();
-                  if  (HASEXCEPTION())
-                  {
-                      goto ruleliteralEx;
-                  }
+        	        FOLLOWPOP();
+        	        if  (HASEXCEPTION())
+        	        {
+        	            goto ruleliteralEx;
+        	        }
 
-                  ADAPTOR->addChild(ADAPTOR, root_0, predicate46.tree);
+        	        ADAPTOR->addChild(ADAPTOR, root_0, predicate46.tree);
 
-              }
-              break;
-          case 2:
-              // /home/stbadmin/repository-manager/src/parser/RepositoryManager.g:59:4: 'says' '(' text ',' predicate ')'
-              {
-                  root_0 = (pANTLR3_BASE_TREE)(ADAPTOR->nilNode(ADAPTOR));
-
-
-                  string_literal47 = (pANTLR3_COMMON_TOKEN) MATCHT(46, &FOLLOW_46_in_literal326);
-                  if  (HASEXCEPTION())
-                  {
-                      goto ruleliteralEx;
-                  }
-
-                  string_literal47_tree = (pANTLR3_BASE_TREE)(ADAPTOR->create(ADAPTOR, string_literal47));
-                  ADAPTOR->addChild(ADAPTOR, root_0, string_literal47_tree);
+        	    }
+        	    break;
+        	case 2:
+        	    // /home/stbadmin/repository-manager/src/parser/RepositoryManager.g:59:4: 'says' '(' text ',' predicate ')'
+        	    {
+        	        root_0 = (pANTLR3_BASE_TREE)(ADAPTOR->nilNode(ADAPTOR));
 
 
-                  char_literal48 = (pANTLR3_COMMON_TOKEN) MATCHT(39, &FOLLOW_39_in_literal328);
-                  if  (HASEXCEPTION())
-                  {
-                      goto ruleliteralEx;
-                  }
+        	        string_literal47 = (pANTLR3_COMMON_TOKEN) MATCHT(46, &FOLLOW_46_in_literal326);
+        	        if  (HASEXCEPTION())
+        	        {
+        	            goto ruleliteralEx;
+        	        }
 
-                  char_literal48_tree = (pANTLR3_BASE_TREE)(ADAPTOR->create(ADAPTOR, char_literal48));
-                  ADAPTOR->addChild(ADAPTOR, root_0, char_literal48_tree);
-
-
-                  FOLLOWPUSH(FOLLOW_text_in_literal330);
-                  text49=text(ctx);
-
-                  FOLLOWPOP();
-                  if  (HASEXCEPTION())
-                  {
-                      goto ruleliteralEx;
-                  }
-
-                  ADAPTOR->addChild(ADAPTOR, root_0, text49.tree);
-
-                  char_literal50 = (pANTLR3_COMMON_TOKEN) MATCHT(41, &FOLLOW_41_in_literal332);
-                  if  (HASEXCEPTION())
-                  {
-                      goto ruleliteralEx;
-                  }
-
-                  char_literal50_tree = (pANTLR3_BASE_TREE)(ADAPTOR->create(ADAPTOR, char_literal50));
-                  ADAPTOR->addChild(ADAPTOR, root_0, char_literal50_tree);
+        	        string_literal47_tree = (pANTLR3_BASE_TREE)(ADAPTOR->create(ADAPTOR, string_literal47));
+        	        ADAPTOR->addChild(ADAPTOR, root_0, string_literal47_tree);
 
 
-                  FOLLOWPUSH(FOLLOW_predicate_in_literal334);
-                  predicate51=predicate(ctx);
+        	        char_literal48 = (pANTLR3_COMMON_TOKEN) MATCHT(39, &FOLLOW_39_in_literal328);
+        	        if  (HASEXCEPTION())
+        	        {
+        	            goto ruleliteralEx;
+        	        }
 
-                  FOLLOWPOP();
-                  if  (HASEXCEPTION())
-                  {
-                      goto ruleliteralEx;
-                  }
-
-                  ADAPTOR->addChild(ADAPTOR, root_0, predicate51.tree);
-
-                  char_literal52 = (pANTLR3_COMMON_TOKEN) MATCHT(40, &FOLLOW_40_in_literal336);
-                  if  (HASEXCEPTION())
-                  {
-                      goto ruleliteralEx;
-                  }
-
-                  char_literal52_tree = (pANTLR3_BASE_TREE)(ADAPTOR->create(ADAPTOR, char_literal52));
-                  ADAPTOR->addChild(ADAPTOR, root_0, char_literal52_tree);
+        	        char_literal48_tree = (pANTLR3_BASE_TREE)(ADAPTOR->create(ADAPTOR, char_literal48));
+        	        ADAPTOR->addChild(ADAPTOR, root_0, char_literal48_tree);
 
 
-              }
-              break;
+        	        FOLLOWPUSH(FOLLOW_text_in_literal330);
+        	        text49=text(ctx);
+
+        	        FOLLOWPOP();
+        	        if  (HASEXCEPTION())
+        	        {
+        	            goto ruleliteralEx;
+        	        }
+
+        	        ADAPTOR->addChild(ADAPTOR, root_0, text49.tree);
+
+        	        char_literal50 = (pANTLR3_COMMON_TOKEN) MATCHT(41, &FOLLOW_41_in_literal332);
+        	        if  (HASEXCEPTION())
+        	        {
+        	            goto ruleliteralEx;
+        	        }
+
+        	        char_literal50_tree = (pANTLR3_BASE_TREE)(ADAPTOR->create(ADAPTOR, char_literal50));
+        	        ADAPTOR->addChild(ADAPTOR, root_0, char_literal50_tree);
+
+
+        	        FOLLOWPUSH(FOLLOW_predicate_in_literal334);
+        	        predicate51=predicate(ctx);
+
+        	        FOLLOWPOP();
+        	        if  (HASEXCEPTION())
+        	        {
+        	            goto ruleliteralEx;
+        	        }
+
+        	        ADAPTOR->addChild(ADAPTOR, root_0, predicate51.tree);
+
+        	        char_literal52 = (pANTLR3_COMMON_TOKEN) MATCHT(40, &FOLLOW_40_in_literal336);
+        	        if  (HASEXCEPTION())
+        	        {
+        	            goto ruleliteralEx;
+        	        }
+
+        	        char_literal52_tree = (pANTLR3_BASE_TREE)(ADAPTOR->create(ADAPTOR, char_literal52));
+        	        ADAPTOR->addChild(ADAPTOR, root_0, char_literal52_tree);
+
+
+        	    }
+        	    break;
 
             }
         }
@@ -2492,10 +2492,10 @@ literal(pRepositoryManagerParser ctx)
     retval.stop = LT(-1);
 
 
-      retval.stop = LT(-1);
+    	retval.stop = LT(-1);
 
-      retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
-      ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
+    	retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
+    	ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
 
             if (HASEXCEPTION())
             {
@@ -2523,16 +2523,16 @@ predicate(pRepositoryManagerParser ctx)
     pANTLR3_COMMON_TOKEN    char_literal56;
     pANTLR3_COMMON_TOKEN    char_literal58;
     RepositoryManagerParser_text_return text53;
-    #undef  RETURN_TYPE_text53
-    #define  RETURN_TYPE_text53 RepositoryManagerParser_text_return
+    #undef	RETURN_TYPE_text53
+    #define	RETURN_TYPE_text53 RepositoryManagerParser_text_return
 
     RepositoryManagerParser_text_return text55;
-    #undef  RETURN_TYPE_text55
-    #define  RETURN_TYPE_text55 RepositoryManagerParser_text_return
+    #undef	RETURN_TYPE_text55
+    #define	RETURN_TYPE_text55 RepositoryManagerParser_text_return
 
     RepositoryManagerParser_text_return text57;
-    #undef  RETURN_TYPE_text57
-    #define  RETURN_TYPE_text57 RepositoryManagerParser_text_return
+    #undef	RETURN_TYPE_text57
+    #define	RETURN_TYPE_text57 RepositoryManagerParser_text_return
 
     pANTLR3_BASE_TREE char_literal54_tree;
     pANTLR3_BASE_TREE char_literal56_tree;
@@ -2608,45 +2608,45 @@ predicate(pRepositoryManagerParser ctx)
                 switch ( LA(1) )
                 {
                 case 41:
-                  {
-                    alt6=1;
-                  }
+                	{
+                		alt6=1;
+                	}
                     break;
 
                 }
 
                 switch (alt6)
                 {
-              case 1:
-                  // /home/stbadmin/repository-manager/src/parser/RepositoryManager.g:63:5: ',' text
-                  {
-                      char_literal56 = (pANTLR3_COMMON_TOKEN) MATCHT(41, &FOLLOW_41_in_predicate357);
-                      if  (HASEXCEPTION())
-                      {
-                          goto rulepredicateEx;
-                      }
+            	case 1:
+            	    // /home/stbadmin/repository-manager/src/parser/RepositoryManager.g:63:5: ',' text
+            	    {
+            	        char_literal56 = (pANTLR3_COMMON_TOKEN) MATCHT(41, &FOLLOW_41_in_predicate357);
+            	        if  (HASEXCEPTION())
+            	        {
+            	            goto rulepredicateEx;
+            	        }
 
-                      char_literal56_tree = (pANTLR3_BASE_TREE)(ADAPTOR->create(ADAPTOR, char_literal56));
-                      ADAPTOR->addChild(ADAPTOR, root_0, char_literal56_tree);
+            	        char_literal56_tree = (pANTLR3_BASE_TREE)(ADAPTOR->create(ADAPTOR, char_literal56));
+            	        ADAPTOR->addChild(ADAPTOR, root_0, char_literal56_tree);
 
 
-                      FOLLOWPUSH(FOLLOW_text_in_predicate358);
-                      text57=text(ctx);
+            	        FOLLOWPUSH(FOLLOW_text_in_predicate358);
+            	        text57=text(ctx);
 
-                      FOLLOWPOP();
-                      if  (HASEXCEPTION())
-                      {
-                          goto rulepredicateEx;
-                      }
+            	        FOLLOWPOP();
+            	        if  (HASEXCEPTION())
+            	        {
+            	            goto rulepredicateEx;
+            	        }
 
-                      ADAPTOR->addChild(ADAPTOR, root_0, text57.tree);
+            	        ADAPTOR->addChild(ADAPTOR, root_0, text57.tree);
 
-                  }
-                  break;
+            	    }
+            	    break;
 
-              default:
-                  goto loop6;  /* break out of the loop */
-                  break;
+            	default:
+            	    goto loop6;	/* break out of the loop */
+            	    break;
                 }
             }
             loop6: ; /* Jump out to here if this rule does not match */
@@ -2673,10 +2673,10 @@ predicate(pRepositoryManagerParser ctx)
     retval.stop = LT(-1);
 
 
-      retval.stop = LT(-1);
+    	retval.stop = LT(-1);
 
-      retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
-      ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
+    	retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
+    	ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
 
             if (HASEXCEPTION())
             {
@@ -2703,8 +2703,8 @@ challenge(pRepositoryManagerParser ctx)
     pANTLR3_COMMON_TOKEN    CHALLENGE_HEADER59;
     pANTLR3_COMMON_TOKEN    CHALLENGE_END61;
     RepositoryManagerParser_text_return text60;
-    #undef  RETURN_TYPE_text60
-    #define  RETURN_TYPE_text60 RepositoryManagerParser_text_return
+    #undef	RETURN_TYPE_text60
+    #define	RETURN_TYPE_text60 RepositoryManagerParser_text_return
 
     pANTLR3_BASE_TREE CHALLENGE_HEADER59_tree;
     pANTLR3_BASE_TREE CHALLENGE_END61_tree;
@@ -2775,10 +2775,10 @@ challenge(pRepositoryManagerParser ctx)
     retval.stop = LT(-1);
 
 
-      retval.stop = LT(-1);
+    	retval.stop = LT(-1);
 
-      retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
-      ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
+    	retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
+    	ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
 
             if (HASEXCEPTION())
             {
@@ -2805,8 +2805,8 @@ response(pRepositoryManagerParser ctx)
     pANTLR3_COMMON_TOKEN    RESPONSE_HEADER62;
     pANTLR3_COMMON_TOKEN    RESPONSE_END64;
     RepositoryManagerParser_base64_return base6463;
-    #undef  RETURN_TYPE_base6463
-    #define  RETURN_TYPE_base6463 RepositoryManagerParser_base64_return
+    #undef	RETURN_TYPE_base6463
+    #define	RETURN_TYPE_base6463 RepositoryManagerParser_base64_return
 
     pANTLR3_BASE_TREE RESPONSE_HEADER62_tree;
     pANTLR3_BASE_TREE RESPONSE_END64_tree;
@@ -2877,10 +2877,10 @@ response(pRepositoryManagerParser ctx)
     retval.stop = LT(-1);
 
 
-      retval.stop = LT(-1);
+    	retval.stop = LT(-1);
 
-      retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
-      ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
+    	retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
+    	ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
 
             if (HASEXCEPTION())
             {
@@ -2911,12 +2911,12 @@ request(pRepositoryManagerParser ctx)
     pANTLR3_COMMON_TOKEN    char_literal71;
     pANTLR3_COMMON_TOKEN    REQUEST_END72;
     RepositoryManagerParser_op_return op68;
-    #undef  RETURN_TYPE_op68
-    #define  RETURN_TYPE_op68 RepositoryManagerParser_op_return
+    #undef	RETURN_TYPE_op68
+    #define	RETURN_TYPE_op68 RepositoryManagerParser_op_return
 
     RepositoryManagerParser_text_return text70;
-    #undef  RETURN_TYPE_text70
-    #define  RETURN_TYPE_text70 RepositoryManagerParser_text_return
+    #undef	RETURN_TYPE_text70
+    #define	RETURN_TYPE_text70 RepositoryManagerParser_text_return
 
     pANTLR3_BASE_TREE REQUEST_HEADER65_tree;
     pANTLR3_BASE_TREE string_literal66_tree;
@@ -3052,10 +3052,10 @@ request(pRepositoryManagerParser ctx)
     retval.stop = LT(-1);
 
 
-      retval.stop = LT(-1);
+    	retval.stop = LT(-1);
 
-      retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
-      ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
+    	retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
+    	ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
 
             if (HASEXCEPTION())
             {
@@ -3080,8 +3080,8 @@ op(pRepositoryManagerParser ctx)
     pANTLR3_BASE_TREE root_0;
 
     RepositoryManagerParser_text_return text73;
-    #undef  RETURN_TYPE_text73
-    #define  RETURN_TYPE_text73 RepositoryManagerParser_text_return
+    #undef	RETURN_TYPE_text73
+    #define	RETURN_TYPE_text73 RepositoryManagerParser_text_return
 
 
     /* Initialize rule variables
@@ -3126,10 +3126,10 @@ op(pRepositoryManagerParser ctx)
     retval.stop = LT(-1);
 
 
-      retval.stop = LT(-1);
+    	retval.stop = LT(-1);
 
-      retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
-      ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
+    	retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
+    	ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
 
             if (HASEXCEPTION())
             {
@@ -3156,8 +3156,8 @@ reply(pRepositoryManagerParser ctx)
     pANTLR3_COMMON_TOKEN    REPLY_HEADER74;
     pANTLR3_COMMON_TOKEN    REPLY_END76;
     RepositoryManagerParser_result_return result75;
-    #undef  RETURN_TYPE_result75
-    #define  RETURN_TYPE_result75 RepositoryManagerParser_result_return
+    #undef	RETURN_TYPE_result75
+    #define	RETURN_TYPE_result75 RepositoryManagerParser_result_return
 
     pANTLR3_BASE_TREE REPLY_HEADER74_tree;
     pANTLR3_BASE_TREE REPLY_END76_tree;
@@ -3228,10 +3228,10 @@ reply(pRepositoryManagerParser ctx)
     retval.stop = LT(-1);
 
 
-      retval.stop = LT(-1);
+    	retval.stop = LT(-1);
 
-      retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
-      ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
+    	retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
+    	ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
 
             if (HASEXCEPTION())
             {
@@ -3256,8 +3256,8 @@ result(pRepositoryManagerParser ctx)
     pANTLR3_BASE_TREE root_0;
 
     RepositoryManagerParser_text_return text77;
-    #undef  RETURN_TYPE_text77
-    #define  RETURN_TYPE_text77 RepositoryManagerParser_text_return
+    #undef	RETURN_TYPE_text77
+    #define	RETURN_TYPE_text77 RepositoryManagerParser_text_return
 
 
     /* Initialize rule variables
@@ -3302,10 +3302,10 @@ result(pRepositoryManagerParser ctx)
     retval.stop = LT(-1);
 
 
-      retval.stop = LT(-1);
+    	retval.stop = LT(-1);
 
-      retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
-      ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
+    	retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
+    	ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
 
             if (HASEXCEPTION())
             {
@@ -3375,10 +3375,10 @@ text(pRepositoryManagerParser ctx)
     retval.stop = LT(-1);
 
 
-      retval.stop = LT(-1);
+    	retval.stop = LT(-1);
 
-      retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
-      ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
+    	retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
+    	ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
 
             if (HASEXCEPTION())
             {
@@ -3403,8 +3403,8 @@ base64(pRepositoryManagerParser ctx)
     pANTLR3_BASE_TREE root_0;
 
     RepositoryManagerParser_text_return text79;
-    #undef  RETURN_TYPE_text79
-    #define  RETURN_TYPE_text79 RepositoryManagerParser_text_return
+    #undef	RETURN_TYPE_text79
+    #define	RETURN_TYPE_text79 RepositoryManagerParser_text_return
 
 
     /* Initialize rule variables
@@ -3434,53 +3434,53 @@ base64(pRepositoryManagerParser ctx)
                 for (;;)
                 {
                     int alt7=2;
-              switch ( LA(1) )
-              {
-              case TEXT:
-                {
-                  alt7=1;
+            	switch ( LA(1) )
+            	{
+            	case TEXT:
+            		{
+            			alt7=1;
+            		}
+            	    break;
+
+            	}
+
+            	switch (alt7)
+            	{
+            	    case 1:
+            	        // /home/stbadmin/repository-manager/src/parser/RepositoryManager.g:87:4: text
+            	        {
+            	            FOLLOWPUSH(FOLLOW_text_in_base64500);
+            	            text79=text(ctx);
+
+            	            FOLLOWPOP();
+            	            if  (HASEXCEPTION())
+            	            {
+            	                goto rulebase64Ex;
+            	            }
+
+            	            ADAPTOR->addChild(ADAPTOR, root_0, text79.tree);
+
+            	        }
+            	        break;
+
+            	    default:
+
+            		if ( cnt7 >= 1 )
+            		{
+            		    goto loop7;
+            		}
+            		/* mismatchedSetEx()
+            		 */
+            		CONSTRUCTEX();
+            		EXCEPTION->type = ANTLR3_EARLY_EXIT_EXCEPTION;
+            		EXCEPTION->name = (void *)ANTLR3_EARLY_EXIT_NAME;
+
+
+            		goto rulebase64Ex;
+            	}
+            	cnt7++;
                 }
-                  break;
-
-              }
-
-              switch (alt7)
-              {
-                  case 1:
-                      // /home/stbadmin/repository-manager/src/parser/RepositoryManager.g:87:4: text
-                      {
-                          FOLLOWPUSH(FOLLOW_text_in_base64500);
-                          text79=text(ctx);
-
-                          FOLLOWPOP();
-                          if  (HASEXCEPTION())
-                          {
-                              goto rulebase64Ex;
-                          }
-
-                          ADAPTOR->addChild(ADAPTOR, root_0, text79.tree);
-
-                      }
-                      break;
-
-                  default:
-
-                if ( cnt7 >= 1 )
-                {
-                    goto loop7;
-                }
-                /* mismatchedSetEx()
-                 */
-                CONSTRUCTEX();
-                EXCEPTION->type = ANTLR3_EARLY_EXIT_EXCEPTION;
-                EXCEPTION->name = (void *)ANTLR3_EARLY_EXIT_NAME;
-
-
-                goto rulebase64Ex;
-              }
-              cnt7++;
-                }
-                loop7: ;  /* Jump to here if this rule does not match */
+                loop7: ;	/* Jump to here if this rule does not match */
             }
 
         }
@@ -3494,10 +3494,10 @@ base64(pRepositoryManagerParser ctx)
     retval.stop = LT(-1);
 
 
-      retval.stop = LT(-1);
+    	retval.stop = LT(-1);
 
-      retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
-      ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
+    	retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
+    	ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
 
             if (HASEXCEPTION())
             {
@@ -3567,10 +3567,10 @@ num(pRepositoryManagerParser ctx)
     retval.stop = LT(-1);
 
 
-      retval.stop = LT(-1);
+    	retval.stop = LT(-1);
 
-      retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
-      ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
+    	retval.tree = (pANTLR3_BASE_TREE)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
+    	ADAPTOR->setTokenBoundaries(ADAPTOR, retval.tree, retval.start, retval.stop);
 
             if (HASEXCEPTION())
             {
