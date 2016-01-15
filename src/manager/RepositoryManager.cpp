@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <cstdlib>
 
 #include "TransportService.h"
 #include "../utils/SecurityService.h"
@@ -32,15 +33,17 @@ int main(int argc, char* argv[])
   }
   else
   {
+    int port = atoi(argv[1]);
+
     if(argc == 4)
       VALIDATE_CERT_TIME = true;
 
     cout << LINE_S << endl << "NAME  : Repository Manager" << endl
-         << "PORT  : " << argv[1] << endl << "POLICY: " << argv[2] << endl
+         << "PORT  : " << port << endl << "POLICY: " << argv[2] << endl
          << LINE_S << endl;
 
     srand(time(0));
-    TransportService ts(1983, argv[2]);
+    TransportService ts(port, argv[2]);
     ts.startListening();
   }
 
