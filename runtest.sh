@@ -141,4 +141,3 @@ else
     echo
   fi
 fi
-exit 0;

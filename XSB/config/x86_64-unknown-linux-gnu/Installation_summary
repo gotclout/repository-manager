@@ -1,0 +1,301 @@
+
+
+            INSTALLATION SUMMARY
+            --------------------
+
+XSB Version:	   3.6.
+Code name:	   Gazpatcho
+Release date:	   2015-04-28
+Configuration:	   x86_64-unknown-linux-gnu
+Installation date: Tue Jan 12 11:36:45 EST 2016
+
+  Build process is looking for XSB sources in:	  /home/stbadmin/Utils/tools/XSB
+  XSB should be installed in:			  /home/stbadmin/Utils/tools/XSB
+  Configuration-specific executables go in:	  /home/stbadmin/Utils/tools/XSB/config/x86_64-unknown-linux-gnu/bin
+  Configuration-specific libraries go in:	  /home/stbadmin/Utils/tools/XSB/config/x86_64-unknown-linux-gnu/lib
+  Object code goes in:				  /home/stbadmin/Utils/tools/XSB/config/x86_64-unknown-linux-gnu/saved.o
+  Site-specific code goes in:			  /home/stbadmin/Utils/tools/XSB/site
+  Site configuration-specific code goes in:	  /home/stbadmin/Utils/tools/XSB/site/config/x86_64-unknown-linux-gnu
+  XSB will be built with:			  gcc  -O3 -fno-strict-aliasing  -Wall -pipe 
+  builtin.c will be built with: 		  gcc  -O3 -fno-strict-aliasing  -Wall -pipe 
+  loader_xsb.c will be built with: 		  gcc  -O3 -fno-strict-aliasing  -Wall -pipe 
+  emuloop.c will be built with: 		  gcc  -O3 -fno-strict-aliasing  -Wall -pipe 
+  tr_utils.c will be built with:		  gcc  -O3 -fno-strict-aliasing  -Wall -pipe 
+  Loader flags: 				  -lm -ldl -Wl,-export-dynamic -lpthread
+  Compilation mode:				  optimal
+  XSB abstract machine: 			  slg-wam
+  XSB scheduling strategy:			  local
+  Garbage Collection Stress-Test:		  no
+  Jumptable-based emulator loop:		  yes
+  Demand support:                                 no
+
+  Support for modular database drivers: 	  no
+  -- These drivers can also be configured later.
+  Native support for Oracle:			  no
+  Support for the old ODBC driver:		  no
+
+  Java compiler:                                  /usr/bin/javac
+  Support for InterProlog's native engine:	  yes
+
+  POSIX regexp matching libraries:                yes
+  POSIX wildcard matching libraries:              yes
+
+  Curl support (HTTP protocol library):           yes
+  Curl C flags:        	                          -g -O2
+  Curl loader flags:                              
+
+  XPath support:				  yes
+  XPath C flags:				  -I/usr/include/libxml2
+  XPath loader flags:				  -L/usr/lib -lxml2
+
+  PCRE support (Perl pattern matching):           yes
+  PCRE C flags:        	                          -g -O2
+  PCRE loader flags:                              
+
+
+
+make[1]: Entering directory '/home/stbadmin/Utils/tools/XSB/emu'
+-e 
+Compiling XSB with gcc using -O3 -fno-strict-aliasing  -Wall -pipe 
+
+-e 	[gcc] main_xsb.c
+-e 	[gcc] auxlry.c
+-e 	[gcc] biassert.c
+-e 	[gcc] builtin.c using -O3 -fno-strict-aliasing  -Wall -pipe 
+-e 	[gcc] call_xsb.c
+-e 	[gcc] cinterf.c
+-e 	[gcc] conc_compl.c
+-e 	[gcc] debug_xsb.c
+-e 	[gcc] dis.c
+-e 	[gcc] dynload.c
+-e 	[gcc] dynamic_stack.c
+-e 	[gcc] deadlock.c
+-e 	[gcc] emuloop.c using -O3 -fno-strict-aliasing  -Wall -pipe 
+In file included from emuloop.c:381:0:
+schedrev_xsb_i.h: In function ‘sched_answers’:
+schedrev_xsb_i.h:73:9: warning: variable ‘next_answer’ set but not used [-Wunused-but-set-variable]
+  BTNptr next_answer;
+         ^
+In file included from emuloop.c:44:0:
+emuloop.c: In function ‘emuloop’:
+emuloop.c:1585:26: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      j += j + ihash(op1, (int)op3);
+                          ^
+auxlry.h:36:46: note: in definition of macro ‘ihash’
+ #define ihash(val, size) ((UInteger)(val) % (size))
+                                              ^
+emuloop.c:1614:27: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+  j += j + (int)ihash(op1, (int)op3);
+                           ^
+auxlry.h:36:46: note: in definition of macro ‘ihash’
+ #define ihash(val, size) ((UInteger)(val) % (size))
+                                              ^
+emuloop.c:1619:45: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     lpcreg = *(byte **)((byte *)op2 + ((j % (int)op3) * sizeof(Cell)));
+                                             ^
+emuloop.c:225:39: warning: variable ‘op1’ set but not used [-Wunused-but-set-variable]
+ #define DefOps13        register Cell op1; register CPtr op3;
+                                       ^
+slginsts_xsb_i.h:159:3: note: in expansion of macro ‘DefOps13’
+   DefOps13
+   ^
+emuloop.c:225:58: warning: variable ‘op3’ set but not used [-Wunused-but-set-variable]
+ #define DefOps13        register Cell op1; register CPtr op3;
+                                                          ^
+slginsts_xsb_i.h:700:5: note: in expansion of macro ‘DefOps13’
+     DefOps13
+     ^
+emuloop.c:225:39: warning: variable ‘op1’ set but not used [-Wunused-but-set-variable]
+ #define DefOps13        register Cell op1; register CPtr op3;
+                                       ^
+slginsts_xsb_i.h:700:5: note: in expansion of macro ‘DefOps13’
+     DefOps13
+     ^
+In file included from emuloop.c:1687:0:
+slginsts_xsb_i.h:970:7: warning: variable ‘abstr_size’ set but not used [-Wunused-but-set-variable]
+   int abstr_size;
+       ^
+slginsts_xsb_i.h:967:22: warning: variable ‘producer_csf’ set but not used [-Wunused-but-set-variable]
+   CPtr producer_cpf, producer_csf, answer_template;
+                      ^
+emuloop.c:222:39: warning: variable ‘op1’ set but not used [-Wunused-but-set-variable]
+ #define Def2ops         register Cell op1, op2;
+                                       ^
+slginsts_xsb_i.h:966:3: note: in expansion of macro ‘Def2ops’
+   Def2ops
+   ^
+emuloop.c:220:39: warning: variable ‘op1’ set but not used [-Wunused-but-set-variable]
+ #define Def1op          register Cell op1;
+                                       ^
+emuloop.c:2356:5: note: in expansion of macro ‘Def1op’
+     Def1op
+     ^
+-e 	[gcc] error_xsb.c
+-e 	[gcc] findall.c
+findall.c: In function ‘findall_copy_to_heap’:
+findall.c:336:7: warning: variable ‘tr1’ set but not used [-Wunused-but-set-variable]
+  Cell tr1;
+       ^
+findall.c: In function ‘findall_copy_template_to_chunk’:
+findall.c:572:11: warning: variable ‘tr1’ set but not used [-Wunused-but-set-variable]
+      Cell tr1;
+           ^
+findall.c: In function ‘do_copy_term’:
+findall.c:962:9: warning: variable ‘tr1’ set but not used [-Wunused-but-set-variable]
+    Cell tr1;
+         ^
+-e 	[gcc] function.c
+-e 	[gcc] hash_xsb.c
+-e 	[gcc] hashtable_xsb.c
+-e 	[gcc] heap_xsb.c
+In file included from heap_xsb.c:376:0:
+gc_mark.h: In function ‘mark_hreg_from_choicepoints’:
+gc_mark.h:776:11: warning: variable ‘bprev’ set but not used [-Wunused-but-set-variable]
+   CPtr b, bprev, h;
+           ^
+In file included from heap_xsb.c:379:0:
+gc_copy.h: In function ‘adapt_hfreg_from_choicepoints’:
+gc_copy.h:180:11: warning: variable ‘bprev’ set but not used [-Wunused-but-set-variable]
+   CPtr b, bprev;
+           ^
+-e 	[gcc] init_xsb.c
+-e 	[gcc] inst_xsb.c
+-e 	[gcc] io_builtins_xsb.c
+-e 	[gcc] loader_xsb.c using -O3 -fno-strict-aliasing  -Wall -pipe 
+-e 	[gcc] memory_xsb.c
+-e 	[gcc] orient_xsb.c
+-e 	[gcc] pathname_xsb.c
+-e 	[gcc] psc_xsb.c
+psc_xsb.c: In function ‘string_find’:
+psc_xsb.c:75:24: warning: variable ‘sptr’ set but not used [-Wunused-but-set-variable]
+   char **ptr, *str0, **sptr;
+                        ^
+-e 	[gcc] random_xsb.c
+-e 	[gcc] remove_unf.c
+-e 	[gcc] residual.c
+-e 	[gcc] rw_lock.c
+-e 	[gcc] scc_xsb.c
+-e 	[gcc] slgdelay.c
+slgdelay.c: In function ‘simplify_neg_succeeds’:
+slgdelay.c:1423:10: warning: variable ‘tmp_dl’ set but not used [-Wunused-but-set-variable]
+   DL dl, tmp_dl;
+          ^
+-e 	[gcc] socket_xsb.c
+-e 	[gcc] string_xsb.c
+-e 	[gcc] storage_xsb.c
+-e 	[gcc] struct_manager.c
+-e 	[gcc] struct_intern.c
+-e 	[gcc] sub_delete.c
+-e 	[gcc] subp.c
+subp.c: In function ‘executeSleeperThread’:
+subp.c:1108:30: warning: assignment makes integer from pointer without a cast [enabled by default]
+     executing_sleeper_thread = NULL;
+                              ^
+subp.c: In function ‘startSleeperThread’:
+subp.c:1143:30: warning: assignment makes integer from pointer without a cast [enabled by default]
+     executing_sleeper_thread = NULL;
+                              ^
+subp.c:1139:7: warning: variable ‘killrc’ set but not used [-Wunused-but-set-variable]
+   int killrc;
+       ^
+-e 	[gcc] system_xsb.c
+-e 	[gcc] table_stats.c
+-e 	[gcc] tables.c
+tables.c: In function ‘table_call_search’:
+tables.c:315:17: warning: variable ‘attv_num’ set but not used [-Wunused-but-set-variable]
+     int size, j,attv_num,abstr_size;  /* call abstraction */
+                 ^
+-e 	[gcc] thread_xsb.c
+-e 	[gcc] timer_xsb.c
+-e 	[gcc] token_xsb.c
+-e 	[gcc] tr_utils.c using -O3 -fno-strict-aliasing  -Wall -pipe 
+tr_utils.c: In function ‘breg_retskel’:
+tr_utils.c:1466:39: warning: variable ‘abstr_size’ set but not used [-Wunused-but-set-variable]
+     int     i, template_size,attv_num,abstr_size;
+                                       ^
+tr_utils.c:1466:30: warning: variable ‘attv_num’ set but not used [-Wunused-but-set-variable]
+     int     i, template_size,attv_num,abstr_size;
+                              ^
+-e 	[gcc] trace_xsb.c
+trace_xsb.c: In function ‘stat_inusememory’:
+trace_xsb.c:172:5: warning: variable ‘de_count’ set but not used [-Wunused-but-set-variable]
+     de_count, i;
+     ^
+trace_xsb.c:168:43: warning: variable ‘dl_count’ set but not used [-Wunused-but-set-variable]
+   UInteger dl_space_alloc, dl_space_used, dl_count, de_space_alloc, de_space_used, tc_avail;
+                                           ^
+-e 	[gcc] trie_lookup.c
+-e 	[gcc] trie_search.c
+-e 	[gcc] tries.c
+tries.c: In function ‘get_lastnode_cs_retskel’:
+tries.c:2858:15: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+       arity = (int)trieinstr_vars[0];
+               ^
+-e 	[gcc] tst_insert.c
+-e 	[gcc] tst_retrv.c
+-e 	[gcc] tst_unify.c
+-e 	[gcc] tst_utils.c
+tst_utils.c: In function ‘printTrieSymbol’:
+tst_utils.c:155:7: warning: too many arguments for format [-Wformat-extra-args]
+       fprintf(fp, Intfmt, int_val(symbol));
+       ^
+tst_utils.c:164:7: warning: too many arguments for format [-Wformat-extra-args]
+       fprintf(fp, "_V" Intfmt, DecodeTrieVar(symbol));
+       ^
+tst_utils.c: In function ‘sprintTrieSymbol’:
+tst_utils.c:196:7: warning: too many arguments for format [-Wformat-extra-args]
+       return sprintf(buffer, Intfmt, int_val(symbol));
+       ^
+tst_utils.c:205:7: warning: too many arguments for format [-Wformat-extra-args]
+       return sprintf(buffer, "_V" Intfmt, DecodeTrieVar(symbol));
+       ^
+tst_utils.c: In function ‘symstkPrintNextTerm’:
+tst_utils.c:271:7: warning: too many arguments for format [-Wformat-extra-args]
+       fprintf(fp, "|" Intfmt "]", int_val(symbol));
+       ^
+tst_utils.c:273:7: warning: too many arguments for format [-Wformat-extra-args]
+       fprintf(fp, Intfmt, int_val(symbol));
+       ^
+tst_utils.c:296:7: warning: too many arguments for format [-Wformat-extra-args]
+       fprintf(fp, "|V" Intfmt "]", DecodeTrieVar(symbol));
+       ^
+tst_utils.c:298:7: warning: too many arguments for format [-Wformat-extra-args]
+       fprintf(fp, "_V" Intfmt, DecodeTrieVar(symbol));
+       ^
+tst_utils.c: In function ‘symstkSPrintNextTerm’:
+tst_utils.c:355:7: warning: too many arguments for format [-Wformat-extra-args]
+       ctr = ctr + sprintf(buffer+ctr, "|" Intfmt "]", int_val(symbol));
+       ^
+tst_utils.c:357:7: warning: too many arguments for format [-Wformat-extra-args]
+       ctr = ctr + sprintf(buffer+ctr, Intfmt, int_val(symbol));
+       ^
+tst_utils.c:385:7: warning: too many arguments for format [-Wformat-extra-args]
+       ctr = ctr + sprintf(buffer+ctr, "|V" Intfmt "]", DecodeTrieVar(symbol));
+       ^
+tst_utils.c:387:7: warning: too many arguments for format [-Wformat-extra-args]
+       ctr = ctr + sprintf(buffer+ctr, "_V" Intfmt, DecodeTrieVar(symbol));
+       ^
+-e 	[gcc] varstring.c
+-e 	[gcc] ubi_BinTree.c
+-e 	[gcc] ubi_SplayTree.c
+-e 	[gcc] hashtable.c
+-e 	[gcc] hashtable_itr.c
+-e 	[gcc] url_encode.c
+-e 	[gcc] incr_xsb.c
+-e 	[gcc] call_graph_xsb.c
+-e 	[gcc] interprolog_callback.c
+
+Making XSB executable /home/stbadmin/Utils/tools/XSB/config/x86_64-unknown-linux-gnu/bin/xsb 
+
+-e 	[gcc] -o /home/stbadmin/Utils/tools/XSB/config/x86_64-unknown-linux-gnu/bin/xsb
+error_xsb.o: In function `print_incomplete_tables_on_abort':
+error_xsb.c:(.text+0x732): warning: the use of `tempnam' is dangerous, better use `mkstemp'
+make[1]: Leaving directory '/home/stbadmin/Utils/tools/XSB/emu'
+make[1]: Entering directory '/home/stbadmin/Utils/tools/XSB/gpp'
+
+-e 	[gcc] gpp.c using  
+-e 	[gcc] -o gpp
+
+make[1]: Leaving directory '/home/stbadmin/Utils/tools/XSB/gpp'
+
+

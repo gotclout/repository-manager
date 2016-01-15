@@ -534,9 +534,10 @@ class SecurityService
             ;//cout << "Elapsed: " << elapsed << '\n';
           }
           t.stop();
+          pthread_join(queryProcThread, 0);
           //if for some reason this hasn't returned yet kill it
-          pthread_detach(queryProcThread);
-          pthread_kill(queryProcThread, SIGKILL);
+          //pthread_detach(queryProcThread);
+          //pthread_kill(queryProcThread, SIGKILL);
           mutex.unlock();
         }
 

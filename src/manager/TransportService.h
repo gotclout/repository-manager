@@ -375,7 +375,9 @@ class TransportService
                 {
                   children++;
                   processMsg();
-                  while(processRequest()) {;}
+                  //while(processRequest()) {;}
+                  bool ok = processRequest();
+                  if(ok) cerr << "Request processed successfully" << endl;
                   children--;
                   exit(0);
                 }
