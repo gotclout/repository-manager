@@ -38,6 +38,9 @@ static void* executeQueryProc(void* pQuery)
   stringstream ss;
   string res = "";
   FILE* f = (FILE*) popen(query, "r");
+
+  qStats = false;
+
   if(f)
   {
     cls(ss);
@@ -508,7 +511,6 @@ class SecurityService
     bool executeQuery(const string & pQuery)
     {
       bool retVal = false;
-      qStats = false;
 
       if(pQuery == "")
         cerr << "Error: Cannot execute empty query" << endl;
@@ -521,27 +523,23 @@ class SecurityService
         memset(q, 0, ss.str().length() +1);
         memcpy(q, ss.str().c_str(), ss.str().length());
         cout << "Executing query: " << q << endl;
+        //mutex.lock();
         pthread_t queryProcThread;
 
         if(pthread_create(&queryProcThread, 0, executeQueryProc, (void*)&q) == 0)
         {
-          mutex.lock();
-          Timer t;
           double elapsed = 0;
-          t.start();
-          while(!qStats && (elapsed += t.getElapsedSecs()) < 1) //{;}
-          {
-            ;//cout << "Elapsed: " << elapsed << '\n';
-          }
+          Timer t(1);
+          while(!qStats && (elapsed += t.getElapsedSecs()) < 1) {;}
           t.stop();
-          pthread_join(queryProcThread, 0);
           //if for some reason this hasn't returned yet kill it
-          //pthread_detach(queryProcThread);
-          //pthread_kill(queryProcThread, SIGKILL);
-          mutex.unlock();
+          //pthread_join(queryProcThread, 0);
+          pthread_detach(queryProcThread);
+          pthread_kill(queryProcThread, SIGKILL);
         }
 
         retVal = qStats;
+        //mutex.unlock();
       }
 
       return retVal;

@@ -64,7 +64,9 @@ class AstWalker
         sstr << antStr->chars;
       }
       else
+      {
         cerr << "Error: NULL Child in AST" << endl;
+      }
 
       return sstr.str();
     }
@@ -78,7 +80,7 @@ class AstWalker
       string retVal = "";
 
       do
-        retVal = retVal + getChildStr(pIdx);
+        retVal += getChildStr(pIdx);
       while(getChildStr(pIdx++) != ".");
 
       return retVal;
@@ -105,7 +107,7 @@ class AstWalker
           if(label == CLAUSE_S)
           {
             while(getChildStr(pIdx) != START_TIME_S)
-              retVal->getClauses().push_back(getClauseStr(pIdx));
+              retVal->addClause(getClauseStr(pIdx));
           }
           else if(label == START_TIME_S)
           {

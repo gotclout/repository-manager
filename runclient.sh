@@ -2,12 +2,12 @@
 
 echo "Enter 1 for credential 1 or 2 for credential 2"
 echo -n
-read credential;
+read credential
 echo
 
 CREDENTIAL="./credentials/client_credential1.msg.txt"
 
-if [ "$credential" == 2 ]; then
+if [ "$credential" = "2" ]; then
   CREDENTIAL="./credentials/client_credential2.msg.txt"
 fi
 
