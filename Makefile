@@ -1,7 +1,5 @@
 # repository-manager.mk
 
-LIBD=/home/stbadmin/repository-manager/antlr/libantlr3c-3.4/lib/
-
 XSB_HOME=/home/stbadmin/repository-manager/XSB/bin
 
 ANTLR_HOME=/home/stbadmin/repository-manager/antlr/libantlr3c-3.4
@@ -13,25 +11,31 @@ MCFLAGS=-g -Wall -Wextra -Wno-write-strings -lpthread
 INCLUDE=-I$(ANTLR_HOME) -I$(ANTLR_INC)
 LIBS=-L$(ANTLR_LIB)
 BIN=./bin/RepositoryManager
+PARSER=./src/parser
 MAIN=./src/manager/RepositoryManager.cpp
 
-all:
+all: parser manager
+
+manager:
 	g++ $(MCFLAGS) $(INCLUDE) $(LIBS) $(MAIN) -o $(BIN) $(MLIBS)
 
 parser:
-	rm src/parser/*.o
-	rm src/parser/librepoparserlexer.so.1.0
-	g++ -g -Wall -fPIC -I$(ANTLR_HOME)/include -I$(ANTLR_HOME) -L$(LIBD) -lantlr3c -c *.c
-	g++ -shared -Wl,-soname,librepoparserlexer.so.1 -o librepoparserlexer.so.1.0 *.o
-	cp librepoparserlexer.so.1.0 /home/stbadmin/repository-manager/antlr/libantlr3c-3.4/lib/;
-	ln -sf $(LIBD)librepoparserlexer.so.1.0 $(LIBD)librepoparserlexer.so.1
-	ln -sf $(LIBD)librepoparserlexer.so.1.0 ln -sf $(LIBD)librepoparserlexer.so
+	cd $(PARSER) && $(MAKE)
+	cd ../../
 
 parser_clean:
+	cd $(PARSER) && $(MAKE) clean
+	cd ../../
 
 clean:
-	rm rlf_tmp.*
+	if [ -e rlf_tmp.P ] ; then \
+		rm rlf_tmp.P ; \
+	fi; \
+	if [ -e rlf_tmp.xwam ] ; then \
+		rm rlf_tmp.xwam ; \
+	fi; \
+	if [ -e $(BIN) ]; then \
+		rm $(BIN) ; \
+	fi; \
 
-clean_all: parser_clean clean
-	rm bin/RepositoryManager
-
+clean_all: clean parser_clean

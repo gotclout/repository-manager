@@ -141,7 +141,6 @@ class TransportService
       socketListening = false;
       clientAuthenticated = false;
       processingRequests = false;
-      //TransportService::children = 0;
 
       if(socketId > 0)
       {
@@ -336,7 +335,7 @@ class TransportService
         Timer t(1);
         while(socketListening)
         {
-          /*if(processingRequests)
+          if(processingRequests)
           {
             pid_t cid = fork();
             if(cid == 0)
@@ -350,7 +349,7 @@ class TransportService
               cerr << "Error: Could Not Spawn Subprocess" << endl;
             else
               usleep(5000);
-          }*/
+          }
           if(1)
           {
             clientSocketId = accept(socketId, &clientIp, &clientIpLen);
@@ -358,7 +357,8 @@ class TransportService
             cout << "Accepted connection from client: " << clientSocketId << endl;
             if(clientSocketId)
             {
-              char msgBuf[MAX_BUFF + 1];
+              //char msgBuf[MAX_BUFF + 1];
+              char* msgBuf = new char[MAX_BUFF + 1];
               memset((void*)msgBuf, 0, MAX_BUFF + 1);
               numRead = read(clientSocketId, msgBuf, MAX_BUFF);
 
@@ -374,11 +374,10 @@ class TransportService
                 if(cid == 0)
                 {
                   children++;
-                  if(processMsg())
-                  {
-                    cout << "processing!!!\n";
-                    while(processingRequests) { processRequest(); cout << "processed\n";}
-                  }
+                  processMsg();
+                  //cls(socketMsg);
+                  //while(processingRequests) { processRequest(); cout << "processed\n";}
+                  while(processRequest()){;}
                   children--;
                   exit(0);
                 }
@@ -387,10 +386,12 @@ class TransportService
               }
 
               cls(socketMsg);
+              delete [] msgBuf;
+              msgBuf = 0;
               bytesRead = numRead = 0;
             }
-            else
-              cerr << "No Client Connection" << endl;
+            //else
+            //  cerr << "No Client Connection" << endl;
 
             if(children == 0 && t.getElapsedSecs() > TIME_OUT)
             {

@@ -11,4 +11,6 @@ if [ "$credential" = "2" ]; then
   CREDENTIAL="./credentials/client_credential2.msg.txt"
 fi
 
+echo "java -jar ./bin/RepositoryManagerClient.jar 127.0.0.1 1983 $CREDENTIAL ./credentials/client.rsa.der"
+
 java -jar ./bin/RepositoryManagerClient.jar "127.0.0.1" "1983" $CREDENTIAL "./credentials/client.rsa.der"
