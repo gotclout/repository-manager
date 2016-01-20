@@ -60,7 +60,7 @@ static void* executeQueryProc(void* pQuery)
     cls(ss);
   }
   else
-    cerr << "could not execute query: " << query << endl;
+    cerr << "Error: could not execute query: " << query << endl;
 
   pthread_exit(0);
   return 0;
@@ -525,24 +525,20 @@ class SecurityService
 
         if(pthread_create(&queryProcThread, 0, executeQueryProc, (void*)&q) == 0)
         {
-          //mutex.lock();
+          //TODO: mutex.lock();
           double elapsed = 0;
           Timer t(1);
-          while(!qStats && (elapsed += t.getElapsedSecs()) < 1) //{;}
-          {
-            cerr << "elapsed: " << elapsed << endl;
-          }
+          while(!qStats && (elapsed += t.getElapsedSecs()) < 1) { ; }
           t.stop();
           //if for some reason this hasn't returned yet kill it
-          //pthread_join(queryProcThread, 0);
           pthread_detach(queryProcThread);
           pthread_kill(queryProcThread, SIGKILL);
-          //mutex.unlock();
+          //TODO: mutex.unlock();
         }
 
         retVal = qStats;
       }
-      cerr << "query executed\n";
+
       return retVal;
     };
 
@@ -582,4 +578,3 @@ class SecurityService
     };
 };
 #endif //__SecurityService__
-
