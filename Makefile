@@ -7,7 +7,7 @@ ANTLR_LIB=$(ANTLR_HOME)/lib
 ANTLR_INC=$(ANTLR_HOME)/include
 
 MLIBS=-lcrypto -lantlr3c -lrepoparserlexer
-MCFLAGS=-g -Wall -Wextra -Wno-write-strings -lpthread
+MCFLAGS=-g -Wall -Wextra -Wno-write-strings -pthread
 INCLUDE=-I$(ANTLR_HOME) -I$(ANTLR_INC)
 LIBS=-L$(ANTLR_LIB)
 BIN=./bin/RepositoryManager
