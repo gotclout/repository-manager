@@ -1,8 +1,8 @@
 #!/bin/bash
 
 export XSB_HOME=/home/stbadmin/repository-manager/XSB/bin
-export ANTLR_LIB=$ANTLR_HOME/lib
 export ANTLR_HOME=/home/stbadmin/repository-manager/antlr/libantlr3c-3.4
+export ANTLR_LIB=$ANTLR_HOME/lib
 export PATH=$XSB_HOME:$ANTLR_LIB:$PATH:$ANTLR_HOME
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ANTLR_LIB:$ANTLR_HOME
 
