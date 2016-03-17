@@ -30,6 +30,10 @@ class Mutex
   {
     mutex = (pthread_mutex_t*) malloc(sizeof(pthread_mutex_t));
     if(mutex) pthread_mutex_init(mutex, NULL);
+    else
+    {
+      ;//TODO: Warn
+    }
   };
 
   /**
@@ -63,5 +67,5 @@ class Mutex
     }
   };
 };
-#endif//__MUTEX__
 
+#endif//__MUTEX__
