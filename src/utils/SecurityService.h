@@ -525,15 +525,18 @@ class SecurityService
 
         if(pthread_create(&queryProcThread, 0, executeQueryProc, (void*)&q) == 0)
         {
-          //TODO: mutex.lock();
+          //TODO: Test me
+          mutex.lock();
           double elapsed = 0;
           Timer t(1);
-          while(!qStats && (elapsed += t.getElapsedSecs()) < 1) { ; }
+          //Todo: Make configurable
+          while(!qStats && (elapsed += t.getElapsedSecs()) < 1) { sleep(0); }
           t.stop();
           //if for some reason this hasn't returned yet kill it
           pthread_detach(queryProcThread);
           pthread_kill(queryProcThread, SIGKILL);
-          //TODO: mutex.unlock();
+          //TODO:
+          mutex.unlock();
         }
 
         retVal = qStats;
