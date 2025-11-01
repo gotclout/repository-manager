@@ -9,13 +9,14 @@ To compile the application, execute that runTest.sh bash script located in the
 repository-manager directory and follow the instructions. Select 'c' from the
 menu to compile. The executable bin/ReposioryManager will be created.
 
-Requires antlr3c 3.4 (if building antlr3c produces incompatible libantlr3c.so, remove or replace the CFLAGS option -m32 / -m64)
+Requires antlr3c 3.4 (if building antlr3c produces incompatible libantlr3c.so,
+remove or replace the CFLAGS option -m32 / -m64)
 
 Execution Execution Instructions:
 
 To run the application, execute the runTest.sh bash script located in the
 repository manager directory and follow the instructions. Select 'r' from the
-menu to compile. When prompted enter the port number and policy file that the
+menu to run. When prompted enter the port number and policy file that the
 server should accept as input.
 
 I have implemented additional functionality that verifies the validity of
